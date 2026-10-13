@@ -76,6 +76,10 @@ class FakeGoogle:
         if url == meu_canal.ANALYTICS:
             vid = (p.get("filters") or "video==").split("==")[1]
             views = next((v[3] for v in self.videos if v[0] == vid), 100)
+            if p.get("dimensions") == "insightTrafficSourceType":
+                ads = views * 0.7 if vid == "v_long1" else 0
+                return {"columnHeaders": [{"name": "insightTrafficSourceType"}, {"name": "views"}],
+                        "rows": [["ADVERTISING", ads], ["YT_SEARCH", views - ads]]}
             if p.get("dimensions") == "elapsedVideoTimeRatio":
                 c = curve(hook_drop=0.5 if vid == "v_long3" else 0.2)
                 return {"columnHeaders": [{"name": n} for n in ("elapsedVideoTimeRatio", "audienceWatchRatio", "relativeRetentionPerformance")],
@@ -207,7 +211,24 @@ class Run(unittest.TestCase):
         n_second = sum(1 for c in fake2.calls if c[0] == meu_canal.ANALYTICS)
         # v_long1, v_short2 e v_long2 (>35 dias) não são re-consultados
         self.assertLess(n_second, n_first)
-        self.assertEqual(n_second, 2 * 3)  # 2 vídeos novos x (métricas + impressões + retenção)
+        self.assertEqual(n_second, 2 * 4)  # 2 vídeos novos x (métricas + impressões + origem + retenção)
+
+    def test_flag_anuncio(self):
+        data, md = self._run(FakeGoogle("analytics"))
+        vids = {v["video_id"]: v for v in data["videos"]}
+        self.assertEqual(vids["v_long1"]["pct_anuncio"], 0.7)
+        self.assertTrue(any("anúncio" in f for f in vids["v_long1"]["flags"]))
+        self.assertIn("% views de anúncio", md)
+
+    def test_analise_preservada_entre_rodadas(self):
+        _, md = self._run(FakeGoogle("analytics"))
+        self.assertIn("<!-- /CLAUDE:tom -->", md)
+        md_path = Path(self.tmp.name) / "meu-canal.md"
+        filled = md.replace("<!-- /CLAUDE:tom -->", "Fala em segunda pessoa, informal.\n<!-- /CLAUDE:tom -->")
+        md_path.write_text(filled, encoding="utf-8")
+        _, md2 = self._run(FakeGoogle("analytics"))
+        self.assertIn("Fala em segunda pessoa, informal.\n<!-- /CLAUDE:tom -->", md2)
+        self.assertEqual(md2.count("Fala em segunda pessoa"), 1)
 
 
 if __name__ == "__main__":

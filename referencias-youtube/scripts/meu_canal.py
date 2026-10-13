@@ -14,6 +14,7 @@ Uso:
 import argparse
 import csv
 import io
+import re
 import urllib.error
 import urllib.request
 from datetime import timedelta
@@ -130,6 +131,22 @@ def metrics_window(g, video_id, start_date, end_date, with_impressions=True):
                 raise
             m["impressions_error"] = e.body[:300]
     return m
+
+
+def traffic_sources(g, video_id, start, end):
+    """Views por origem de tráfego; ADVERTISING = views pagas (Google Ads)."""
+    try:
+        rows = analytics(g, ["views"], start, end, video_id, dimensions="insightTrafficSourceType", sort="-views")
+    except HttpError as e:
+        if e.status != 400:
+            raise
+        return {}
+    return {r["insightTrafficSourceType"]: r["views"] for r in rows}
+
+
+def ad_share(sources):
+    total = sum(sources.values())
+    return round(sources.get("ADVERTISING", 0) / total, 3) if total else None
 
 
 def retention_curve(g, video_id, start, end):
@@ -269,6 +286,8 @@ def build(videos, reach_msg=None):
             v["vs_mediana"] = round(v["views"] / med, 2) if med else None
             ret = v.get("retencao") or {}
             flags = []
+            if (v.get("pct_anuncio") or 0) >= 0.3:
+                flags.append(f"{v['pct_anuncio'] * 100:.0f}% das views vieram de anúncio (retenção e % assistida distorcidas)")
             if ret.get("ret_gancho") is not None and med_hook and ret["ret_gancho"] < med_hook * 0.9:
                 flags.append("gancho fraco (retenção no gancho abaixo da sua mediana)")
             if fmt == "longo" and ret.get("ret_gancho") is not None and ret["ret_gancho"] < 0.6:
@@ -291,6 +310,7 @@ def build(videos, reach_msg=None):
             "mediana_ret_gancho": median([(v.get("retencao") or {}).get("ret_gancho") for v in vs]),
             "mediana_ctr": median([v.get("ctr") for v in vs]),
             "mediana_inscritos": median([v.get("subscribersGained") for v in vs]),
+            "mediana_pct_anuncio": median([v.get("pct_anuncio") for v in vs]),
         }
     return {"stats": stats, "impressoes_status": reach_msg}
 
@@ -303,7 +323,21 @@ def _n(x, pct=False, dec=0):
     return f"{x:,.{dec}f}".replace(",", ".")
 
 
-def render_md(channel, videos, summary, today):
+BLOCK_RE = re.compile(r"<!-- CLAUDE:([\w-]+) .*?-->\n(.*?)<!-- /CLAUDE:\1 -->", re.S)
+
+
+def previous_blocks(md_text):
+    """Análises já escritas numa rodada anterior, por chave de bloco."""
+    return {k: body.strip() for k, body in BLOCK_RE.findall(md_text or "") if body.strip()}
+
+
+def block(key, instr, prev):
+    body = prev.get(key, "")
+    return [f"<!-- CLAUDE:{key} {instr} -->"] + ([body] if body else []) + [f"<!-- /CLAUDE:{key} -->", ""]
+
+
+def render_md(channel, videos, summary, today, prev=None):
+    prev = prev or {}
     st = summary["stats"]
     ninety = today - timedelta(days=90)
     L = [f"# Meu canal — {channel['title']}", "",
@@ -311,20 +345,20 @@ def render_md(channel, videos, summary, today):
     if summary.get("impressoes_status"):
         L += [f"> **Impressões/CTR:** {summary['impressoes_status']}", ""]
 
-    L += ["## Formato", "", "| Formato | Qtd | Mediana views | % assistida (mediana) | Duração média (mediana) | Ret. no gancho (mediana) | CTR (mediana) | Inscritos/vídeo (mediana) |",
-          "|---|---|---|---|---|---|---|---|"]
+    L += ["## Formato", "", "| Formato | Qtd | Mediana views | % views de anúncio (mediana) | % assistida (mediana) | Duração média (mediana) | Ret. no gancho (mediana) | CTR (mediana) | Inscritos/vídeo (mediana) |",
+          "|---|---|---|---|---|---|---|---|---|"]
     for fmt, nome in (("longo", "Longo"), ("short", "Shorts")):
         s = st[fmt]
-        L.append(f"| {nome} | {s['qtd']} | {_n(s['mediana_views'])} | {_n(s['mediana_pct_assistida'], pct=True)} | "
+        L.append(f"| {nome} | {s['qtd']} | {_n(s['mediana_views'])} | {_n(s['mediana_pct_anuncio'], pct=True)} | {_n(s['mediana_pct_assistida'], pct=True)} | "
                  f"{fmt_time(s['mediana_duracao_media_s']) if s['mediana_duracao_media_s'] else '—'} | "
                  f"{_n(s['mediana_ret_gancho'], pct=True)} | {_n(s['mediana_ctr'], pct=True)} | {_n(s['mediana_inscritos'])} |")
-    L += ["", "<!-- CLAUDE: 2-3 frases sobre o formato dominante e o que os números dizem. -->", ""]
+    L += [""] + block("formato", "2-3 frases sobre o formato dominante e o que os números dizem (separar views pagas de orgânicas).", prev)
 
-    L += ["## Tom e jeito de falar", "", "<!-- CLAUDE: preencher lendo ./referencias/transcricoes/ dos vídeos do canal: "
-          "pessoa (eu/você), vocabulário, ritmo, como abre os vídeos, bordões, nível de prova (números, prints). -->", ""]
+    L += ["## Tom e jeito de falar", ""] + block("tom", "ler ./referencias/transcricoes/: pessoa (eu/você), vocabulário, ritmo, "
+                                                 "como abre os vídeos, bordões, nível de prova (números, prints).", prev)
 
-    L += ["## Temas", "", "<!-- CLAUDE: agrupar todos os vídeos por tema (sair do CLT, renda extra, negócio/empreender, "
-          "investimento, mentalidade, história pessoal, dívida/orçamento, notícia, outro) com views medianas por tema. -->", ""]
+    L += ["## Temas", ""] + block("temas", "agrupar os vídeos por tema (sair do CLT, renda extra, negócio/empreender, investimento, "
+                                    "mentalidade, história pessoal, dívida/orçamento, notícia, outro) com views medianas por tema.", prev)
 
     for fmt, nome in (("longo", "Longos"), ("short", "Shorts")):
         vs = sorted([v for v in videos if v["formato"] == fmt and v.get("vs_mediana")], key=lambda v: -v["vs_mediana"])
@@ -332,27 +366,27 @@ def render_md(channel, videos, summary, today):
             continue
         acima = [v for v in vs if v["vs_mediana"] > 1]
         L += [f"## {nome} acima da mediana ({len(acima)} de {len(vs)})", "",
-              "| Vídeo | Publicado | Views | x mediana | % assistida | Ret. gancho | CTR | Inscritos | Sinais |", "|---|---|---|---|---|---|---|---|---|"]
+              "| Vídeo | Publicado | Views | % anúncio | x mediana | % assistida | Ret. gancho | CTR | Inscritos | Sinais |", "|---|---|---|---|---|---|---|---|---|---|"]
         for v in acima:
             ret = v.get("retencao") or {}
             L.append(f"| [{v['title']}](https://youtu.be/{v['video_id']}) | {v['published_at'][:10]} | {_n(v['views'])} | "
-                     f"{v['vs_mediana']}x | {_n(v.get('averageViewPercentage'), pct=True)} | {_n(ret.get('ret_gancho'), pct=True)} | "
+                     f"{_n(v.get('pct_anuncio'), pct=True)} | {v['vs_mediana']}x | {_n(v.get('averageViewPercentage'), pct=True)} | {_n(ret.get('ret_gancho'), pct=True)} | "
                      f"{_n(v.get('ctr'), pct=True)} | {_n(v.get('subscribersGained'))} | {'; '.join(v.get('flags', []))} |")
-        L += ["", f"<!-- CLAUDE: por que os {nome.lower()} acima foram bem? Separar CLIQUE (título/thumb/CTR) de "
-              "RETENÇÃO (gancho/tema/roteiro). Citar o gancho literal das transcrições. -->", ""]
+        L += [""] + block(f"acima-{fmt}", f"por que os {nome.lower()} acima foram bem? Separar CLIQUE (título/thumb/CTR) de "
+                          "RETENÇÃO (gancho/tema/roteiro). Citar o gancho literal das transcrições.", prev)
 
-    L += ["## Onde a retenção cai", "", "| Vídeo | Formato | Ret. no gancho | Meio | 95% | Maiores quedas (tempo, pontos) |", "|---|---|---|---|---|---|"]
+    L += ["## Onde a retenção cai", "", "| Vídeo | Formato | % anúncio | Ret. no gancho | Meio | 95% | Maiores quedas (tempo, pontos) |", "|---|---|---|---|---|---|---|"]
     for v in sorted(videos, key=lambda v: (v.get("retencao") or {}).get("ret_gancho") or 9):
         ret = v.get("retencao") or {}
         if not ret:
             continue
         quedas = ", ".join(f"{q['em']} (-{q['queda'] * 100:.0f})" for q in ret.get("quedas", [])) or "—"
-        L.append(f"| [{v['title'][:70]}](https://youtu.be/{v['video_id']}) | {v['formato']} | "
+        L.append(f"| [{v['title'][:70]}](https://youtu.be/{v['video_id']}) | {v['formato']} | {_n(v.get('pct_anuncio'), pct=True)} | "
                  f"{_n(ret.get('ret_gancho'), pct=True)} (em {ret.get('hook_s')}s) | {_n(ret.get('ret_meio'), pct=True)} | "
                  f"{_n(ret.get('ret_fim'), pct=True)} | {quedas} |")
     L += ["", "_Retenção = audienceWatchRatio (fração da audiência que ainda está assistindo; em Shorts pode passar de 100% por causa do loop)._", "",
-          "<!-- CLAUDE: padrão das quedas (gancho, transição, momento de 'venda', enrolação) olhando o que é dito "
-          "nas transcrições nesses tempos. Regras práticas pra roteiro. -->", ""]
+          ] + block("retencao", "padrão das quedas (gancho, transição, momento de 'venda', enrolação) olhando o que é dito "
+                    "nas transcrições nesses tempos. Regras práticas pra roteiro.", prev)
 
     L += ["## Cobertos nos últimos 3 meses", ""]
     recent = [v for v in videos if parse_date(v["published_at"]) >= ninety]
@@ -360,7 +394,7 @@ def render_md(channel, videos, summary, today):
         L.append(f"- {v['published_at'][:10]} [{v['formato']}] {v['title']} — {_n(v.get('views'))} views")
     if not recent:
         L.append("- (nenhum vídeo nos últimos 90 dias)")
-    L += ["", "<!-- CLAUDE: resumir em lista de TEMAS cobertos (é essa lista que a Fase 2 usa pra não repetir). -->", ""]
+    L += [""] + block("cobertos", "lista de TEMAS cobertos (a Fase 2 usa para não repetir).", prev)
     return "\n".join(L) + "\n"
 
 
@@ -414,6 +448,8 @@ def run(args):
                 if v["ctr"] and v["ctr"] > 1:  # API devolve em %
                     v["ctr"] = round(v["ctr"] / 100, 4)
             v["views"] = v.get("views") or d["public_views"]
+            v["origem_trafego"] = traffic_sources(g, vid, start, end)
+            v["pct_anuncio"] = ad_share(v["origem_trafego"])
             curve = retention_curve(g, vid, start, end)
             v["retencao_curva"] = curve
             v["retencao"] = retention_summary(curve, d["duration_s"], v["formato"] == "short")
@@ -447,7 +483,8 @@ def run(args):
     write_json(out / "meu-canal-dados.json", {"channel": channel, "gerado_em": today.isoformat(), **summary,
                                                "videos": [{k: v for k, v in x.items() if k != "retencao_curva"} for x in videos]})
     md = out / "meu-canal.md"
-    md.write_text(render_md(channel, videos, summary, today), encoding="utf-8")
+    prev = previous_blocks(md.read_text(encoding="utf-8")) if md.exists() else {}
+    md.write_text(render_md(channel, videos, summary, today, prev), encoding="utf-8")
     log(f"OK: {md}")
 
 
