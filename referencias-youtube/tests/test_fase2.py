@@ -10,6 +10,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import referencias as R  # noqa: E402
+import yt_common  # noqa: E402
+
+yt_common.time.sleep = lambda s: None  # sem esperas reais nos retries
 
 TODAY = datetime(2026, 10, 13, tzinfo=timezone.utc)
 CFG = dict(R.DEFAULTS)
@@ -162,6 +165,8 @@ class Storage(unittest.TestCase):
 
         def fake_http(method, url, params=None, data=None, **k):
             calls.append((method, url))
+            if url.endswith("/runs") and method == "GET":
+                return {"data": {"items": []}}
             if url.endswith("/runs"):
                 self.assertEqual(data["startUrls"][0]["url"], "https://www.youtube.com/@primorico")
                 return {"data": {"id": "RUN1", "status": "RUNNING", "defaultDatasetId": "DS1"}}
@@ -190,6 +195,90 @@ class Storage(unittest.TestCase):
         self.assertEqual(cand["pendentes_relevancia"], ["vid00000003"])
         custos = json.loads((Path(self.tmp.name) / "custos-apify.json").read_text())
         self.assertEqual(custos[0]["usd"], 0.42)
+
+
+class Coleta(unittest.TestCase):
+    """Reaproveitamento de runs pagos, falha isolada por canal e POST sem retry."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        os.environ["REFERENCIAS_DIR"] = self.tmp.name
+        self.orig_http = R.http
+        self.started = datetime.now(timezone.utc).isoformat()
+
+    def tearDown(self):
+        R.http = self.orig_http
+        self.tmp.cleanup()
+
+    def items(self, prefix):
+        return [{"id": f"{prefix}{i:06d}"[:11].ljust(11, "x"), "title": f"{prefix} {i}", "viewCount": 1000,
+                 "commentsCount": 5, "date": (TODAY - timedelta(days=10 + i)).isoformat(), "duration": "00:10:00"}
+                for i in range(12)]
+
+    def fake(self, calls, reuse_url=None, fail_handle=None):
+        def h(method, url, params=None, data=None, **k):
+            calls.append((method, url, data))
+            if url.endswith("/runs") and method == "GET":
+                if not reuse_url:
+                    return {"data": {"items": []}}
+                return {"data": {"items": [{"id": "OLD", "status": "SUCCEEDED", "startedAt": self.started,
+                                            "defaultDatasetId": "DSOLD", "defaultKeyValueStoreId": "KV1"}]}}
+            if url.endswith("/key-value-stores/KV1/records/INPUT"):
+                return {"startUrls": [{"url": reuse_url}]}
+            if url.endswith("/runs"):
+                if fail_handle and fail_handle in data["startUrls"][0]["url"]:
+                    raise TimeoutError("read timed out")
+                return {"data": {"id": "NEW", "status": "RUNNING", "defaultDatasetId": "DSNEW"}}
+            if url.endswith("/actor-runs/NEW"):
+                return {"data": {"id": "NEW", "status": "SUCCEEDED", "defaultDatasetId": "DSNEW", "usageTotalUsd": 0.2}}
+            if url.endswith("/actor-runs/OLD"):
+                return {"data": {"id": "OLD", "status": "SUCCEEDED", "defaultDatasetId": "DSOLD", "usageTotalUsd": 0.39}}
+            if url.endswith("/datasets/DSOLD/items"):
+                return self.items("old")
+            if url.endswith("/datasets/DSNEW/items"):
+                return self.items("new")
+            raise AssertionError(url)
+        return h
+
+    def test_reaproveita_run_pago_sem_novo_post(self):
+        calls = []
+        R.http = self.fake(calls, reuse_url="https://www.youtube.com/@primorico")
+        recs, usd = R.collect([R.match_channel("@primorico", [])], CFG, "T")
+        self.assertEqual(usd, 0.0)
+        self.assertEqual(len(recs), 12)
+        self.assertFalse(any(m == "POST" for m, _, _ in calls))
+        custos = json.loads((Path(self.tmp.name) / "custos-apify.json").read_text())
+        self.assertTrue(custos[0]["reaproveitado"])
+
+    def test_falha_num_canal_nao_perde_os_outros(self):
+        calls = []
+        R.http = self.fake(calls, fail_handle="@quebra")
+        chans = [R.match_channel("@ok1", []), R.match_channel("@quebra", []), R.match_channel("@ok2", [])]
+        recs, usd = R.collect(chans, CFG, "T")
+        self.assertAlmostEqual(usd, 0.4)
+        self.assertEqual({r["canal_handle"] for r in recs}, {"@ok1", "@ok2"})
+        self.assertEqual(sum(1 for m, u, _ in calls if m == "POST"), 3)  # 1 POST por canal, sem retry
+        videos = json.loads((Path(self.tmp.name) / "videos.json").read_text())
+        self.assertEqual(len(videos), 12)  # mesmos ids nos 2 canais ok: salvos (o 2º atualiza o 1º)
+
+    def test_post_nao_repete_em_timeout(self):
+        import urllib.request
+        n = {"c": 0}
+        orig = urllib.request.urlopen
+
+        def boom(*a, **k):
+            n["c"] += 1
+            raise TimeoutError("timed out")
+        urllib.request.urlopen = boom
+        try:
+            with self.assertRaises(TimeoutError):
+                R.http("POST", "https://api.apify.com/v2/acts/x/runs", data={"a": 1})
+            self.assertEqual(n["c"], 1)
+            with self.assertRaises(TimeoutError):
+                R.http("GET", "https://api.apify.com/v2/actor-runs/x", retries=2)
+            self.assertEqual(n["c"], 3)
+        finally:
+            urllib.request.urlopen = orig
 
 
 if __name__ == "__main__":

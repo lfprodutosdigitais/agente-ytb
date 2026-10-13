@@ -78,7 +78,7 @@ class HttpError(Exception):
         self.status, self.body, self.url = status, body, url
 
 
-def http(method, url, params=None, data=None, headers=None, raw=False, retries=3):
+def http(method, url, params=None, data=None, headers=None, raw=False, retries=3, timeout=60):
     if params:
         url += ("&" if "?" in url else "?") + urllib.parse.urlencode(params)
     body = None
@@ -94,7 +94,7 @@ def http(method, url, params=None, data=None, headers=None, raw=False, retries=3
     for attempt in range(retries):
         req = urllib.request.Request(url, data=body, headers=headers, method=method)
         try:
-            with urllib.request.urlopen(req, timeout=60) as r:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
                 content = r.read()
                 return content if raw else (json.loads(content) if content else {})
         except urllib.error.HTTPError as e:
@@ -103,8 +103,8 @@ def http(method, url, params=None, data=None, headers=None, raw=False, retries=3
                 time.sleep(2 ** (attempt + 1))
                 continue
             raise HttpError(e.code, text, url) from None
-        except urllib.error.URLError:
-            if attempt < retries - 1:
+        except (urllib.error.URLError, TimeoutError, ConnectionError):
+            if attempt < retries - 1 and method == "GET":
                 time.sleep(2 ** (attempt + 1))
                 continue
             raise

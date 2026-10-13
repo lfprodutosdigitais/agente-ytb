@@ -24,6 +24,7 @@ DEFAULTS = {
     "apify_input_extra": {},
     "max_longos": 50,
     "max_shorts": 0,
+    "reaproveitar_horas": 20,
     "short_max_segundos": 180,
     "vizinhos": 10,
     "corte_longo": 3.0,
@@ -72,33 +73,73 @@ def match_channel(arg, chans):
 
 # ---------------------------------------------------------------- Apify
 
-def apify_run(token, actor, run_input, timeout_s=1800):
-    """Roda o actor, espera terminar e devolve (run, items)."""
+def _apify_error(e):
+    if e.status == 401:
+        raise SystemExit("Token do Apify inválido. Copie de novo em https://console.apify.com/settings/integrations "
+                         "e cole na linha APIFY_TOKEN= do arquivo ~/.claude/skills/referencias-youtube/.env "
+                         "(sem espaços nem aspas).")
+    if e.status == 402:
+        raise SystemExit("Apify sem crédito/plano para rodar o actor. Veja https://console.apify.com/billing")
+    raise e
+
+
+def apify_start(token, actor, run_input):
+    """Dispara o run e volta na hora (sem retry: repetir um POST criaria um run pago duplicado)."""
     try:
-        r = http("POST", f"{APIFY}/acts/{actor}/runs", params={"token": token, "waitForFinish": 60}, data=run_input)
+        return http("POST", f"{APIFY}/acts/{actor}/runs", params={"token": token}, data=run_input,
+                    retries=1, timeout=60)["data"]
     except HttpError as e:
-        if e.status == 401:
-            raise SystemExit("Token do Apify inválido. Copie de novo em https://console.apify.com/settings/integrations "
-                             "e cole na linha APIFY_TOKEN= do arquivo ~/.claude/skills/referencias-youtube/.env "
-                             "(sem espaços nem aspas).")
-        if e.status == 402:
-            raise SystemExit("Apify sem crédito/plano para rodar o actor. Veja https://console.apify.com/billing")
-        raise
-    run = r["data"]
+        _apify_error(e)
+
+
+def apify_wait(token, run, timeout_s=1800):
+    """Espera o run terminar consultando de tempos em tempos e devolve (run, items)."""
     t0 = time.time()
     while run["status"] in ("READY", "RUNNING"):
         if time.time() - t0 > timeout_s:
             raise SystemExit(f"Apify demorou demais (run {run['id']}). Veja https://console.apify.com/actors/runs/{run['id']}")
-        run = http("GET", f"{APIFY}/actor-runs/{run['id']}", params={"token": token, "waitForFinish": 60})["data"]
+        run = http("GET", f"{APIFY}/actor-runs/{run['id']}", params={"token": token, "waitForFinish": 45},
+                   timeout=120)["data"]
     if run["status"] != "SUCCEEDED":
-        raise SystemExit(f"Apify terminou com status {run['status']}: https://console.apify.com/actors/runs/{run['id']}")
+        raise RuntimeError(f"Apify terminou com status {run['status']}: https://console.apify.com/actors/runs/{run['id']}")
     items = http("GET", f"{APIFY}/datasets/{run['defaultDatasetId']}/items",
-                 params={"token": token, "clean": "true", "format": "json"})
+                 params={"token": token, "clean": "true", "format": "json"}, timeout=180)
     # o custo final às vezes só consolida segundos depois do fim
     if not run.get("usageTotalUsd"):
         time.sleep(3)
         run = http("GET", f"{APIFY}/actor-runs/{run['id']}", params={"token": token})["data"]
     return run, items
+
+
+def _norm_url(u):
+    return urllib.parse.unquote(u or "").rstrip("/").lower()
+
+
+def recent_runs(token, actor, hours):
+    """Runs recentes (sucesso ou em andamento) por URL do canal, para reaproveitar sem pagar de novo."""
+    if not hours:
+        return {}
+    try:
+        lst = http("GET", f"{APIFY}/acts/{actor}/runs", params={"token": token, "desc": 1, "limit": 100})["data"]["items"]
+    except HttpError as e:
+        _apify_error(e)
+    lim = now() - timedelta(hours=hours)
+    out = {}
+    for r in lst:
+        if r.get("status") not in ("SUCCEEDED", "RUNNING", "READY") or not r.get("startedAt"):
+            continue
+        if parse_date(r["startedAt"]) < lim:
+            continue
+        if not r.get("defaultKeyValueStoreId"):
+            r = http("GET", f"{APIFY}/actor-runs/{r['id']}", params={"token": token})["data"]
+        try:
+            inp = http("GET", f"{APIFY}/key-value-stores/{r['defaultKeyValueStoreId']}/records/INPUT",
+                       params={"token": token})
+        except HttpError:
+            continue
+        for su in (inp or {}).get("startUrls", []):
+            out.setdefault(_norm_url(su.get("url")), r)  # lista vem do mais novo pro mais antigo
+    return out
 
 
 def channel_input(chan, cfg):
@@ -205,27 +246,42 @@ def store(records, today=None):
 
 
 def collect(chans, cfg, token):
+    """Coleta canal por canal, salvando a cada canal. Reaproveita runs das últimas horas (sem custo novo)."""
     p = paths()
-    custos = read_json(p["custos"], []) or []
-    all_records, total_usd = [], 0.0
+    reuse = recent_runs(token, cfg["apify_actor"], cfg["reaproveitar_horas"])
+    all_records, total_usd, falhas = [], 0.0, []
     for c in chans:
         log(f"Apify: {c['handle']} (até {cfg['max_longos']} longos"
             f"{' + %d Shorts' % cfg['max_shorts'] if cfg['max_shorts'] else ', sem Shorts'})...")
-        run, items = apify_run(token, cfg["apify_actor"], channel_input(c, cfg))
+        prev = reuse.get(_norm_url(channel_input(c, cfg)["startUrls"][0]["url"]))
+        try:
+            if prev:
+                log(f"  reaproveitando coleta de {prev['startedAt'][:16].replace('T', ' ')} (run {prev['id']}, sem custo novo)")
+                run, items = apify_wait(token, prev)
+                usd_new = 0.0
+            else:
+                run, items = apify_wait(token, apify_start(token, cfg["apify_actor"], channel_input(c, cfg)))
+                usd_new = run.get("usageTotalUsd") or 0.0
+        except (HttpError, RuntimeError, OSError) as e:
+            log(f"  FALHOU {c['handle']}: {e}. Os outros canais continuam; rode 'coletar' de novo depois "
+                "(o que já foi coletado é reaproveitado sem custo).")
+            falhas.append(c["handle"])
+            continue
         recs = [r for r in (normalize(i, c, cfg) for i in items) if r]
         if not cfg["max_shorts"]:  # Shorts desligados: descarta se o actor devolver mesmo assim
             recs = [r for r in recs if r["formato"] != "short"]
-        usd = run.get("usageTotalUsd")
-        total_usd += usd or 0
-        custos.append({"data": now().isoformat(), "canal": c["handle"], "itens": len(recs), "usd": usd, "run": run["id"]})
-        n_short = sum(r["formato"] == "short" for r in recs)
-        log(f"  {len(recs)} vídeos ({len(recs) - n_short} longos, {n_short} Shorts) — custo: "
-            f"{'US$ %.4f' % usd if usd is not None else 'n/d'}")
+        total_usd += usd_new
+        custos = read_json(p["custos"], []) or []
+        custos.append({"data": now().isoformat(), "canal": c["handle"], "itens": len(recs), "usd": usd_new,
+                       "run": run["id"], "reaproveitado": bool(prev)})
+        write_json(p["custos"], custos)
+        store(recs)  # salva já: uma falha adiante não perde o que foi pago
+        log(f"  {len(recs)} vídeos — custo: US$ {usd_new:.4f}" + (" (reaproveitado)" if prev else ""))
         if items and not recs:
             log(f"  ATENÇÃO: o actor devolveu {len(items)} itens mas nenhum foi reconhecido. Campos: {sorted(items[0])}")
         all_records += recs
-    write_json(p["custos"], custos)
-    store(all_records)
+    if falhas:
+        log(f"Canais com falha nesta rodada: {', '.join(falhas)}")
     return all_records, total_usd
 
 
