@@ -81,6 +81,16 @@ def first_seconds(cues, secs=15):
     return " ".join(txt for t, txt in cues if t < secs).strip()
 
 
+def ytdlp_cmd():
+    """Prefere o módulo do Python atual (pip --user no Mac não põe o binário no PATH)."""
+    import importlib.util
+    if importlib.util.find_spec("yt_dlp"):
+        return [sys.executable, "-m", "yt_dlp"]
+    if shutil.which("yt-dlp"):
+        return ["yt-dlp"]
+    raise SystemExit("yt-dlp não encontrado. Instale: python3 -m pip install --user -U yt-dlp")
+
+
 def _pick(files):
     def rank(p):
         lang = p.name.split(".")[-2]
@@ -94,10 +104,8 @@ def fetch(video_id, title=None, force=False):
     dest = out_dir() / "transcricoes" / f"{video_id}.md"
     if dest.exists() and not force:
         return dest
-    if not shutil.which("yt-dlp"):
-        raise SystemExit("yt-dlp não encontrado. Instale: pip install -U yt-dlp")
     with tempfile.TemporaryDirectory() as tmp:
-        cmd = ["yt-dlp", "--skip-download", "--write-subs", "--write-auto-subs",
+        cmd = ytdlp_cmd() + ["--skip-download", "--write-subs", "--write-auto-subs",
                "--sub-langs", "pt.*,pt,en.*,en,-live_chat", "--sub-format", "vtt",
                "--no-warnings", "-q", "-o", f"{tmp}/%(id)s.%(ext)s",
                f"https://www.youtube.com/watch?v={video_id}"]
