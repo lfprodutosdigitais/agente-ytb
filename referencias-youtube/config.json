@@ -1,4 +1,13 @@
 {
   "meu_canal_url": "https://www.youtube.com/@Granapropria",
-  "short_max_segundos": 180
+  "short_max_segundos": 180,
+  "corte_longo": 3.0,
+  "corte_short": 5.0,
+  "vizinhos": 10,
+  "idade_minima_dias": 7,
+  "em_alta_fator": 3.0,
+  "em_alta_max_dias": 30,
+  "relevancia_minima": 3,
+  "max_longos": 50,
+  "max_shorts": 50
 }
