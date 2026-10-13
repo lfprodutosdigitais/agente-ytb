@@ -219,6 +219,8 @@ class Run(unittest.TestCase):
         self.assertEqual(vids["v_long1"]["pct_anuncio"], 0.7)
         self.assertTrue(any("anúncio" in f for f in vids["v_long1"]["flags"]))
         self.assertIn("% views de anúncio", md)
+        self.assertIn("De onde vêm as views", md)
+        self.assertIn("Anúncio (Google Ads) 70%", md)
 
     def test_analise_preservada_entre_rodadas(self):
         _, md = self._run(FakeGoogle("analytics"))

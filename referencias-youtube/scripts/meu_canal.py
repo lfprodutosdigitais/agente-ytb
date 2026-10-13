@@ -144,6 +144,23 @@ def traffic_sources(g, video_id, start, end):
     return {r["insightTrafficSourceType"]: r["views"] for r in rows}
 
 
+TRAFFIC_NAMES = {
+    "SUBSCRIBER": "Navegação (página inicial/feed)", "RELATED_VIDEO": "Sugeridos", "YT_SEARCH": "Busca no YouTube",
+    "YT_CHANNEL": "Página do canal", "EXT_URL": "Links externos", "NO_LINK_OTHER": "Direto/desconhecido",
+    "YT_OTHER_PAGE": "Outras páginas do YouTube", "PLAYLIST": "Playlists", "NOTIFICATION": "Notificações",
+    "ANNOTATION": "Cards", "END_SCREEN": "Tela final", "ADVERTISING": "Anúncio (Google Ads)", "SHORTS": "Feed de Shorts",
+    "HASHTAGS": "Hashtags", "PROMOTED": "Promovido", "NO_LINK_EMBEDDED": "Player incorporado", "CAMPAIGN_CARD": "Campanha",
+}
+
+
+def top_sources(sources, n=3):
+    total = sum(sources.values())
+    if not total:
+        return "—"
+    top = sorted(sources.items(), key=lambda kv: -kv[1])[:n]
+    return " · ".join(f"{TRAFFIC_NAMES.get(k, k)} {v / total * 100:.0f}%" for k, v in top)
+
+
 def ad_share(sources):
     total = sum(sources.values())
     return round(sources.get("ADVERTISING", 0) / total, 3) if total else None
@@ -374,6 +391,13 @@ def render_md(channel, videos, summary, today, prev=None):
                      f"{_n(v.get('ctr'), pct=True)} | {_n(v.get('subscribersGained'))} | {'; '.join(v.get('flags', []))} |")
         L += [""] + block(f"acima-{fmt}", f"por que os {nome.lower()} acima foram bem? Separar CLIQUE (título/thumb/CTR) de "
                           "RETENÇÃO (gancho/tema/roteiro). Citar o gancho literal das transcrições.", prev)
+
+    L += ["## De onde vêm as views", "", "| Vídeo | Principais origens |", "|---|---|"]
+    for v in sorted(videos, key=lambda v: v["published_at"], reverse=True):
+        src = v.get("origem_trafego") or {}
+        L.append(f"| [{v['title'][:70]}](https://youtu.be/{v['video_id']}) | "
+                 f"{top_sources(src) if src else 'ainda sem dados (vídeo com menos de ~3 dias)'} |")
+    L += [""]
 
     L += ["## Onde a retenção cai", "", "| Vídeo | Formato | % anúncio | Ret. no gancho | Meio | 95% | Maiores quedas (tempo, pontos) |", "|---|---|---|---|---|---|---|"]
     for v in sorted(videos, key=lambda v: (v.get("retencao") or {}).get("ret_gancho") or 9):

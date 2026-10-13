@@ -14,9 +14,11 @@ _Atualizado em 2026-10-13. Inscritos: 729. Vídeos públicos analisados: 3._
 <!-- CLAUDE:formato 2-3 frases sobre o formato dominante e o que os números dizem (separar views pagas de orgânicas). -->
 Canal 100% de vídeos longos, com 3 vídeos publicados em 8 dias (3, 4 e 11/out/2026). Ainda não há Shorts, que é a forma mais barata de testar ganchos e temas antes de gravar um longo.
 
-Ter de 8 mil a 16 mil views com 729 inscritos e só cerca de 25% do vídeo assistido (2:42 em média) é o padrão de vídeo impulsionado com Google Ads. Views de anúncio derrubam a retenção e a % assistida, então **as medianas acima ainda não medem o conteúdo**. Na próxima rodada a coluna "% views de anúncio" separa isso.
+**As views são orgânicas: 0% veio de anúncio.** Cerca de 87–90% vieram de **Navegação**, ou seja, a página inicial e o feed. O YouTube está mostrando seus vídeos para quem ainda não é inscrito, e é por isso que um canal de 729 inscritos faz de 8 mil a 16 mil views. Em seguida vêm Sugeridos (~6% no vídeo do 1 milhão) e Busca (~3–4%).
 
-Com 3 vídeos, "acima da mediana" é só uma pista. As conclusões abaixo ficam firmes a partir de uns 10 vídeos.
+Isso coloca a retenção no centro: quem chega pela página inicial não te escolheu, então decide nos primeiros 30 s se fica. Cerca de 25% de vídeo assistido (2:42 em média) é baixo, e é esse número que o algoritmo usa para decidir se continua te empurrando. As regras de roteiro abaixo são a alavanca principal.
+
+Com 3 vídeos, "acima da mediana" é só uma pista. As conclusões ficam firmes a partir de uns 10 vídeos.
 <!-- /CLAUDE:formato -->
 
 ## Tom e jeito de falar
