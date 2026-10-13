@@ -1,0 +1,5 @@
+.env
+client_secret*.json
+referencias/
+__pycache__/
+*.pyc

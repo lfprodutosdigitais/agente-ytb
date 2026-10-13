@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Instala/atualiza a skill em ~/.claude/skills/referencias-youtube (cópia, fora do git).
+# Preserva .env, client_secret.json, config.json e canais.txt que você já tenha editado.
+set -euo pipefail
+SRC="$(cd "$(dirname "$0")" && pwd)"
+DEST="$HOME/.claude/skills/referencias-youtube"
+mkdir -p "$DEST/scripts"
+cp "$SRC"/SKILL.md "$SRC"/README.md "$SRC"/.env.example "$DEST"/
+cp "$SRC"/scripts/*.py "$DEST/scripts/"
+for f in config.json canais.txt; do [ -f "$DEST/$f" ] || cp "$SRC/$f" "$DEST/$f"; done
+[ -f "$DEST/.env" ] || { cp "$SRC/.env.example" "$DEST/.env"; chmod 600 "$DEST/.env"; }
+command -v yt-dlp >/dev/null || echo "Instale o yt-dlp: pip install -U yt-dlp  (ou brew install yt-dlp)"
+echo "Skill instalada em $DEST"
+echo "Próximo passo: coloque o client_secret.json em $DEST e rode: python3 $DEST/scripts/auth_google.py"

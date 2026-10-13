@@ -1,0 +1,11 @@
+# Canais de referência — um por linha. Linhas com # são ignoradas.
+# Marque canais em inglês com "| en" para a skill adaptar (nunca traduzir literal).
+https://www.youtube.com/@MePoupe
+https://www.youtube.com/@GêmeosInvestem
+https://www.youtube.com/@nerdsdenegocios
+https://www.youtube.com/@marktilbury | en
+https://www.youtube.com/@canaldoalfredosoares
+https://www.youtube.com/@primorico
+https://www.youtube.com/@brunoperini
+https://www.youtube.com/@GustavocerbasiBr
+https://www.youtube.com/@caiomartinsofc
