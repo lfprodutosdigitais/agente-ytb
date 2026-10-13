@@ -1,0 +1,89 @@
+<title>Referencias YouTube</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: coluna única de leitura, navegação por âncoras entre início, privacidade e termos */
+:root {
+  --bg: #f7f8f5; --fg: #1d221c; --muted: #5b6458; --line: #d9ddd3; --accent: #1f7a4a; --chip: #e7efe7;
+  --display: "Fraunces", Georgia, serif; --body: "Source Sans 3", -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121612; --fg: #e8ece6; --muted: #a2ab9f; --line: #2c342b; --accent: #6fcf97; --chip: #1c271d; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121612; --fg: #e8ece6; --muted: #a2ab9f; --line: #2c342b; --accent: #6fcf97; --chip: #1c271d; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 17px/1.6 var(--body); padding: 0 16px; }
+main { max-width: 680px; margin: 0 auto; padding-block: 48px 72px; display: grid; gap: 48px; }
+header { display: grid; gap: 12px; }
+h1, h2 { font-family: var(--display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 42px); }
+h2 { font-size: 26px; }
+h3 { font-size: 17px; margin: 0; }
+p, ul { margin: 0; }
+ul { padding-left: 1.2em; display: grid; gap: 6px; }
+section { display: grid; gap: 14px; border-top: 1px solid var(--line); padding-top: 32px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; }
+nav a { text-decoration: none; color: var(--accent); background: var(--chip); padding: 4px 12px; border-radius: 999px; font-weight: 600; font-size: 15px; }
+nav a:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+a { color: var(--accent); }
+.lead { color: var(--muted); font-size: 18px; }
+.meta { color: var(--muted); font-size: 14px; }
+code { font-size: 14px; background: var(--chip); padding: 1px 6px; border-radius: 4px; word-break: break-all; }
+</style>
+
+<main>
+  <header id="inicio">
+    <p class="meta">Grana Própria · Léo Freitas</p>
+    <h1>Referencias YouTube</h1>
+    <p class="lead">Ferramenta pessoal e interna do canal <a href="https://www.youtube.com/@Granapropria">Grana Própria</a>. Ela lê as métricas do próprio canal no YouTube Analytics para comparar o desempenho dos vídeos e planejar novos conteúdos.</p>
+    <nav aria-label="Seções">
+      <a href="#privacidade">Política de privacidade</a>
+      <a href="#termos">Termos de uso</a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>O que o app faz</h2>
+    <ul>
+      <li>Lista os vídeos do canal Grana Própria pela YouTube Data API.</li>
+      <li>Lê métricas do YouTube Analytics: visualizações, tempo assistido, retenção, inscritos ganhos, impressões e CTR.</li>
+      <li>Gera relatórios locais no computador do dono do canal.</li>
+    </ul>
+    <p>O app não é oferecido ao público. É usado só pelo dono do canal, que também é quem o criou.</p>
+  </section>
+
+  <section id="privacidade">
+    <h2>Política de privacidade</h2>
+    <p class="meta">Última atualização: 13 de outubro de 2026</p>
+
+    <h3>Dados acessados</h3>
+    <p>Com a autorização do dono do canal, o app usa somente estes escopos, ambos de leitura:</p>
+    <ul>
+      <li><code>https://www.googleapis.com/auth/youtube.readonly</code>: lista de vídeos e dados públicos do canal.</li>
+      <li><code>https://www.googleapis.com/auth/yt-analytics.readonly</code>: métricas de desempenho do canal.</li>
+    </ul>
+    <p>O app não publica, edita, apaga nem comenta nada, e não acessa dados de espectadores individuais.</p>
+
+    <h3>Onde os dados ficam</h3>
+    <p>Os dados e o token de acesso ficam somente no computador do dono do canal. Não são enviados a servidores do desenvolvedor, não são vendidos e não são compartilhados com terceiros.</p>
+
+    <h3>Uso de dados do Google</h3>
+    <p>O uso de informações recebidas das APIs do Google segue a <a href="https://developers.google.com/terms/api-services-user-data-policy">Política de dados do usuário dos serviços de API do Google</a>, incluindo os requisitos de uso limitado. O app também segue os <a href="https://www.youtube.com/t/terms">Termos de Serviço do YouTube</a> e a <a href="https://policies.google.com/privacy">Política de Privacidade do Google</a>.</p>
+
+    <h3>Como revogar o acesso</h3>
+    <p>O acesso pode ser removido a qualquer momento em <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>. Apagar a pasta da ferramenta no computador remove todos os dados guardados.</p>
+
+    <h3>Contato</h3>
+    <p>Pelo canal <a href="https://www.youtube.com/@Granapropria">youtube.com/@Granapropria</a>.</p>
+  </section>
+
+  <section id="termos">
+    <h2>Termos de uso</h2>
+    <p class="meta">Última atualização: 13 de outubro de 2026</p>
+    <ul>
+      <li>O Referencias YouTube é uma ferramenta de uso pessoal do dono do canal Grana Própria, sem fins de distribuição.</li>
+      <li>Ao usar o app, o usuário concorda com os <a href="https://www.youtube.com/t/terms">Termos de Serviço do YouTube</a>.</li>
+      <li>O app é fornecido como está, sem garantias. Os relatórios são apoio à decisão e não substituem o YouTube Studio.</li>
+      <li>O usuário pode parar de usar o app e revogar o acesso a qualquer momento, como descrito na política de privacidade.</li>
+    </ul>
+  </section>
+</main>
