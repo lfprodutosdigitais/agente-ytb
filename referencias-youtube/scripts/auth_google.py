@@ -5,13 +5,14 @@ Abre o navegador; faça login com a conta dona do canal (ou a conta da Brand Acc
 """
 import base64
 import hashlib
-import http.server
+import http.server as httpserver
 import secrets
 import threading
 import urllib.parse
 import webbrowser
 
-from yt_common import SCOPES, HttpError, http, log, read_client_secret, save_env_var
+from yt_common import SCOPES, HttpError, log, read_client_secret, save_env_var
+from yt_common import http as http_request
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
     state = secrets.token_urlsafe(16)
     result = {}
 
-    class Handler(http.server.BaseHTTPRequestHandler):
+    class Handler(httpserver.BaseHTTPRequestHandler):
         def do_GET(self):
             q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
             if "code" in q or "error" in q:
@@ -37,7 +38,7 @@ def main():
         def log_message(self, *a):
             pass
 
-    server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
+    server = httpserver.HTTPServer(("127.0.0.1", 0), Handler)
     redirect = f"http://127.0.0.1:{server.server_port}"
     url = cs.get("auth_uri", "https://accounts.google.com/o/oauth2/auth") + "?" + urllib.parse.urlencode({
         "client_id": cs["client_id"], "redirect_uri": redirect, "response_type": "code",
@@ -56,7 +57,7 @@ def main():
     if result.get("state") != state:
         raise SystemExit("State OAuth não confere; tente de novo.")
     try:
-        tok = http("POST", cs.get("token_uri", "https://oauth2.googleapis.com/token"), data={
+        tok = http_request("POST", cs.get("token_uri", "https://oauth2.googleapis.com/token"), data={
             "code": result["code"], "client_id": cs["client_id"], "client_secret": cs["client_secret"],
             "redirect_uri": redirect, "grant_type": "authorization_code", "code_verifier": verifier,
         }, headers={"Content-Type": "application/x-www-form-urlencoded"})
