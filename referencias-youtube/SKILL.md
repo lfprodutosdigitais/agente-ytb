@@ -45,7 +45,8 @@ usuário pelo `README.md` da skill (seção "Configurar o Google") e rode `scrip
 Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <ação>`. Cortes e pesos em
 `config.json` (`corte_longo`, `corte_short`, `vizinhos`, `idade_minima_dias`, `em_alta_fator`, ...).
 
-1. **Coleta** (`coletar`): Apify `streamers/youtube-scraper`, últimos 50 longos + 50 Shorts de cada canal de
+1. **Coleta** (`coletar`): Apify `streamers/youtube-scraper`, últimos 50 longos de cada canal (Shorts desligados:
+   `max_shorts: 0` no `config.json`; ponha 50 para voltar a coletar) de
    `canais.txt`. Grava `./referencias/videos.json`, um snapshot de views por dia em `historico.json` e o custo
    de cada run em `custos-apify.json`. Depois calcula os scores e gera `candidatos.json`.
    - Canal novo ou primeira vez: rode antes `teste @handle` e mostre ao usuário o custo e a estimativa.

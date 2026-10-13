@@ -23,7 +23,7 @@ DEFAULTS = {
     "apify_actor": "streamers~youtube-scraper",
     "apify_input_extra": {},
     "max_longos": 50,
-    "max_shorts": 50,
+    "max_shorts": 0,
     "short_max_segundos": 180,
     "vizinhos": 10,
     "corte_longo": 3.0,
@@ -209,9 +209,12 @@ def collect(chans, cfg, token):
     custos = read_json(p["custos"], []) or []
     all_records, total_usd = [], 0.0
     for c in chans:
-        log(f"Apify: {c['handle']} (até {cfg['max_longos']} longos + {cfg['max_shorts']} Shorts)...")
+        log(f"Apify: {c['handle']} (até {cfg['max_longos']} longos"
+            f"{' + %d Shorts' % cfg['max_shorts'] if cfg['max_shorts'] else ', sem Shorts'})...")
         run, items = apify_run(token, cfg["apify_actor"], channel_input(c, cfg))
         recs = [r for r in (normalize(i, c, cfg) for i in items) if r]
+        if not cfg["max_shorts"]:  # Shorts desligados: descarta se o actor devolver mesmo assim
+            recs = [r for r in recs if r["formato"] != "short"]
         usd = run.get("usageTotalUsd")
         total_usd += usd or 0
         custos.append({"data": now().isoformat(), "canal": c["handle"], "itens": len(recs), "usd": usd, "run": run["id"]})

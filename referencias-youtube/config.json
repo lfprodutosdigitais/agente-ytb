@@ -9,5 +9,5 @@
   "em_alta_max_dias": 30,
   "relevancia_minima": 3,
   "max_longos": 50,
-  "max_shorts": 50
+  "max_shorts": 0
 }

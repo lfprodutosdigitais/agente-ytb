@@ -178,9 +178,12 @@ class Storage(unittest.TestCase):
             raise AssertionError(url)
 
         R.http = fake_http
-        recs, usd = R.collect([R.match_channel("@primorico", [])], CFG, "TOKEN")
+        recs, usd = R.collect([R.match_channel("@primorico", [])], {**CFG, "max_shorts": 50}, "TOKEN")
         self.assertEqual(usd, 0.42)
         self.assertEqual(sum(r["formato"] == "short" for r in recs), 10)
+        recs, _ = R.collect([R.match_channel("@primorico", [])], CFG, "TOKEN")  # padrão: sem Shorts
+        self.assertEqual(sum(r["formato"] == "short" for r in recs), 0)
+        self.assertEqual(len(recs), 20)
         cands = R.recalc(CFG, quiet=True)
         self.assertEqual([c["video_id"] for c in cands], ["vid00000003"])
         cand = json.loads((Path(self.tmp.name) / "candidatos.json").read_text())
