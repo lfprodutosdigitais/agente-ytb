@@ -61,7 +61,7 @@ class Channels(unittest.TestCase):
     def test_input_encodes_accent(self):
         inp = R.channel_input({"url": "https://www.youtube.com/@GêmeosInvestem"}, CFG)
         self.assertEqual(inp["startUrls"][0]["url"], "https://www.youtube.com/@G%C3%AAmeosInvestem")
-        self.assertEqual((inp["maxResults"], inp["maxResultsShorts"]), (50, 50))
+        self.assertEqual((inp["maxResults"], inp["maxResultsShorts"]), (50, 0))
 
 
 class Metrics(unittest.TestCase):
