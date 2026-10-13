@@ -184,7 +184,7 @@ class Storage(unittest.TestCase):
         recs, _ = R.collect([R.match_channel("@primorico", [])], CFG, "TOKEN")  # padrão: sem Shorts
         self.assertEqual(sum(r["formato"] == "short" for r in recs), 0)
         self.assertEqual(len(recs), 20)
-        cands = R.recalc(CFG, quiet=True)
+        cands = R.recalc(CFG, quiet=True)  # Shorts da 1ª coleta ficam fora dos candidatos
         self.assertEqual([c["video_id"] for c in cands], ["vid00000003"])
         cand = json.loads((Path(self.tmp.name) / "candidatos.json").read_text())
         self.assertEqual(cand["pendentes_relevancia"], ["vid00000003"])

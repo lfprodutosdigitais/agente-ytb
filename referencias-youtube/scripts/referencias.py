@@ -305,7 +305,8 @@ def load_analyses():
 
 
 def candidates(videos, analyses, cfg):
-    cands = [v for v in videos.values() if v.get("outlier") or v.get("em_alta")]
+    cands = [v for v in videos.values() if (v.get("outlier") or v.get("em_alta"))
+             and (cfg["max_shorts"] or v.get("formato") != "short")]
     cands.sort(key=lambda v: -(v.get("score") or 0))
     pend_rel, pend_anal = [], []
     for v in cands:
