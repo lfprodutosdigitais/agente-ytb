@@ -74,7 +74,16 @@ def match_channel(arg, chans):
 
 def apify_run(token, actor, run_input, timeout_s=1800):
     """Roda o actor, espera terminar e devolve (run, items)."""
-    r = http("POST", f"{APIFY}/acts/{actor}/runs", params={"token": token, "waitForFinish": 60}, data=run_input)
+    try:
+        r = http("POST", f"{APIFY}/acts/{actor}/runs", params={"token": token, "waitForFinish": 60}, data=run_input)
+    except HttpError as e:
+        if e.status == 401:
+            raise SystemExit("Token do Apify inválido. Copie de novo em https://console.apify.com/settings/integrations "
+                             "e cole na linha APIFY_TOKEN= do arquivo ~/.claude/skills/referencias-youtube/.env "
+                             "(sem espaços nem aspas).")
+        if e.status == 402:
+            raise SystemExit("Apify sem crédito/plano para rodar o actor. Veja https://console.apify.com/billing")
+        raise
     run = r["data"]
     t0 = time.time()
     while run["status"] in ("READY", "RUNNING"):
