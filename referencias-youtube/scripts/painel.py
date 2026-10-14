@@ -80,8 +80,10 @@ def thumbs_info():
     import thumbs
     ok, motivo = thumbs.gemini_disponivel()
     feitos = sorted(f.stem for f in thumbs.pasta().glob("*.json")) if thumbs.pasta().exists() else []
+    import roteiro
+    rots = sorted(f.stem for f in roteiro.pasta().glob("*.json")) if roteiro.pasta().exists() else []
     return {"ok": ok, "motivo": motivo, "fotos": len(thumbs.fotos()), "pasta_fotos": str(thumbs.pasta_fotos()),
-            "feitos": feitos}
+            "feitos": feitos, "roteiros": rots}
 
 
 def gerador_disponivel():
@@ -302,6 +304,16 @@ details ul{padding-left:18px}
 .tcard dd{margin:0}
 .tcard img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block}
 .tcard .imgs{display:flex;flex-direction:column;gap:8px}
+.rtit{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.rtit li{border-radius:12px;padding:8px 12px;background:var(--glass);border:1px solid var(--stroke-dark);font-size:14px}
+.rtit li.rec{border-color:var(--accent)}
+.rtit small{display:block;color:var(--muted);font-size:12.5px}
+.rsec{border-radius:var(--r-lg);padding:12px 14px;background:var(--glass);border:1px solid var(--stroke-dark);display:flex;flex-direction:column;gap:6px}
+.rsec h4{margin:0;font-size:15px}
+.rsec .t{color:var(--faint);font-variant-numeric:tabular-nums;margin-right:6px}
+.rsec .obj{color:var(--muted);font-size:12.5px}
+.rsec .fala{white-space:pre-wrap;font-size:14.5px;line-height:1.55}
+.rsec .tela{font-size:13px;color:var(--muted)}
 .status.err{color:var(--down)}
 .status.ok{color:var(--accent)}
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--stroke-dark);border-top-color:var(--accent);display:inline-block;vertical-align:-3px;animation:sp .8s linear infinite}
@@ -431,6 +443,20 @@ details ul{padding-left:18px}
     <div class="row" style="justify-content:flex-end">
       <button type="button" class="btn" id="t-novos">Outros 3 conceitos</button>
       <button type="button" class="btn primary" id="t-fechar">Fechar</button>
+    </div>
+  </div>
+</div>
+<div class="scrim" id="rscrim" hidden>
+  <div class="sheet glass wide" role="dialog" aria-modal="true" aria-labelledby="r-tit">
+    <h3 id="r-tit">Roteiro</h3>
+    <p id="r-sub"></p>
+    <div class="status" id="r-status" role="status" aria-live="polite"></div>
+    <div id="r-corpo" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="row" style="justify-content:flex-end">
+      <button type="button" class="btn" id="r-copiar" hidden>Copiar roteiro</button>
+      <a class="btn" id="r-baixar" hidden download>Baixar .md</a>
+      <button type="button" class="btn" id="r-refazer">Refazer</button>
+      <button type="button" class="btn primary" id="r-fechar">Fechar</button>
     </div>
   </div>
 </div>
@@ -696,6 +722,7 @@ function renderAprov(){
       ${i.a_conferir ? `<div class="conferir">⚠️ ${esc(i.a_conferir)}</div>` : ''}</details>
       <div class="row"><select class="pill status" aria-label="Status">${STATUS.map(s => `<option ${s === st ? 'selected' : ''}>${s}</option>`).join('')}</select>
         <input class="pill url" placeholder="link do vídeo postado" value="${esc(a.url)}" ${st === 'postado' ? '' : 'hidden'} aria-label="Link do vídeo">
+        ${SERVER && D.gerador ? `<button class="btn" data-roteiro="1">📝 Roteiro${(D.imagem.roteiros || []).includes(i.id) ? ' ✓' : ''}</button>` : ''}
         ${SERVER && D.gerador ? `<button class="btn" data-thumb="1">🎨 Thumb${(D.imagem.feitos || []).includes(i.id) ? ' ✓' : ''}</button>` : ''}
         <button class="btn" data-tirar="1">Tirar</button></div></div>`; }).join('') || '<div class="empty">Nenhuma aprovada ainda. Diga “Sim” nas ideias que quer gravar.</div>';
 }
@@ -733,6 +760,7 @@ document.getElementById('feed').addEventListener('click', e => {
 });
 document.getElementById('aprovadas').addEventListener('click', e => {
   const t = e.target.closest('[data-thumb]'); if (t) return abrirThumb(t.closest('.idea').dataset.id);
+  const ro = e.target.closest('[data-roteiro]'); if (ro) return abrirRoteiro(ro.closest('.idea').dataset.id);
   const b = e.target.closest('[data-tirar]'); if (!b) return;
   const id = b.closest('.idea').dataset.id; setAv(id, {voto: null}); renderAll(); toast('Voltou para a fila');
 });
@@ -782,6 +810,51 @@ document.getElementById('t-grid').addEventListener('click', async e => {
   b.disabled = true; b.innerHTML = '<span class="spin"></span> Gerando (até 1 min)…';
   try { TDADOS = await thumbApi('imagem', {n: +b.dataset.img}); tMsg(''); renderThumb(); }
   catch (err) { tMsg(esc(err.message), 'err'); renderThumb(); }
+});
+
+// roteiro (pacote do vídeo)
+const rscrim = document.getElementById('rscrim'), rStatus = document.getElementById('r-status');
+let RID = null, RDADOS = null;
+const mmss = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+function rMsg(html, cls=''){ rStatus.className = 'status ' + cls; rStatus.innerHTML = html; }
+function renderRoteiro(){
+  const p = RDADOS, corpo = document.getElementById('r-corpo');
+  for (const id of ['r-copiar', 'r-baixar']) document.getElementById(id).hidden = !p;
+  if (!p) { corpo.innerHTML = ''; return; }
+  document.getElementById('r-baixar').href = `/roteiros/${encodeURIComponent(RID)}.md`;
+  document.getElementById('r-sub').textContent = `~${p.minutos_estimados} min de fala (${p.palavras} palavras; alvo ${p.minutos_alvo} min) · Promessa: ${p.promessa}`;
+  const box = (t, itens, cls='conferir') => itens.length ? `<div class="${cls}"><b>${t}</b><ul style="margin:6px 0 0;padding-left:18px">${itens.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : '';
+  corpo.innerHTML = `<h4 style="margin:0">Títulos</h4><ol class="rtit">${p.titulos.map((t, n) =>
+      `<li class="${n === p.titulo_recomendado ? 'rec' : ''}">${n === p.titulo_recomendado ? '⭐ ' : ''}${esc(t.titulo)}<small>${esc(t.por_que)}</small></li>`).join('')}</ol>
+    ${box('⚠️ Conferir antes de gravar', p.avisos)}${box('Fatos para o Léo confirmar', p.a_conferir)}${box('Separar antes de gravar', p.preparar, 'hint')}
+    ${p.secoes.map(s => `<div class="rsec"><h4><span class="t">${mmss(s.inicio_s)}</span>${esc(s.nome)}</h4><div class="obj">${esc(s.objetivo)}</div>
+      <div class="fala">${esc(s.fala)}</div><div class="tela">🎬 ${esc(s.na_tela)}</div></div>`).join('')}`;
+}
+async function roteiroApi(acao){ return (await api('/api/roteiro', {id: RID, acao})).roteiro; }
+async function gerarRoteiro(){
+  rMsg('<span class="spin"></span> O Claude está escrevendo o roteiro (1–2 min)…');
+  document.getElementById('r-refazer').disabled = true;
+  try {
+    RDADOS = await roteiroApi('gerar'); rMsg(''); renderRoteiro();
+    if (((AV[RID] || {}).status || 'ideia') === 'ideia') setAv(RID, {status: 'roteiro'});
+  } catch (err) { rMsg(esc(err.message), 'err'); }
+  finally { document.getElementById('r-refazer').disabled = false; }
+}
+async function abrirRoteiro(id){
+  RID = id; RDADOS = null; rscrim.hidden = false; renderRoteiro();
+  const idea = allIdeas().find(x => x.i.id === id);
+  document.getElementById('r-tit').textContent = 'Roteiro: ' + (idea ? idea.i.titulo : '');
+  document.getElementById('r-sub').textContent = '';
+  try { RDADOS = await roteiroApi('ver'); if (RDADOS) { rMsg(''); renderRoteiro(); } else await gerarRoteiro(); }
+  catch (err) { rMsg(esc(err.message), 'err'); }
+}
+document.getElementById('r-refazer').addEventListener('click', gerarRoteiro);
+document.getElementById('r-fechar').addEventListener('click', () => { rscrim.hidden = true; refresh().catch(() => {}); });
+rscrim.addEventListener('click', e => { if (e.target === rscrim) document.getElementById('r-fechar').click(); });
+document.getElementById('r-copiar').addEventListener('click', async () => {
+  const p = RDADOS; if (!p) return;
+  const txt = p.secoes.map(s => `[${mmss(s.inicio_s)}] ${s.nome.toUpperCase()}\n${s.fala}\n(Na tela: ${s.na_tela})`).join('\n\n');
+  try { await navigator.clipboard.writeText(txt); toast('Roteiro copiado'); } catch (e) { toast('Não deu para copiar; use “Baixar .md”'); }
 });
 
 fillSelects(); showView(VIEW);
@@ -877,6 +950,14 @@ def make_handler(cfg, token, lock, job=None):
                 if not thumbs.ARQUIVO_OK.match(nome) or not f.is_file():
                     return self._send(404, {"ok": False, "erro": "não encontrado"})
                 return self._send(200, f.read_bytes(), "image/png" if nome.endswith(".png") else "image/jpeg")
+            if self.path.startswith("/roteiros/"):
+                import roteiro
+                import thumbs
+                nome = urllib.parse.unquote(self.path[len("/roteiros/"):])
+                f = roteiro.pasta() / nome
+                if not (nome.endswith(".md") and thumbs.ID_OK.match(nome[:-3])) or not f.is_file():
+                    return self._send(404, {"ok": False, "erro": "não encontrado"})
+                return self._send(200, f.read_bytes(), "text/markdown; charset=utf-8")
             if self.path == "/api/dados":
                 if not self._authorized():
                     return self._send(403, {"ok": False, "erro": "não autorizado"})
@@ -938,6 +1019,26 @@ def make_handler(cfg, token, lock, job=None):
                             return self._send(200, {"ok": False, "erro": motivo})
                         thumbs.imagem(iid, int(body.get("n") or 0), cfg=cfg)
                         return self._send(200, {"ok": True, "thumb": read_json(thumbs.pasta() / f"{iid}.json", None)})
+                    return self._send(400, {"ok": False, "erro": "ação inválida"})
+                except ValueError as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except Exception as e:  # rede, chave, limite da API
+                    return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
+            if self.path == "/api/roteiro":
+                import roteiro
+                import thumbs
+                iid, acao = str(body.get("id") or ""), body.get("acao")
+                if not thumbs.ID_OK.match(iid):
+                    return self._send(400, {"ok": False, "erro": "ideia inválida"})
+                try:
+                    if acao == "ver":
+                        return self._send(200, {"ok": True, "roteiro": read_json(roteiro.pasta() / f"{iid}.json", None)})
+                    if acao == "gerar":
+                        import gerador
+                        ok, motivo = gerador.disponivel()
+                        if not ok:
+                            return self._send(200, {"ok": False, "erro": motivo})
+                        return self._send(200, {"ok": True, "roteiro": roteiro.gerar(iid, cfg=cfg)})
                     return self._send(400, {"ok": False, "erro": "ação inválida"})
                 except ValueError as e:
                     return self._send(200, {"ok": False, "erro": str(e)})

@@ -135,6 +135,15 @@ segunda também roda isso, até `auto_max_por_rodada`, 10).
 Chave em <https://console.anthropic.com/settings/keys>. Custo: alguns centavos de dólar por ideia
 (modelo Claude Opus 5.5; a parte fixa do pedido fica em cache). Sem a chave, o 👎 só troca pela próxima da fila.
 
+## Roteiro (pacote do vídeo)
+
+Na aba **Aprovadas**, botão **📝 Roteiro** (precisa da chave da Anthropic): 5 opções de título com a recomendada,
+a promessa, o roteiro completo por seção (tempo, fala no tom do Léo, o que mostrar na tela), o que separar antes de
+gravar e os fatos que o Léo precisa confirmar. O sistema confere sozinho as regras de retenção dele (número nos
+primeiros 30 s, nada de like/inscrição antes de 3 min, toda seção com número) e avisa o que quebrar. Duração alvo:
+mediana dos vídeos do Léo, ou `duracao_alvo_min` no config. Arquivos em `./referencias/roteiros/` (.md para abrir
+no Notes/Docs). Ao gerar, a ideia passa para o status "roteiro".
+
 ## Thumb (opcional)
 
 Na aba **Aprovadas**, botão **🎨 Thumb**: o Claude olha a thumb da referência, outros outliers do mesmo tema e as
