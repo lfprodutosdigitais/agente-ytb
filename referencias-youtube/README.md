@@ -175,6 +175,13 @@ primeiros 30 s, nada de like/inscrição antes de 3 min, toda seção com númer
 mediana dos vídeos do Léo, ou `duracao_alvo_min` no config. Arquivos em `./referencias/roteiros/` (.md para abrir
 no Notes/Docs). Ao gerar, a ideia passa para o status "roteiro".
 
+Na mesma janela:
+- **✍️ Meu roteiro:** o Léo cola o roteiro que escreveu; o sistema confere as regras de retenção e o Claude dá nota,
+  aponta cada problema com o trecho exato, o tempo estimado e uma versão reescrita pronta para colar, e sugere o gancho.
+- **🎬 Teleprompter:** tela cheia com rolagem automática na velocidade da fala (palavras por minuto), contagem 3-2-1,
+  letra ajustável, modo espelhado (para teleprompter de vidro) e a tela não apaga. Teclas: espaço inicia/pausa,
+  ↑/↓ velocidade, +/− letra, M espelha, Esc sai. Funciona com o roteiro do Claude ou com o seu.
+
 ## Thumb (opcional)
 
 Na aba **Aprovadas**, botão **🎨 Thumb**: o Claude olha a thumb da referência, outros outliers do mesmo tema e as

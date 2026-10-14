@@ -304,6 +304,7 @@ details ul{padding-left:18px}
 .status{font-size:13.5px;min-height:20px}
 .job{font-size:13.5px;color:var(--muted)}
 .sheet.wide{width:min(980px,100%);max-height:calc(100vh - 32px);overflow:auto}
+.sheet > *{flex-shrink:0}
 .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px}
 .tcard{border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--glass);border:1px solid var(--stroke-dark)}
 .tcard .ttxt{font:800 20px var(--display);letter-spacing:-.01em}
@@ -329,6 +330,26 @@ a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
 .fthumb.pub b{font:800 22px var(--display)}
 .fthumb.pub small{font-size:11.5px;color:var(--muted)}
 .quote{margin:6px 0;padding:6px 10px;border-left:3px solid var(--accent);background:var(--glass);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--muted)}
+#r-texto{width:100%;border-radius:14px;padding:12px 14px;font:inherit;font-size:14.5px;line-height:1.5;border:1px solid var(--stroke-dark);background:var(--glass);color:var(--fg);resize:vertical}
+.nota{font:800 30px var(--display)}
+.prob{border-radius:14px;padding:10px 12px;background:var(--glass);border:1px solid var(--stroke-dark);display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.prob .de{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--down)}
+.prob .para{background:var(--accent-soft);border-radius:10px;padding:6px 10px}
+.tp{position:fixed;inset:0;z-index:60;background:#000;color:#fff;display:flex;flex-direction:column}
+.tp-scroll{flex:1;overflow:hidden;position:relative}
+.tp-txt{padding:38vh 7vw 70vh;max-width:1100px;margin:0 auto;font-size:var(--tpf,48px);line-height:1.45;font-weight:600;letter-spacing:.005em}
+.tp-txt .tsec{display:block;font-size:max(14px,calc(var(--tpf,48px) * .33));color:#8a8a8a;font-weight:500;margin:1.2em 0 .3em;letter-spacing:.02em}
+.tp-txt .tela{display:block;font-size:max(14px,calc(var(--tpf,48px) * .33));color:#facc15;font-weight:500;margin-top:.3em}
+.tp.espelho .tp-txt{transform:scaleX(-1)}
+.tp-linha{position:fixed;left:0;right:0;top:38vh;height:calc(var(--tpf,48px) * 1.5);border-top:2px solid rgba(250,204,21,.55);pointer-events:none}
+.tp-prog{height:4px;background:#222}
+.tp-prog i{display:block;height:100%;width:0;background:#22c55e}
+.tp-count{position:fixed;inset:0;display:grid;place-items:center;font:800 30vh var(--display);color:#fff;background:rgba(0,0,0,.6)}
+.tp-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:10px 12px max(10px, env(safe-area-inset-bottom));background:#111;border-top:1px solid #222}
+.tp-bar button{background:#262626;color:#fff;border:1px solid #333;border-radius:999px;padding:9px 16px;font-weight:600;font-size:15px;min-width:44px;min-height:40px}
+.tp-bar button[aria-pressed="true"]{background:#14532d;border-color:#22c55e}
+.tp-grp{display:inline-flex;align-items:center;gap:6px;color:#ccc;font-size:14px}
+.tp-tempo{color:#aaa;font-variant-numeric:tabular-nums;font-size:14px}
 .pbloco .cab{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .pbloco pre{margin:0;white-space:pre-wrap;font:inherit;font-size:14px;line-height:1.5;max-height:340px;overflow:auto}
 .abthumbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:8px}
@@ -506,15 +527,42 @@ a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
 <div class="scrim" id="rscrim" hidden>
   <div class="sheet glass wide" role="dialog" aria-modal="true" aria-labelledby="r-tit">
     <h3 id="r-tit">Roteiro</h3>
-    <p id="r-sub"></p>
-    <div class="status" id="r-status" role="status" aria-live="polite"></div>
-    <div id="r-corpo" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="tabs" id="r-modo" role="tablist" aria-label="Qual roteiro">
+      <button class="tab" role="tab" data-m="claude" aria-selected="true">Roteiro do Claude</button>
+      <button class="tab" role="tab" data-m="meu" aria-selected="false">✍️ Meu roteiro</button>
+    </div>
+    <div id="r-claude" style="display:flex;flex-direction:column;gap:12px">
+      <p id="r-sub" style="margin:0"></p>
+      <div class="status" id="r-status" role="status" aria-live="polite"></div>
+      <div id="r-corpo" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+    <div id="r-meu" hidden style="display:flex;flex-direction:column;gap:10px">
+      <p style="margin:0">Cole o roteiro que você escreveu (um parágrafo por bloco). O sistema confere as regras de retenção do canal e o Claude aponta o trecho exato e uma versão reescrita.</p>
+      <textarea id="r-texto" rows="10" aria-label="Seu roteiro" placeholder="Cole aqui o seu roteiro…"></textarea>
+      <div class="row"><button type="button" class="btn primary" id="r-revisar">Revisar com o Claude</button><span class="status" id="r-mstatus" role="status" aria-live="polite"></span></div>
+      <div id="r-rev" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
     <div class="row" style="justify-content:flex-end">
+      <button type="button" class="btn" id="r-tp">🎬 Teleprompter</button>
       <button type="button" class="btn" id="r-copiar" hidden>Copiar roteiro</button>
       <a class="btn" id="r-baixar" hidden download>Baixar .md</a>
       <button type="button" class="btn" id="r-refazer">Refazer</button>
       <button type="button" class="btn primary" id="r-fechar">Fechar</button>
     </div>
+  </div>
+</div>
+<div class="tp" id="tp" hidden role="dialog" aria-label="Teleprompter">
+  <div class="tp-prog"><i id="tp-prog"></i></div>
+  <div class="tp-scroll" id="tp-scroll"><div class="tp-txt" id="tp-txt"></div></div>
+  <div class="tp-linha" aria-hidden="true"></div>
+  <div class="tp-count" id="tp-count" hidden></div>
+  <div class="tp-bar">
+    <button type="button" id="tp-play" aria-label="Iniciar ou pausar (espaço)">▶︎ Iniciar</button>
+    <span class="tp-grp"><button type="button" id="tp-lento" aria-label="Mais devagar">−</button><span id="tp-vel"></span><button type="button" id="tp-rapido" aria-label="Mais rápido">+</button></span>
+    <span class="tp-grp"><button type="button" id="tp-menor" aria-label="Letra menor">A−</button><button type="button" id="tp-maior" aria-label="Letra maior">A+</button></span>
+    <button type="button" id="tp-espelho" aria-pressed="false">Espelhar</button>
+    <span id="tp-tempo" class="tp-tempo"></span>
+    <button type="button" id="tp-sair" aria-label="Sair (Esc)">Sair</button>
   </div>
 </div>
 <div class="scrim" id="pscrim" hidden>
@@ -911,7 +959,7 @@ const mmss = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 function rMsg(html, cls=''){ rStatus.className = 'status ' + cls; rStatus.innerHTML = html; }
 function renderRoteiro(){
   const p = RDADOS, corpo = document.getElementById('r-corpo');
-  for (const id of ['r-copiar', 'r-baixar']) document.getElementById(id).hidden = !p;
+  for (const id of ['r-copiar', 'r-baixar']) document.getElementById(id).hidden = !p || RMODO !== 'claude';
   if (!p) { corpo.innerHTML = ''; return; }
   document.getElementById('r-baixar').href = `/roteiros/${encodeURIComponent(RID)}.md`;
   document.getElementById('r-sub').textContent = `~${p.minutos_estimados} min de fala (${p.palavras} palavras; alvo ${p.minutos_alvo} min) · Promessa: ${p.promessa}`;
@@ -932,8 +980,111 @@ async function gerarRoteiro(){
   } catch (err) { rMsg(esc(err.message), 'err'); }
   finally { document.getElementById('r-refazer').disabled = false; }
 }
+let RMODO = 'claude', RMEU = null;
+function modoRoteiro(m){
+  RMODO = m;
+  document.querySelectorAll('#r-modo .tab').forEach(t => t.setAttribute('aria-selected', t.dataset.m === m));
+  document.getElementById('r-claude').hidden = m !== 'claude';
+  document.getElementById('r-meu').hidden = m !== 'meu';
+  for (const id of ['r-refazer']) document.getElementById(id).hidden = m !== 'claude';
+  document.getElementById('r-copiar').hidden = m !== 'claude' || !RDADOS;
+  document.getElementById('r-baixar').hidden = m !== 'claude' || !RDADOS;
+  if (m === 'meu' && !RMEU) carregarMeu();
+}
+document.getElementById('r-modo').addEventListener('click', e => { const t = e.target.closest('.tab'); if (t) modoRoteiro(t.dataset.m); });
+async function carregarMeu(){
+  try { RMEU = (await api('/api/roteiro', {id: RID, acao: 'ver_meu'})).roteiro; } catch (e) { RMEU = null; }
+  if (RMEU) { document.getElementById('r-texto').value = RMEU.texto; renderRevisao(); }
+}
+function renderRevisao(){
+  const r = RMEU, el = document.getElementById('r-rev');
+  if (!r || !r.problemas) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="row" style="align-items:baseline;gap:12px"><span class="nota">${r.nota}/10</span><span>${esc(r.resumo)}</span></div>
+    <p class="hint" style="margin:0">~${String(r.minutos_estimados).replace('.', ',')} min de fala (${r.palavras} palavras)</p>
+    ${r.avisos.length ? `<div class="conferir"><b>⚠️ Regras do canal</b><ul style="margin:6px 0 0;padding-left:18px">${r.avisos.map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>` : ''}
+    <div class="prob"><b>Gancho sugerido (primeiros 15 s)</b><div class="para">${esc(r.gancho_sugerido)}</div></div>
+    ${r.problemas.map(p => `<div class="prob"><b>${esc(p.em)} · ${esc(p.problema)}</b><div class="de">“${esc(p.trecho)}”</div><div class="para">${esc(p.sugestao)}</div></div>`).join('')}
+    ${r.pontos_fortes.length ? `<div class="prob"><b>✅ O que já está bom</b><ul style="margin:0;padding-left:18px">${r.pontos_fortes.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}`;
+}
+document.getElementById('r-revisar').addEventListener('click', async e => {
+  const st = document.getElementById('r-mstatus'), texto = document.getElementById('r-texto').value;
+  e.target.disabled = true; st.className = 'status'; st.innerHTML = '<span class="spin"></span> Revisando (até 1 min)…';
+  try { RMEU = (await api('/api/roteiro', {id: RID, acao: 'revisar', texto})).roteiro; st.textContent = ''; renderRevisao(); }
+  catch (err) { st.className = 'status err'; st.textContent = err.message; }
+  finally { e.target.disabled = false; }
+});
+
+// teleprompter
+const tp = document.getElementById('tp'), tpScroll = document.getElementById('tp-scroll');
+const TP = {wpm: +(ls.get('tp-wpm', 150)), fonte: +(ls.get('tp-fonte', 48)), espelho: ls.get('tp-espelho', false), rodando: false, palavras: 1, raf: 0, ult: 0, pos: 0, lock: null};
+function tpSecoes(){
+  if (RMODO === 'meu') {
+    const t = document.getElementById('r-texto').value.trim();
+    return t ? t.split(/\n\s*\n|\n(?=\S)/).map(x => x.trim()).filter(Boolean).map(f => ({nome: '', fala: f, na_tela: ''})) : [];
+  }
+  return (RDADOS && RDADOS.secoes) || [];
+}
+function tpAplicar(){
+  tp.style.setProperty('--tpf', TP.fonte + 'px'); tp.classList.toggle('espelho', !!TP.espelho);
+  document.getElementById('tp-espelho').setAttribute('aria-pressed', !!TP.espelho);
+  document.getElementById('tp-vel').textContent = `${TP.wpm} palavras/min`;
+  ls.set('tp-wpm', TP.wpm); ls.set('tp-fonte', TP.fonte); ls.set('tp-espelho', TP.espelho);
+}
+function tpTempo(){
+  const max = tpScroll.scrollHeight - tpScroll.clientHeight, f = max > 0 ? TP.pos / max : 0;
+  document.getElementById('tp-prog').style.width = (f * 100) + '%';
+  const total = TP.palavras / TP.wpm * 60;
+  document.getElementById('tp-tempo').textContent = `${mmss(Math.round(f * total))} / ${mmss(Math.round(total))}`;
+}
+function tpPasso(t){
+  if (!TP.rodando) return;
+  const dt = TP.ult ? (t - TP.ult) / 1000 : 0; TP.ult = t;
+  const max = tpScroll.scrollHeight - tpScroll.clientHeight;
+  TP.pos = Math.min(max, TP.pos + dt * (TP.wpm / 60) * (max / TP.palavras));
+  tpScroll.scrollTop = TP.pos; tpTempo();
+  if (TP.pos >= max) return tpPausar();
+  TP.raf = requestAnimationFrame(tpPasso);
+}
+async function tpIniciar(){
+  if (TP.rodando) return;
+  const c = document.getElementById('tp-count');
+  if (TP.pos === 0) { c.hidden = false; for (const n of [3, 2, 1]) { c.textContent = n; await new Promise(r => setTimeout(r, 700)); } c.hidden = true; }
+  TP.rodando = true; TP.ult = 0; document.getElementById('tp-play').textContent = '❚❚ Pausar';
+  try { TP.lock = await navigator.wakeLock?.request('screen'); } catch (e) {}
+  TP.raf = requestAnimationFrame(tpPasso);
+}
+function tpPausar(){ TP.rodando = false; cancelAnimationFrame(TP.raf); document.getElementById('tp-play').textContent = '▶︎ Continuar'; TP.lock?.release?.().catch(() => {}); TP.lock = null; }
+function abrirTp(){
+  const sec = tpSecoes();
+  if (!sec.length) { toast(RMODO === 'meu' ? 'Cole o seu roteiro primeiro' : 'Gere o roteiro primeiro'); return; }
+  document.getElementById('tp-txt').innerHTML = sec.map(s => `${s.nome ? `<span class="tsec">${s.inicio_s != null ? mmss(s.inicio_s) + ' · ' : ''}${esc(s.nome)}</span>` : ''}${esc(s.fala).replace(/\n/g, '<br>')}${s.na_tela ? `<span class="tela">🎬 ${esc(s.na_tela)}</span>` : ''}`).join('<br>');
+  TP.palavras = Math.max(1, sec.reduce((n, s) => n + s.fala.split(/\s+/).length, 0));
+  TP.pos = 0; tp.hidden = false; tpScroll.scrollTop = 0; document.getElementById('tp-play').textContent = '▶︎ Iniciar';
+  tpAplicar(); tpTempo();
+  tp.requestFullscreen?.().catch(() => {});
+}
+function fecharTp(){ tpPausar(); tp.hidden = true; if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
+document.getElementById('r-tp').addEventListener('click', abrirTp);
+document.getElementById('tp-play').addEventListener('click', () => TP.rodando ? tpPausar() : tpIniciar());
+document.getElementById('tp-scroll').addEventListener('click', () => TP.rodando ? tpPausar() : tpIniciar());
+document.getElementById('tp-lento').addEventListener('click', () => { TP.wpm = Math.max(60, TP.wpm - 10); tpAplicar(); tpTempo(); });
+document.getElementById('tp-rapido').addEventListener('click', () => { TP.wpm = Math.min(260, TP.wpm + 10); tpAplicar(); tpTempo(); });
+document.getElementById('tp-menor').addEventListener('click', () => { TP.fonte = Math.max(24, TP.fonte - 6); tpAplicar(); });
+document.getElementById('tp-maior').addEventListener('click', () => { TP.fonte = Math.min(110, TP.fonte + 6); tpAplicar(); });
+document.getElementById('tp-espelho').addEventListener('click', () => { TP.espelho = !TP.espelho; tpAplicar(); });
+document.getElementById('tp-sair').addEventListener('click', fecharTp);
+document.addEventListener('keydown', e => {
+  if (tp.hidden) return;
+  const k = {' ': () => TP.rodando ? tpPausar() : tpIniciar(), Escape: fecharTp, ArrowUp: () => document.getElementById('tp-rapido').click(),
+    ArrowDown: () => document.getElementById('tp-lento').click(), '+': () => document.getElementById('tp-maior').click(),
+    '-': () => document.getElementById('tp-menor').click(), m: () => document.getElementById('tp-espelho').click()}[e.key];
+  if (k) { e.preventDefault(); k(); }
+});
+tpScroll.addEventListener('wheel', e => { e.preventDefault(); const max = tpScroll.scrollHeight - tpScroll.clientHeight; TP.pos = Math.max(0, Math.min(max, TP.pos + e.deltaY)); tpScroll.scrollTop = TP.pos; tpTempo(); }, {passive: false});
+
 async function abrirRoteiro(id){
-  RID = id; RDADOS = null; rscrim.hidden = false; renderRoteiro();
+  RID = id; RDADOS = null; RMEU = null; rscrim.hidden = false; renderRoteiro();
+  document.getElementById('r-texto').value = ''; document.getElementById('r-rev').innerHTML = ''; modoRoteiro('claude');
   const idea = allIdeas().find(x => x.i.id === id);
   document.getElementById('r-tit').textContent = 'Roteiro: ' + (idea ? idea.i.titulo : '');
   document.getElementById('r-sub').textContent = '';
@@ -1274,6 +1425,14 @@ def make_handler(cfg, token, lock, job=None):
                         if not ok:
                             return self._send(200, {"ok": False, "erro": motivo})
                         return self._send(200, {"ok": True, "roteiro": roteiro.gerar(iid, cfg=cfg)})
+                    if acao == "ver_meu":
+                        return self._send(200, {"ok": True, "roteiro": read_json(roteiro.pasta() / f"{iid}-meu.json", None)})
+                    if acao == "revisar":
+                        import gerador
+                        ok, motivo = gerador.disponivel()
+                        if not ok:
+                            return self._send(200, {"ok": False, "erro": motivo})
+                        return self._send(200, {"ok": True, "roteiro": roteiro.revisar(iid, str(body.get("texto") or ""), cfg=cfg)})
                     return self._send(400, {"ok": False, "erro": "ação inválida"})
                 except ValueError as e:
                     return self._send(200, {"ok": False, "erro": str(e)})

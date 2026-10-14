@@ -68,6 +68,24 @@ class Roteiro(unittest.TestCase):
         self.assertIn("Apresentação ou fé/propósito", texto)
         self.assertEqual(palavras, 20)
 
+    def test_revisor_do_texto_do_leo(self):
+        texto = "Fala tropa, eu me chamo Léo, deixa o like.\n\n" + "Hoje eu vou te mostrar " + "como juntar dinheiro " * 25 + "\n\nCom R$ 300 por mês você junta R$ 3.600."
+        rev = {"nota": 6, "resumo": "Começo lento.", "gancho_sugerido": "R$ 3.600 em 12 meses.", "pontos_fortes": ["conta"],
+               "problemas": [{"trecho": "eu me chamo Léo", "em": "0:00", "problema": "apresentação", "sugestao": "R$ 3.600..."}]}
+        c = FakeClient(rev)
+        r = roteiro.revisar("ref1-1", texto, client=c, cfg=roteiro.R.config())
+        self.assertEqual(r["nota"], 6)
+        avisos = " | ".join(r["avisos"])
+        self.assertIn("Pedido de like/inscrição em 0:00", avisos)
+        self.assertIn("parágrafos longos sem nenhum número", avisos)
+        pedido = c.calls[0]["messages"][0]["content"]
+        self.assertIn("[0:00] Fala tropa", pedido)
+        self.assertIn("Título: Quanto um CLT junta", pedido)
+        salvo = json.loads((roteiro.pasta() / "ref1-1-meu.json").read_text())
+        self.assertEqual(salvo["texto"], texto.strip())
+        with self.assertRaises(ValueError):
+            roteiro.revisar("ref1-1", "curto demais", client=c)
+
 
 if __name__ == "__main__":
     unittest.main()

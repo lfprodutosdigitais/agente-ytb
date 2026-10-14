@@ -162,6 +162,7 @@ class Painel(unittest.TestCase):
             st, body = call("/api/roteiro", {"id": "v0000000000-1", "acao": "ver"})
             self.assertIsNone(json.loads(body)["roteiro"])
             self.assertEqual(call("/api/roteiro", {"id": "a/b", "acao": "ver"})[0], 400)
+            self.assertIsNone(json.loads(call("/api/roteiro", {"id": "v0000000000-1", "acao": "ver_meu"})[1])["roteiro"])
             (Path(self.tmp.name) / "roteiros").mkdir()
             (Path(self.tmp.name) / "roteiros" / "v0000000000-1.md").write_text("# r")
             self.assertEqual(call("/roteiros/v0000000000-1.md"), (200, b"# r"))

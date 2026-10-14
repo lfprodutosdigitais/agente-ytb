@@ -121,6 +121,8 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
   partir da legenda do vídeo enviado (ou do roteiro) → `./referencias/publicacao/{video_id}.txt`.
   **📝 Roteiro** em cada aprovada (`scripts/roteiro.py`): 5 títulos + roteiro por seção + checagem das regras de
   retenção → `./referencias/roteiros/{ideia_id}.md`.
+  Na mesma janela: **✍️ Meu roteiro** (`roteiro.revisar`: checagem + revisão do Claude do texto do Léo →
+  `roteiros/{id}-meu.json`) e **🎬 Teleprompter** (só no navegador).
   **🎨 Thumb** em cada aprovada (`scripts/thumbs.py`): 3 conceitos pelo Claude olhando thumbs que funcionaram; imagem
   pelo Gemini (`GEMINI_API_KEY`) com as fotos de `~/GranaPropria/fotos-leo/`. Saída em `./referencias/thumbs/`.
 - `referencias.csv` (abre no Excel/Numbers) e `ideias.md`, ordenados por score × relevância.

@@ -101,8 +101,9 @@ def pedido(ideia, a, v, trecho, minutos):
     return "\n".join(linhas)
 
 
-def checar(r):
-    """Avisos das regras de retenção que o código consegue conferir."""
+def checar(r, por_secao=True):
+    """Avisos das regras de retenção que o código consegue conferir.
+    por_secao=False (texto colado pelo Léo, em parágrafos): junta os parágrafos sem número num aviso só."""
     avisos = []
     secoes = r.get("secoes") or []
     inicio = " ".join(s["fala"] for s in secoes if s["inicio_s"] < 30)
@@ -114,8 +115,13 @@ def checar(r):
                           "da primeira entrega (~3–4 min) — é onde os vídeos do Léo mais perdem gente.")
         if s["inicio_s"] < 60 and PROPOSITO.search(s["fala"]):
             avisos.append(f"Apresentação ou fé/propósito no começo (“{s['nome']}”): deixe para depois da primeira entrega.")
-        if not NUMERO.search(s["fala"] + s["na_tela"]):
+        if por_secao and not NUMERO.search(s["fala"] + s["na_tela"]):
             avisos.append(f"Seção sem número (“{s['nome']}”): toda seção deve trazer um número concreto.")
+    if not por_secao:
+        sem = [s for s in secoes if len(s["fala"].split()) >= 40 and not NUMERO.search(s["fala"])]
+        if sem:
+            avisos.append(f"{len(sem)} de {len(secoes)} parágrafos longos sem nenhum número (o primeiro em "
+                          f"{fmt_time(sem[0]['inicio_s'])}): toda parte deve trazer um número concreto.")
     palavras = sum(len(s["fala"].split()) for s in secoes)
     return avisos, palavras
 
@@ -161,3 +167,72 @@ def gerar(ideia_id, client=None, cfg=None):
     log(f"Roteiro ({ideia_id}): {len(p['secoes'])} seções, {palavras} palavras, {len(avisos)} aviso(s) — tokens: "
         f"{u.input_tokens} entrada, {getattr(u, 'cache_read_input_tokens', 0) or 0} do cache, {u.output_tokens} saída")
     return p
+
+
+# ---------------------------------------------------------------- revisor do roteiro escrito pelo Léo
+
+MAX_TEXTO = 40000
+_PROBLEMA = {"type": "object", "properties": {
+    "trecho": {"type": "string"}, "em": {"type": "string"}, "problema": {"type": "string"}, "sugestao": {"type": "string"}},
+    "required": ["trecho", "em", "problema", "sugestao"], "additionalProperties": False}
+SCHEMA_REVISAO = {"type": "object", "properties": {
+    "nota": {"type": "integer", "enum": list(range(1, 11))},
+    "resumo": {"type": "string"},
+    "gancho_sugerido": {"type": "string"},
+    "problemas": {"type": "array", "items": _PROBLEMA},
+    "pontos_fortes": {"type": "array", "items": {"type": "string"}}},
+    "required": ["nota", "resumo", "gancho_sugerido", "problemas", "pontos_fortes"], "additionalProperties": False}
+
+
+def secoes_do_texto(texto):
+    """Parágrafos -> seções com o tempo estimado em que cada um começa (150 palavras/min)."""
+    pars = [re.sub(r"\s+", " ", x).strip() for x in re.split(r"\n\s*\n|\n(?=\S)", texto or "")]
+    out, acc = [], 0
+    for par in (x for x in pars if x):
+        palavras = par.split()
+        out.append({"nome": " ".join(palavras[:6]) + ("…" if len(palavras) > 6 else ""), "inicio_s": round(acc * 60 / PALAVRAS_POR_MIN),
+                    "objetivo": "", "fala": par, "na_tela": ""})
+        acc += len(palavras)
+    return out
+
+
+def revisar(ideia_id, texto, client=None, cfg=None):
+    """Checagem automática + revisão do Claude de um roteiro escrito pelo Léo. Grava roteiros/{id}-meu.json."""
+    import gerador
+    cfg = cfg or R.config()
+    texto = (texto or "").strip()[:MAX_TEXTO]
+    secoes = secoes_do_texto(texto)
+    if sum(len(s["fala"].split()) for s in secoes) < 60:
+        raise ValueError("Cole o roteiro inteiro (pelo menos uns 30 segundos de fala) para revisar.")
+    avisos, palavras = checar({"secoes": secoes}, por_secao=False)
+    ideia = None
+    if ideia_id:
+        import thumbs
+        try:
+            ideia = thumbs.achar_ideia(ideia_id)[2]
+        except ValueError:
+            pass
+    pedido = "\n".join([
+        *(["## Ideia do vídeo", f"Título: {ideia['titulo']}", f"Gancho planejado: {ideia.get('gancho', '')}"] if ideia else []),
+        "## Roteiro escrito pelo Léo (tempo estimado de cada parágrafo, 150 palavras/min)",
+        *[f"[{fmt_time(s['inicio_s'])}] {s['fala']}" for s in secoes],
+        "## A checagem automática já encontrou", *([f"- {a}" for a in avisos] or ["- nada"]),
+        "## Tarefa: revisar para retenção",
+        "Revise como um editor de YouTube que conhece as quedas de retenção do canal do Léo (diagnóstico acima). "
+        "nota 1–10 para o roteiro segurar o CLT até o fim; resumo em 2 frases. problemas: até 8, do mais grave para o "
+        "menos, cada um com trecho = cópia LITERAL de até 25 palavras do texto, em = tempo [m:ss] do parágrafo, "
+        "problema em 1 frase e sugestao = o trecho reescrito no tom do Léo, pronto para colar. Procure: começo lento, "
+        "apresentação/like/fé antes da primeira entrega, promessa repetida, parte sem número ou prova, enrolação, "
+        "mudança de assunto sem gancho, final sem chamada para o próximo vídeo. gancho_sugerido: os primeiros 15 s "
+        "reescritos. pontos_fortes: 1–3 itens. Não mude fatos nem invente números da vida do Léo.",
+    ])
+    r, resp = gerador._chamar(client, cfg, SCHEMA_REVISAO, pedido, max_tokens=12000)
+    out = {"ideia_id": ideia_id, "texto": texto, "gerado_em": now().isoformat(), "palavras": palavras,
+           "minutos_estimados": round(palavras / PALAVRAS_POR_MIN, 1), "avisos": avisos, **r}
+    if ideia_id:
+        pasta().mkdir(parents=True, exist_ok=True)
+        write_json(pasta() / f"{ideia_id}-meu.json", out)
+    u = resp.usage
+    log(f"Revisão do roteiro ({ideia_id or 'avulso'}): nota {r['nota']}, {len(r['problemas'])} problema(s) — tokens: "
+        f"{u.input_tokens} entrada, {u.output_tokens} saída")
+    return out
