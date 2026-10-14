@@ -57,6 +57,18 @@ def duracao_alvo(cfg):
     return max(8, min(20, round(m / 60))) if m else 12
 
 
+def _referencia(a, v, trecho):
+    linhas = [
+        "## Referência que inspirou (outlier no canal dela)",
+        f"{v.get('titulo')} — {v.get('canal')} ({v.get('idioma') or 'pt'})",
+        f"Estrutura: {' → '.join(a.get('estrutura') or [])}",
+        f"Por que assistiram: {a.get('por_que_assistiram') or ''}",
+    ]
+    if trecho:
+        linhas += ["Começo da transcrição da referência (só para ritmo e estrutura; não copie):", trecho]
+    return linhas
+
+
 def pedido(ideia, a, v, trecho, minutos):
     linhas = [
         "## Ideia aprovada pelo Léo",
@@ -65,14 +77,12 @@ def pedido(ideia, a, v, trecho, minutos):
     ]
     if ideia.get("a_conferir"):
         linhas.append(f"A conferir com o Léo: {ideia['a_conferir']}")
-    linhas += [
-        "## Referência que inspirou (outlier no canal dela)",
-        f"{v.get('titulo')} — {v.get('canal')} ({v.get('idioma') or 'pt'})",
-        f"Estrutura: {' → '.join(a.get('estrutura') or [])}",
-        f"Por que assistiram: {a.get('por_que_assistiram') or ''}",
-    ]
-    if trecho:
-        linhas += ["Começo da transcrição da referência (só para ritmo e estrutura; não copie):", trecho]
+    if a.get("origem") == "comentarios":
+        linhas += ["## De onde veio: dúvida que se repete nos comentários do público",
+                   f"{a.get('pergunta')} (~{a.get('pessoas')} comentários)", *[f"- “{e}”" for e in a.get("exemplos") or []],
+                   "Responda essa dúvida de verdade no roteiro; cite que veio dos comentários."]
+    else:
+        linhas += _referencia(a, v, trecho)
     linhas += [
         "## Tarefa: pacote do vídeo",
         f"Vídeo de ~{minutos} min (~{minutos * PALAVRAS_POR_MIN} palavras de fala no total).",

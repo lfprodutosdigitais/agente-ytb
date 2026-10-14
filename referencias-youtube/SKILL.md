@@ -108,6 +108,8 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
   (`gerador.analisar`: nota, gancho literal, estrutura e 2–3 ideias, gravados com `analisado_por: "auto"`).
   `referencias.py analisar [@canal]` faz o mesmo para os pendentes. Na rodada completa, revise as análises
   `auto` com nota ≥4 que ainda não têm voto, se algo destoar do briefing.
+- **Ideias dos comentários** (`scripts/comentarios.py`, botão 💬 no painel e rodada semanal): dúvidas que se repetem
+  nos comentários do Léo e das referências → `analises/publico-*.json` (`origem: "comentarios"`), no feed como as outras.
 - **Aba "Ideias para gravar"** (tela principal): o Léo só responde 👍 Sim / 👎 Não. 👎 tira a ideia e a próxima
   entra; a fila é reordenada na hora pelos votos (canal e tema rejeitados descem). No modo servidor, cada 👎
   também cria **uma ideia nova na hora** (`scripts/gerador.py`, API da Anthropic, modelo `modelo_ideias` do

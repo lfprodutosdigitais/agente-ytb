@@ -135,6 +135,15 @@ segunda também roda isso, até `auto_max_por_rodada`, 10).
 Chave em <https://console.anthropic.com/settings/keys>. Custo: alguns centavos de dólar por ideia
 (modelo Claude Opus 5.5; a parte fixa do pedido fica em cache). Sem a chave, o 👎 só troca pela próxima da fila.
 
+## Ideias dos comentários
+
+Botão **💬 Buscar ideias nos comentários** na aba "Ideias para gravar" (e toda segunda, sozinho): lê os comentários
+mais relevantes dos vídeos do Léo e dos melhores outliers em português (YouTube Data API, grátis, ~1 unidade por vídeo),
+fica com as perguntas e pedidos, e o Claude agrupa as dúvidas que se repetem e escreve 1 ideia para cada uma. Elas
+entram no feed marcadas 💬 com quantas pessoas pediram e os comentários de exemplo; Sim/Não, roteiro, thumb e
+publicação funcionam igual. Só o texto e as curtidas são guardados (nunca o nome de quem comentou). Pelo terminal:
+`python3 ~/.claude/skills/referencias-youtube/scripts/comentarios.py`.
+
 ## Meus vídeos (relatório de cada vídeo postado)
 
 Aba **Meus vídeos** do painel: cada vídeo longo do Léo dos últimos 120 dias (e toda ideia marcada "postado" com

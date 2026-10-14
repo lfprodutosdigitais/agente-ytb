@@ -77,7 +77,7 @@ def escolher_referencia(analyses, ratings, rejeitada_ref=None):
     pesos = R.load_weights()
     melhor, melhor_p = None, -1
     for vid, a in analyses.items():
-        if not a.get("ideias") or (a.get("relevancia") or 0) < 4:
+        if not a.get("ideias") or (a.get("relevancia") or 0) < 4 or a.get("origem") == "comentarios":
             continue
         pend = sum(1 for i in a["ideias"] if not (ratings.get(i["id"]) or {}).get("voto"))
         if pend >= 2:

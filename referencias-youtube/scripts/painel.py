@@ -67,8 +67,14 @@ def build_data(cfg):
             "assistiram": a.get("por_que_assistiram"), "ideias": a.get("ideias") or [],
             "peso": v.get("peso", 1.0), "manual": bool(v.get("manual")),
         })
+    publico = [{
+        "id": aid, "publico": True, "canal": "Comentários do público", "tema": a.get("tema"), "relevancia": 5,
+        "score": min(8, 2 + (a.get("pessoas") or 0) / 2), "pergunta": a.get("pergunta"), "pessoas": a.get("pessoas"),
+        "exemplos": a.get("exemplos") or [], "ideias": a.get("ideias") or [], "titulo": a.get("pergunta"),
+        "criado_em": a.get("criado_em"),
+    } for aid, a in sorted(analyses.items()) if a.get("origem") == "comentarios"]
     avaliacoes = read_json(o / "avaliacoes.json", {}) or {}
-    return {"gerado_em": now().isoformat(), "temas": temas, "refs": refs,
+    return {"gerado_em": now().isoformat(), "temas": temas, "refs": refs, "publico": publico,
             "avaliacoes": avaliacoes.get("ideias", avaliacoes),
             "fila_processada": read_json(o / "fila-processada.json", []) or [],
             "gerador": gerador_disponivel(),
@@ -318,6 +324,11 @@ details ul{padding-left:18px}
 .rsec .tela{font-size:13px;color:var(--muted)}
 .pbloco{border-radius:var(--r-lg);padding:12px 14px;background:var(--glass);border:1px solid var(--stroke-dark);display:flex;flex-direction:column;gap:8px}
 a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
+.fthumb.pub{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:16/9;border-radius:14px;background:var(--accent-soft);gap:0;text-align:center}
+.fthumb.pub span{font-size:26px;line-height:1}
+.fthumb.pub b{font:800 22px var(--display)}
+.fthumb.pub small{font-size:11.5px;color:var(--muted)}
+.quote{margin:6px 0;padding:6px 10px;border-left:3px solid var(--accent);background:var(--glass);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--muted)}
 .pbloco .cab{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .pbloco pre{margin:0;white-space:pre-wrap;font:inherit;font-size:14px;line-height:1.5;max-height:340px;overflow:auto}
 .abthumbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:8px}
@@ -383,6 +394,8 @@ a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
 .aprov h4{margin:0;font:620 16px/1.35 var(--display)}
 .toast .undo{margin-left:12px;border:0;background:transparent;color:var(--accent);font-weight:700}
 @media (max-width:720px){.fcard{grid-template-columns:1fr}.fthumb{max-height:170px}.tabs{width:100%}.tab{flex:1;padding:7px 6px;font-size:13.5px}}
+@media (max-width:720px){.fthumb.pub{aspect-ratio:auto;flex-direction:row;gap:8px;padding:10px 14px;justify-content:flex-start}.fthumb.pub span{font-size:20px}.fthumb.pub b{font-size:18px}}
+@media (max-width:520px){.tabs{display:grid;grid-template-columns:1fr 1fr;border-radius:20px}.tab{padding:8px 4px}}
 @media (max-width:720px){header.bar{position:relative;top:0}.filters .pill{flex:1 1 44%}.flabel{display:none}h2{font-size:19px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -427,6 +440,7 @@ a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
   <div id="view-ideias">
     <h2>Ideias para gravar</h2>
     <p class="hint" id="hint-ideias">Só diga <b>Sim</b> ou <b>Não</b>. O que você recusa sai da lista e outra entra no lugar; o sistema aprende com o padrão dos seus “nãos”.</p>
+    <div class="row" style="margin-bottom:12px" id="com-row"><button class="btn" id="btn-com">💬 Buscar ideias nos comentários</button><span class="status" id="com-status"></span></div>
     <div class="feed" id="feed"></div>
   </div>
 
@@ -557,8 +571,9 @@ function fillSelects(){
     s.value = keep;
   }
 }
+const refsTodas = () => D.refs.concat(D.publico || []);
 function stats(){
-  const ideias = D.refs.flatMap(r => r.ideias);
+  const ideias = refsTodas().flatMap(r => r.ideias);
   const ups = ideias.filter(i => (AV[i.id] || {}).voto === 'up').length, downs = ideias.filter(i => (AV[i.id] || {}).voto === 'down').length;
   const post = ideias.filter(i => (AV[i.id] || {}).status === 'postado').length;
   document.getElementById('stats').innerHTML = `<span class="stat"><b>${D.refs.length}</b> referências</span><span class="stat"><b>${ideias.length}</b> ideias</span>`
@@ -707,7 +722,7 @@ if (SERVER) acompanhar();  // retoma o acompanhamento se a página for recarrega
 // exportar / importar
 document.getElementById('exportar').addEventListener('click', () => {
   const ideias = {};
-  for (const r of D.refs) for (const i of r.ideias) if (AV[i.id]) ideias[i.id] = {...AV[i.id], titulo: i.titulo, referencia: r.id, canal: r.canal, tema: r.tema};
+  for (const r of refsTodas()) for (const i of r.ideias) if (AV[i.id]) ideias[i.id] = {...AV[i.id], titulo: i.titulo, referencia: r.id, canal: r.canal, tema: r.tema};
   for (const [id, a] of Object.entries(AV)) if (!ideias[id]) ideias[id] = a;
   const out = {exportado_em: new Date().toISOString(), ideias};
   if (FILA.length) out.adicionar = FILA;
@@ -727,14 +742,14 @@ let VIEW = ls.get('grana-painel-aba', 'ideias');
 let GERANDO = 0;
 function liveWeights(){
   const t = {canal: {}, tema: {}};
-  for (const r of D.refs) for (const i of r.ideias) {
+  for (const r of refsTodas()) for (const i of r.ideias) {
     const v = (AV[i.id] || {}).voto; if (!v) continue;
     for (const k of ['canal', 'tema']) { const key = r[k] || '—'; t[k][key] = t[k][key] || {u: 0, d: 0}; t[k][key][v === 'up' ? 'u' : 'd']++; }
   }
   const w = (k, key) => { const x = t[k][key]; return x ? 0.5 + (x.u + 1) / (x.u + x.d + 2) : 1; };
   return w;
 }
-function allIdeas(){ return D.refs.flatMap(r => r.ideias.map(i => ({i, r}))); }
+function allIdeas(){ return refsTodas().flatMap(r => r.ideias.map(i => ({i, r}))); }
 function pool(){
   const w = liveWeights();
   const base = r => (r.score || 1) * (r.relevancia || 3) * (r.tema_validado ? 1.25 : 1);
@@ -743,7 +758,25 @@ function pool(){
     // ideias recém-criadas (✨) entram no topo, no lugar da que foi recusada; a mais nova primeiro
     .sort((a, b) => ((b.i.origem === 'gerada') - (a.i.origem === 'gerada')) || (b.i.gerada_em || '').localeCompare(a.i.gerada_em || '') || (b.s - a.s));
 }
+function feedCardPublico({i, r}, n){
+  return `<article class="fcard glass" data-id="${esc(i.id)}">
+    <div class="fthumb pub" aria-hidden="true"><span>💬</span><b>${r.pessoas || ''}</b><small>pessoas pediram</small></div>
+    <div class="fbody">
+      <span class="rank">#${n} · pedida nos comentários</span>
+      <h3>${esc(i.titulo)}</h3>
+      <div class="meta">${r.tema ? `<span class="chip">${esc(r.tema)}</span>` : ''}<span class="chip new">💬 público</span></div>
+      <div class="hook">${esc(i.gancho)}</div>
+      <details><summary>Ver o que pediram e o roteiro</summary>
+        <p class="count" style="margin-top:8px"><b>${esc(r.pergunta)}</b></p>
+        ${(r.exemplos || []).map(e => `<blockquote class="quote">“${esc(e)}”</blockquote>`).join('')}
+        <ul>${(i.topicos || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        ${i.a_conferir ? `<div class="conferir" style="margin-top:8px">⚠️ ${esc(i.a_conferir)}</div>` : ''}</details>
+      <div class="yesno"><button class="big no" data-v="down">👎 Não</button><button class="big yes" data-v="up">👍 Sim</button></div>
+    </div>
+  </article>`;
+}
 function feedCard({i, r}, n){
+  if (r.publico) return feedCardPublico({i, r}, n);
   const thumb = r.thumb || `https://i.ytimg.com/vi/${r.id}/hqdefault.jpg`;
   return `<article class="fcard glass" data-id="${esc(i.id)}">
     <a class="fthumb" href="${esc(r.url)}" target="_blank" rel="noopener" title="Ver a referência"><img loading="lazy" src="${esc(thumb)}" alt="" onerror="this.style.visibility='hidden'"></a>
@@ -993,6 +1026,17 @@ document.getElementById('meus-videos').addEventListener('pointerleave', () => {
   document.querySelectorAll('#meus-videos .tip').forEach(t => t.hidden = true);
   document.querySelectorAll('#meus-videos .cross').forEach(c => c.setAttribute('visibility', 'hidden'));
 }, true);
+
+// ideias dos comentários
+document.getElementById('com-row').hidden = !(SERVER && D.gerador);
+document.getElementById('btn-com').addEventListener('click', async e => {
+  const st = document.getElementById('com-status');
+  e.target.disabled = true; st.className = 'status'; st.innerHTML = '<span class="spin"></span> Lendo os comentários do canal e das referências (até 1 min)…';
+  try { const r = await api('/api/comentarios', {}); await refresh(); st.className = 'status ok';
+    st.textContent = r.novas ? `${r.novas} ideia(s) nova(s) pedidas pelo público, já na lista.` : 'Nenhuma dúvida nova que se repete. Tente de novo daqui a uns dias.'; }
+  catch (err) { st.className = 'status err'; st.textContent = err.message; }
+  finally { e.target.disabled = false; }
+});
 
 // material de publicação
 const pscrim = document.getElementById('pscrim'), pStatus = document.getElementById('p-status');
@@ -1280,6 +1324,21 @@ def make_handler(cfg, token, lock, job=None):
                 except ValueError as e:
                     return self._send(200, {"ok": False, "erro": str(e)})
                 except Exception as e:  # rede, chave, limite da API
+                    return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
+            if self.path == "/api/comentarios":
+                import comentarios
+                import gerador
+                ok, motivo = gerador.disponivel()
+                if not ok:
+                    return self._send(200, {"ok": False, "erro": motivo})
+                try:
+                    novos = comentarios.gerar(cfg=cfg)
+                    with lock:
+                        generate(cfg, token)
+                    return self._send(200, {"ok": True, "novas": len(novos)})
+                except (ValueError, SystemExit) as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except Exception as e:  # rede, token do Google, limite da API
                     return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
             if self.path == "/api/adicionar":
                 try:

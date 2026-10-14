@@ -14,5 +14,6 @@ echo "===== $(date '+%Y-%m-%d %H:%M') rodada semanal ====="
 "$PY" "$SKILL/scripts/aprendizado.py" || echo "AVISO: aprendizado falhou"
 # com ANTHROPIC_API_KEY no .env: o Claude dá nota e escreve ideias dos outliers novos (até auto_max_por_rodada)
 "$PY" "$SKILL/scripts/referencias.py" analisar || echo "AVISO: análise automática falhou"
+"$PY" "$SKILL/scripts/comentarios.py" || echo "AVISO: ideias dos comentários falharam"
 "$PY" "$SKILL/scripts/painel.py" || echo "AVISO: painel falhou"
 echo "===== fim $(date '+%H:%M') ====="
