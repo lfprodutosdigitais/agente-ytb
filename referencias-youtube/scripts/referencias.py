@@ -22,7 +22,7 @@ from yt_common import (SKILL_DIR, HttpError, http, load_config, load_env, log, m
 APIFY = "https://api.apify.com/v2"
 DEFAULTS = {
     "fonte": "youtube_api",  # "youtube_api" (oficial, grátis) ou "apify" (reserva, pago)
-    "max_paginas_api": 6,
+    "max_paginas_api": 20,  # canais que postam muito Short (ex.: Hormozi) precisam de mais páginas para achar 50 longos
     "termos_descoberta": ["sair do CLT", "renda extra", "como ganhar dinheiro", "primeiro negócio",
                           "low ticket", "largar o emprego", "empreender do zero", "dinheiro na internet"],
     "descobrir_dias": 90,
