@@ -196,6 +196,26 @@ class Storage(unittest.TestCase):
         custos = json.loads((Path(self.tmp.name) / "custos-apify.json").read_text())
         self.assertEqual(custos[0]["usd"], 0.42)
 
+    def test_transcrever_grava_gancho_literal(self):
+        import transcricao
+        vs = {"abcdefghijk": {"video_id": "abcdefghijk", "titulo": "T"}}
+        (Path(self.tmp.name) / "videos.json").write_text(json.dumps(vs))
+        an = Path(self.tmp.name) / "analises"
+        an.mkdir()
+        (an / "abcdefghijk.json").write_text(json.dumps({"relevancia": 4, "gancho": "in english"}))
+        (an / "zzzzzzzzzzz.json").write_text(json.dumps({"relevancia": 2}))
+        md = Path(self.tmp.name) / "t.md"
+        md.write_text("# T\n\n[0:00] Eu saí do CLT com R$ 35 mil guardados\n[0:16] depois disso\n")
+        orig = transcricao.fetch
+        transcricao.fetch = lambda vid, title=None, force=False: md
+        try:
+            R.transcribe(CFG)
+        finally:
+            transcricao.fetch = orig
+        a = json.loads((an / "abcdefghijk.json").read_text())
+        self.assertEqual(a["gancho_literal"], "Eu saí do CLT com R$ 35 mil guardados")
+        self.assertEqual(a["gancho"], "in english")
+
 
 class Coleta(unittest.TestCase):
     """Reaproveitamento de runs pagos, falha isolada por canal e POST sem retry."""

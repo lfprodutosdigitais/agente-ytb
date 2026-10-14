@@ -1,5 +1,61 @@
 {
   "relevancia": 5,
   "tema": "dívida/orçamento",
-  "motivo_relevancia": "Plano do zero aos R$ 100 mil por faixa de salário: é exatamente o CLT que quer sair; casa com a reserva de R$ 35 mil do Léo."
+  "motivo_relevancia": "Plano do zero aos R$ 100 mil por faixa de salário: é exatamente o CLT que quer sair; casa com a reserva de R$ 35 mil do Léo.",
+  "gancho": "Eu cheguei aos meus 100.000 reais aos 28 anos de idade, mesmo começando com um salário de 480 reais aos 18 anos. E nesse vídeo eu vou te explicar o caminho e o passo a passo que eu fiz e que você pode fazer também",
+  "estrutura": [
+    "Promessa com prova: de R$ 480 de salário aos 18 a R$ 100 mil aos 28, e o open loop de 'como William Bonner me ajudou'",
+    "Vinheta, pedido de like/compartilhar e CTA de comentário ('feito para mim'); anuncia 5 passos",
+    "Passo 1: não mirar nos R$ 100 mil; a meta real era parar aos 45 com R$ 5 milhões, e os R$ 100 mil são só uma etapa",
+    "Passo 2: 'a maneira como você entende sua capacidade de gerar dinheiro definirá seu destino'; salários reais de R$ 480, R$ 650 e R$ 840, contra a média de R$ 3 mil do jornalista",
+    "Escolher a referência: Bonner com R$ 61 mil contra colegas com R$ 2–4 mil; venda do curso no Me Poupe+ com cupom",
+    "Passo 3: estudar por que quem ganha 10x ganha 10x (carisma, baixa rejeição, responsabilidade, audiência = dinheiro)",
+    "Passo 4: plano em degraus (480 → 3 mil → 6 → 10 → 20 → 40 → 60 mil) e metas de carreira (repórter de R$ 4 mil, editora, apresentadora e diretora); 'spoiler: deu tudo errado'",
+    "Passo 5: execução (fono de graça, networking, entregar mais, negociar, aprender com 'os idiotas' que sobem)",
+    "Fechamento: os R$ 100 mil vieram naturalmente e a meta dos 45 foi batida aos 38; 'disciplina, foco e um plano'"
+  ],
+  "por_que_clicaram": "Número redondo e muito desejado (CEM MIL) em contraste com o ZERO, e a promessa de personalização ('o plano ideal pra cada salário'), que faz cada espectador achar que existe um plano para a faixa dele. CAIXA ALTA nas palavras-chave e autoridade da Nathalia Arcuri como maior canal de finanças do Brasil.",
+  "por_que_assistiram": "Abre com prova pessoal e números pequenos com que o público se identifica (R$ 480 de salário). Lança um open loop curioso (como o William Bonner, que nunca a conheceu, ajudou) que só fecha no passo 3. A estrutura numerada em 5 passos deixa claro quanto falta. Cada passo traz números reais (R$ 650, R$ 840, R$ 940 efetivada ganhando menos que estagiária, R$ 61 mil do Bonner). Tem um 'spoiler: deu tudo errado' no meio, uma história de superação (fono) e a frase-tese repetida como mantra. O público é exatamente quem ganha pouco e quer um caminho.",
+  "ideias": [
+    {
+      "id": "9Tu4LPQ8cAA-1",
+      "titulo": "Do ZERO aos 100 MIL ganhando R$ 3 MIL: o plano que eu faria se fosse CLT de novo",
+      "gancho": "Eu ganhava R$ 3 mil por mês de motoboy, levando sangue pra hospital em Floripa. Com R$ 700 por mês guardados, os primeiros 100 mil levam uns 10 anos. Hoje eu vou te mostrar a conta que corta isso pela metade, tá?",
+      "topicos": [
+        "Passo 1 já no 1º minuto: abrir uma planilha com salário líquido (R$ 3 mil) e o custo fixo real do mês, e achar os R$ 600–800 que dá pra guardar",
+        "A conta crua: R$ 700/mês sozinho dá ~R$ 8,4 mil por ano. Por que só o salário te deixa a ~10 anos dos 100 mil",
+        "A 2ª perna: R$ 700–800/mês de renda extra no início dobram o aporte para ~R$ 1.500/mês e trazem os 100 mil para perto de 5 anos",
+        "Degraus em vez de sonho: R$ 10 mil, R$ 20 mil de reserva, R$ 35 mil (o meu ponto de virada) e só depois os 100 mil",
+        "13º e FGTS: a injeção de 1 salário extra por ano que quase todo CLT torra em dezembro",
+        "Objeção na voz do público: 'Léo, mas eu ganho R$ 1.800...' Dá pra fazer o mesmo plano com 10% e uma renda extra de R$ 300",
+        "Fechamento: o desafio 'do zero aos primeiros 100 mil', meta por trimestre, e onde entra o propósito (só aqui, no fim)"
+      ]
+    },
+    {
+      "id": "9Tu4LPQ8cAA-2",
+      "titulo": "Quanto DINHEIRO juntar antes de pedir demissão do CLT (a minha conta dos R$ 35 MIL)",
+      "gancho": "R$ 35 mil. Foi isso que eu tinha na conta no dia em que pedi demissão em 2021, e olha a planilha aqui: R$ 20 mil eram só reserva. Eu calculei que aguentava 1 ano sem salário. Vou te mostrar como fazer essa mesma conta pro teu custo de vida.",
+      "topicos": [
+        "A fórmula: custo de vida mensal × 12 meses. No meu caso, ~R$ 3 mil × 12 ≈ R$ 35 mil",
+        "Por que 1 ano e não 6 meses: a renda nova leva tempo (eu fazia R$ 700–800/mês por fora antes de sair)",
+        "Regra de saída: só peça demissão quando a renda extra pagar pelo menos X% das contas por 3 meses seguidos",
+        "Os erros que quase me custaram a reserva: golpes e pirâmide, e os R$ 5 mil perdidos no impulso (1 frase só)",
+        "Objeção: 'Léo, mas e o FGTS e a multa?' O que muda entre pedir demissão e acordo, em reais",
+        "Onde a reserva fica enquanto você junta: liquidez diária, nada de gaveta (eu guardava debaixo da gaveta)"
+      ]
+    },
+    {
+      "id": "9Tu4LPQ8cAA-3",
+      "titulo": "Eu ganhava R$ 3 MIL. A pessoa que escolhi como REFERÊNCIA mudou meu salário",
+      "gancho": "De R$ 3 mil por mês como motoboy CLT para uma empresa que lucrou R$ 570 mil em 2024. A virada não foi trabalhar mais, foi trocar a pessoa que eu usava de régua. Vou te mostrar como escolher a tua.",
+      "topicos": [
+        "Passo 1 prático: escreva quanto ganham as 5 pessoas mais próximas de você. Essa é a tua régua hoje (a minha era ~R$ 3 mil)",
+        "Ache alguém que ganha 10x (R$ 30 mil/mês) na tua área e anote o que essa pessoa faz que você não faz",
+        "Os 3 padrões que eu achei: domina uma área, vende um produto e tem audiência",
+        "A escada em degraus, com os meus números: R$ 3 mil + R$ 700 extra, depois R$ 76 mil/ano de VIP, depois R$ 1 milhão de faturamento",
+        "Objeção: 'Léo, mas eu não tenho estudo nem contato...' Eu morava em comunidade e não tinha nenhum dos dois",
+        "Plano de ação com metas por ano, e a conversa sobre princípios e fé no fechamento"
+      ]
+    }
+  ]
 }

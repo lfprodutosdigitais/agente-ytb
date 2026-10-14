@@ -65,6 +65,8 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
    e `./referencias/aprendizados.md`, use os 👍/👎 como exemplos de calibragem.
 4. **Transcrição**: `transcrever` baixa a legenda (yt-dlp, pt/en) de quem tem relevância ≥ 3 em
    `./referencias/transcricoes/{video_id}.md`.
+   Também grava `gancho_literal` (primeiros 15 s da legenda original) no `analises/{video_id}.json`;
+   use esse campo como gancho literal, ele vem da fala real no idioma do vídeo.
 5. **Análise (você, Claude)** de cada id em `pendentes_analise` (rode `calcular` para atualizar a lista).
    Antes, leia `meu-canal.md` (tom, regras de roteiro, temas cobertos nos últimos 3 meses) e
    `aprendizados.md` se existir. Complete o mesmo `analises/{video_id}.json` com:

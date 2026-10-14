@@ -430,17 +430,26 @@ def recalc(cfg, quiet=False):
 
 
 def transcribe(cfg):
+    """Baixa a legenda (pt/en) de quem tem relevância >= mínima e grava o gancho literal (0–15 s) na análise."""
     import transcricao
     videos = read_json(paths()["videos"], {}) or {}
-    analyses = load_analyses()
-    todo = [vid for vid, a in analyses.items()
-            if (a.get("relevancia") or 0) >= cfg["relevancia_minima"] and vid in videos]
-    for vid in todo:
+    adir = paths()["analises"]
+    for vid, a in load_analyses().items():
+        if (a.get("relevancia") or 0) < cfg["relevancia_minima"] or vid not in videos:
+            continue
         try:
             p = transcricao.fetch(vid, videos[vid].get("titulo"))
-            log(f"  {vid}: {p or 'sem legenda pt/en'}")
-        except Exception as e:
+        except Exception as e:  # transcrição nunca derruba a rodada
             log(f"  {vid}: falhou ({e})")
+            continue
+        if not p:
+            log(f"  {vid}: sem legenda pt/en")
+            continue
+        gancho = transcricao.first_seconds(transcricao.read_cues(p), 15)
+        if gancho and a.get("gancho_literal") != gancho:
+            a["gancho_literal"] = gancho
+            write_json(adir / f"{vid}.json", a)
+        log(f"  {vid}: ok")
 
 
 # ---------------------------------------------------------------- main

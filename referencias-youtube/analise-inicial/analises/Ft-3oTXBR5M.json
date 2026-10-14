@@ -1,5 +1,63 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "R$ 11 mil/mês com produto de R$ 10: número forte, renda extra replicável."
+  "motivo_relevancia": "R$ 11 mil/mês com produto de R$ 10: número forte, renda extra replicável.",
+  "gancho": "Look, I started in digital marketing back in 2019 selling low-ticket items. This was the phone I started with in digital marketing in 2019. I was 15 or 16 years old. It was a Samsung J5 Prime. It was all I had. I didn't have money for anything.",
+  "estrutura": [
+    "Origem: começou em 2019 com 15–16 anos num Samsung J5 Prime, primeira venda foi curso de manicure; hoje tem Lamborghini Urus aos 22",
+    "Promessa + prova: campanha ativa com 89, 66 e 48 vendas; meta de vender R$ 75/dia com produto de R$ 2–15",
+    "O que é low ticket na prática: exemplo de e-book de cookies a R$ 10 e a conta de R$ 10 mil/mês",
+    "Funil por trás: order bumps de R$ 9,90/12,90/19,90 sobem o ticket de R$ 20 para R$ 129, mais upsell",
+    "Pedido de like/inscrição + sorteio de R$ 500 em crédito com palavra-chave no fim",
+    "Mineração com Claude: prompt 1 (nichos que mais vendem), prompt 2 (palavras-chave), prompt 3 (Claude navega na biblioteca de anúncios) — oferta com 130 anúncios ativos",
+    "Prompt 4–5: analisar a oferta, reescrever a copy e gerar o e-book + 4 order bumps em PDF",
+    "Montagem na Cacto: produto de R$ 10, checkout com banner, order bump, área de membros estilo Netflix",
+    "Página de vendas com Claude Code e Hostinger, criativo em vídeo com Veo/Flow e anúncio no Meta; palavra-chave #low"
+  ],
+  "por_que_clicaram": "Número exato e quebrado no título (R$ 11.190,23 POR MÊS) passa prova real, contrastado com um ticket mínimo (R$ 10) e um tempo absurdamente curto (7 MINUTOS). Três números no título: renda alta, preço baixo e esforço baixo, o trio clássico de curiosidade + facilidade.",
+  "por_que_assistiram": "Abre com história de origem (celular quebrado → Lamborghini) e prova imediata (campanha com vendas na tela). Explica o conceito para leigo e dá a conta do funil (R$ 20 → R$ 129), o que torna o número do título crível. O sorteio com palavra-chave escondida no fim é um open loop explícito para segurar até o final. Prompts numerados (1 a 7) funcionam como checklist que o espectador segue junto.",
+  "ideias": [
+    {
+      "id": "Ft-3oTXBR5M-1",
+      "titulo": "De R$ 19,90 para R$ 197: a ESTEIRA que fez minha empresa faturar R$ 1 MILHÃO",
+      "gancho": "Quem compra um produto meu de R$ 19,90 não gasta só R$ 19,90. Com a esteira certa, esse mesmo cliente pode chegar a R$ 197. Vou abrir aqui na tela os 3 degraus e a conta de quantas vendas você precisa em cada um.",
+      "topicos": [
+        "A esteira na tela: R$ 19,90 → R$ 97 → R$ 197 e quanto cada degrau converte",
+        "Order bump: o produto de R$ 9 que aparece no checkout e sobe o ticket médio (exemplo de R$ 20 para R$ 129)",
+        "Como meu grupo VIP virou R$ 76 mil em 2024: o cliente que começou barato e subiu de degrau",
+        "(~3–4 min) inscrição + princípio: produto bom primeiro, senão ninguém sobe de degrau",
+        "Conta para o CLT: 100 vendas de R$ 19,90 = R$ 1.990; com 30% levando o de R$ 97 = +R$ 2.910",
+        "Objeção: 'Léo, mas eu não tenho 3 produtos' — começa com 1 e cria o próximo a partir das perguntas de quem comprou",
+        "Plano de 90 dias: mês 1 produto de entrada, mês 2 order bump, mês 3 produto de R$ 97"
+      ]
+    },
+    {
+      "id": "Ft-3oTXBR5M-2",
+      "titulo": "Quantas vendas de R$ 10 você precisa para SUBSTITUIR seu salário CLT (a conta real)",
+      "gancho": "R$ 3 mil, que era o meu salário de motoboy, são 300 vendas de R$ 10 por mês. 10 por dia. Parece muito? Então eu vou te mostrar a conta que eu fiz antes de pedir demissão e quando ela fecha de verdade.",
+      "topicos": [
+        "A conta na tela: R$ 3 mil ÷ R$ 10 = 300 vendas/mês = 10/dia, e quanto sobra depois de taxa e anúncio",
+        "Por que a meta não é largar o CLT agora: eu fiz R$ 700–800/mês de renda extra por meses antes de sair",
+        "Metas em degraus: R$ 500, R$ 1.500, R$ 3 mil por mês — o que muda em cada fase",
+        "(~3–4 min) inscrição + propósito: o medo de largar o salário é normal",
+        "O número que libera a demissão: R$ 35 mil guardados (R$ 20 mil de reserva) = 1 ano de fôlego",
+        "Objeção: 'Léo, e se a renda cair?' — 3 meses seguidos acima do salário antes de pedir as contas",
+        "Planilha simples para acompanhar: vendas/dia, ticket médio, custo por venda"
+      ]
+    },
+    {
+      "id": "Ft-3oTXBR5M-3",
+      "titulo": "Escolha 1 NICHO e pare de pular de galho: como achar um produto que JÁ VENDE",
+      "gancho": "130 anúncios ativos na mesma oferta. Ninguém paga 130 anúncios de algo que não vende. Eu vou te mostrar onde ver isso de graça e como eu escolhi 1 nicho só e levei um canal a 188 mil inscritos sem trocar de assunto.",
+      "topicos": [
+        "Passo 1 no 1º minuto: abrir a biblioteca de anúncios do Meta e buscar 3 palavras do seu nicho",
+        "O sinal de oferta validada: mais de 20 anúncios ativos e mais de 2 meses rodando",
+        "Por que 1 nicho só: meu canal de 188 mil inscritos foi construído falando de 1 assunto desde 2022",
+        "(~3–4 min) inscrição + princípio: domine sua área antes de abrir a segunda",
+        "Objeção: 'Léo, mas eu não sei qual nicho escolher' — cruzar o que você já faz no CLT com o que já vende",
+        "Modelar sem copiar: pegar a estrutura e levar para outro público",
+        "Meta de 30 dias: 1 nicho, 1 produto, 10 vendas antes de pensar no segundo"
+      ]
+    }
+  ]
 }

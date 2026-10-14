@@ -1,5 +1,47 @@
 {
   "relevancia": 4,
   "tema": "notícia",
-  "motivo_relevancia": "Fim das bets e quem vive disso: o Léo tem lugar de fala único (canal de 188 mil sobre apostas)."
+  "motivo_relevancia": "Fim das bets e quem vive disso: o Léo tem lugar de fala único (canal de 188 mil sobre apostas).",
+  "gancho": "O maior patrocinador da internet brasileira morreu, morreu hoje. As bets, né, que nos últimos anos despejaram bilhões em clubes de futebol, transmissão esportiva, principalmente criador de conteúdo. Aqui dentro do YouTube, então nem se fala, né? Essas bets foram proibidas por medida provisória.",
+  "estrutura": [
+    "Gancho de notícia: 'o maior patrocinador da internet morreu hoje'; antecipa perda de patrocínio, risco no catálogo antigo e risco jurídico; promete o efeito dominó e o que fazer",
+    "Contexto da decisão (MP e proibição total) e CTA de comentário ('você já fez publi de bet?'), com autoridade ('já neguei proposta multimilionária')",
+    "Tamanho do dinheiro: R$ 1,03 bi só em camisas da Série A em 2025 (+66%), quase monopólio na publicidade digital, R$ 9 bi em risco até 2029",
+    "O que foi anunciado: MP com 120 dias no Congresso e PL que criminaliza a divulgação (afiliado com participação na perda); 57% veem como vício e 75% apoiam a proibição",
+    "Efeito dominó 1: o patrocínio evapora (R$ 100 mil/mês viram disputa por R$ 10 mil)",
+    "Efeito dominó 2: o catálogo antigo vira passivo (política do YouTube desde mar/2025, 3 strikes em 90 dias, auditar o acervo)",
+    "Efeito dominó 3: risco jurídico (responsabilidade solidária, 'procure advogado essa semana') e marcas exigindo ficha limpa",
+    "Para onde vai o dinheiro: para criadores 'limpos'; a lição de não depender de uma fonte só (AdSense, produto, afiliação, Shopping) e a venda do curso de canal dark de games / GTA 6",
+    "Fechamento: 'não é sobre bet, é sobre fragilidade'; casa em terreno alugado; quem se mexer primeiro ocupa o espaço"
+  ],
+  "por_que_clicaram": "Notícia urgente com a palavra 'FIM' em caixa alta, curiosidade sobre a vida de terceiros famosos ('youtubers que vivem disso') e um certo prazer em ver o tombo de quem ostenta. É um tema quente, com o timing da notícia.",
+  "por_que_assistiram": "O gancho antecipa 3 consequências concretas e promete o 'efeito dominó completo' e 'o que fazer', com um sumário em etapas. Números fortes em cada bloco (R$ 1,03 bi, R$ 9 bi, 57%, 75%, R$ 100 mil → R$ 10 mil, 3 strikes em 90 dias). Tem medo prático (strike, cadeia) e informação de bastidor ('marca exigiu que eu nunca tivesse feito bet'). Termina numa tese universal (fragilidade, uma fonte só) que serve até para quem nunca fez publi de bet.",
+  "ideias": [
+    {
+      "id": "Repz-vAQ-LM-1",
+      "titulo": "Se seu SALÁRIO acabar amanhã, quantos MESES você aguenta? (a lição do fim das bets)",
+      "gancho": "Um setor inteiro de bilhões foi proibido de um dia pro outro, e muito youtuber perdeu 100% da renda. Agora pensa: teu salário CLT é 100% da tua renda. Eu já tive uma fonte só, e hoje são 4. Olha aqui na tela.",
+      "topicos": [
+        "Passo 1 já no 1º minuto: some as tuas fontes de renda. Se o salário é 100%, você tem 1 perna só",
+        "O teste dos meses: reserva ÷ custo mensal. Eu saí do CLT com R$ 35 mil para aguentar 12 meses",
+        "Minhas pernas hoje, em reais: AdSense R$ 47 mil e VIP R$ 76 mil em 2024, mais parceiros e operações próprias (bets só como contexto, 1 frase)",
+        "A 2ª perna do CLT: começar com R$ 700–800/mês de renda extra mantendo o emprego, como eu fiz",
+        "Regra: nenhuma fonte acima de X% da renda, e o que fazer quando uma delas cai",
+        "Objeção: 'Léo, mas meu emprego é estável...' Quantas demissões em massa e mudanças de lei mostram o contrário"
+      ]
+    },
+    {
+      "id": "Repz-vAQ-LM-2",
+      "titulo": "Eu caí em GOLPE e PIRÂMIDE quando era CLT: 5 sinais pra você não perder seu salário",
+      "gancho": "R$ 5 mil. Foi o que eu perdi no impulso quando ganhava R$ 3 mil por mês de motoboy, e antes disso caí em golpe e em pirâmide. Hoje eu te mostro os 5 sinais que eu ignorei, pra tu não repetir.",
+      "topicos": [
+        "Sinal 1: promessa de retorno fixo alto (se é '10% ao mês', ninguém paga isso; o CDB com FGC paga ~1%)",
+        "Sinal 2: o dinheiro vem de quem entra depois (pirâmide). Como identificar em 30 segundos",
+        "Sinal 3: urgência e 'só hoje'. Quanto custa decidir no impulso, e os meus R$ 5 mil",
+        "Sinal 4: influenciador que ganha comissão quando você perde (o mesmo modelo que a nova lei quer punir)",
+        "Sinal 5: nada no teu nome (sem CNPJ, sem CVM, sem contrato). Onde checar antes de mandar o Pix",
+        "O que eu fiz depois: estudei, comecei com R$ 100 e só aportei o que podia perder. A regra dos R$ 600–800/mês"
+      ]
+    }
+  ]
 }

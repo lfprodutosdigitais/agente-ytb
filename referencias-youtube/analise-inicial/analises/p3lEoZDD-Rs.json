@@ -1,5 +1,62 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "Low ticket criado e vendido ao vivo: prova na tela, exatamente o que o meu-canal.md pede."
+  "motivo_relevancia": "Low ticket criado e vendido ao vivo: prova na tela, exatamente o que o meu-canal.md pede.",
+  "gancho": "Eu criei esse low ticket em menos de 24 horas usando o cloud design. E neste vídeo aqui eu vou abrir toda a caixa preta porque eu já fiz milhões de reais vendendo low ticket. que eu vou te mostrar aqui o passo a passo exato.",
+  "estrutura": [
+    "Promessa + meta em 3 partes: criar o produto no Claude Design, cadastrar na Cacto e vender em menos de 24 h (6 etapas)",
+    "Etapa 1: espionar ofertas escaladas no Swipe/biblioteca de anúncios e achar o 'pack de posts para empreendedores' (R$ 37,90)",
+    "Etapa 2: prompt no Claude para achar nichos pouco explorados (piscina, ar-condicionado, estética automotiva) e gerar 15 hooks de stories",
+    "Etapa 3: gerar em massa as imagens do pack no Claude Design (alternativas: ChatGPT e Canva IA), exportar e montar a pasta no Drive",
+    "Etapa 4: cadastrar o produto na Cacto, entrega por e-mail com link do Drive, Pix/cartão, order bump que sobe o ticket de R$ 37 para R$ 146",
+    "Etapa 5: clonar a estrutura de uma página de vendas validada e trocar tudo para o nicho de piscina",
+    "Etapa 6: subir anúncio de vendas no Meta com orçamento diário igual ao ticket (R$ 37,90), errando e corrigindo ao vivo",
+    "Dia seguinte: resultado real — R$ 20 gastos, 24 cliques, CPC R$ 0,86, CTR 4% e 1 venda de R$ 37,40; CTA '#fiquei'"
+  ],
+  "por_que_clicaram": "Título com ferramenta nova e em alta (CLAUDE DESIGN) + prova ao vivo ('VENDENDO AO VIVO') + promessa de método ('Passo a Passo'). Mistura curiosidade pela IA do momento com a garantia de que não é teoria: a thumb provavelmente mostra o produto/venda na tela. Autoridade implícita: quem já 'fez milhões vendendo low ticket'.",
+  "por_que_assistiram": "O gancho entrega a meta em 3 partes e numera 6 etapas, então o espectador sabe onde está e quanto falta. Tudo é feito na tela (prompt, Drive, checkout, anúncio), inclusive os erros do Gerenciador corrigidos ao vivo, o que passa autenticidade. O grande open loop é 'amanhã eu volto e mostro resultado': só fecha no fim, com métricas reais (R$ 20, CTR 4%, 1 venda). O passo 1 prático aparece nos primeiros 30 s.",
+  "ideias": [
+    {
+      "id": "p3lEoZDD-Rs-1",
+      "titulo": "CRIEI um produto de R$ 19,90 com IA e tentei VENDER em 24 HORAS (do zero, ao vivo)",
+      "gancho": "Ontem eu tinha zero produto. Daqui a 24 horas eu vou te mostrar quantos pila caíram na conta vendendo um produto de R$ 19,90 que eu criei com IA em uma tarde. E o primeiro passo você faz hoje, do celular, tá?",
+      "topicos": [
+        "Passo 1 no 1º minuto: abrir a biblioteca de anúncios do Meta e achar 1 oferta com 20+ anúncios ativos (sinal de que vende)",
+        "Por que R$ 19,90: o primeiro degrau da minha esteira (R$ 19,90 → R$ 97 → R$ 197), preço que o CLT compra no Pix sem pensar",
+        "Criando o produto com IA em 3 horas: prompt, conteúdo e capa, sem aparecer",
+        "Checkout e entrega automática: Pix, link do Drive no e-mail; quanto a plataforma fica de taxa",
+        "(~3–4 min) pedido de inscrição + por que estou documentando o desafio 'do zero aos primeiros 100 mil'",
+        "Anúncio com R$ 20 por dia: a mesma lógica da minha banca de R$ 100 — só arrisco o que posso perder",
+        "Dia seguinte: cliques, CTR, custo por clique e vendas reais na tela; quanto falta para pagar o anúncio"
+      ]
+    },
+    {
+      "id": "p3lEoZDD-Rs-2",
+      "titulo": "O que eu VENDERIA se ainda fosse MOTOBOY: pack de posts para o comércio do bairro",
+      "gancho": "Em 2020 eu era motoboy, ganhava R$ 3 mil e passava todo dia na frente de umas 30 lojas, barbearia, pizzaria, oficina. Hoje eu sei que cada uma delas pagaria R$ 37 por um pack de posts pronto. Vou te mostrar como montar o seu.",
+      "topicos": [
+        "Passo 1: listar 10 negócios que você vê todo dia no caminho do trabalho (o CLT já tem a lista, só não enxerga)",
+        "Por que pequeno negócio compra: o serviço dele custa R$ 300, o pack custa R$ 37 — preço que não precisa de reunião",
+        "Montando o pack com IA: 30 posts, 15 ganchos de stories e legendas para 1 nicho só",
+        "Vender sem anúncio primeiro: WhatsApp e porta a porta no horário de almoço do CLT; meta de 5 vendas = R$ 185",
+        "Quanto dá por mês: 1 nicho novo por semana, 20 clientes = R$ 740, o mesmo que eu fazia de renda extra em 2020",
+        "(~4 min) inscrição + propósito: começar pequeno sem largar o salário",
+        "Quando separar PF de PJ: abrir MEI quando passar de R$ 1 mil/mês e não misturar com o dinheiro da casa"
+      ]
+    },
+    {
+      "id": "p3lEoZDD-Rs-3",
+      "titulo": "Gastei R$ 20 em ANÚNCIO para vender um produto de R$ 19,90: valeu a pena?",
+      "gancho": "R$ 20. Foi isso que eu coloquei no anúncio ontem pra vender um produto de R$ 19,90. Hoje eu abro o Gerenciador aqui na tela e te mostro cada centavo: quanto custou o clique, quantos compraram e se eu lucrei ou paguei pra aprender.",
+      "topicos": [
+        "Métricas na tela em 10 s: alcance, cliques, CPC, CTR e vendas dos R$ 20",
+        "Conta de break-even: com produto de R$ 19,90, quanto pode custar cada venda (e por que o order bump salva a conta)",
+        "Os 3 erros que me travaram ao publicar o anúncio e como corrigir em 5 minutos",
+        "Regra da banca aplicada ao anúncio: eu comecei com R$ 100 e aportava R$ 600–800 do salário; aqui é igual, orçamento que cabe no mês",
+        "(~3–4 min) inscrição + por que não existe dinheiro fácil",
+        "Quando escalar e quando desligar: o número de CTR (2% x 4%) que eu uso para decidir",
+        "Plano de 30 dias para o CLT: R$ 20/dia, meta de vendas por semana e o teto que você não passa"
+      ]
+    }
+  ]
 }

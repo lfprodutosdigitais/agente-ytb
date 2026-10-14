@@ -1,5 +1,59 @@
 {
   "relevancia": 4,
   "tema": "investimento",
-  "motivo_relevancia": "\"Parar de trabalhar\" com investimentos que pagam salário fala direto com o desejo de sair do CLT."
+  "motivo_relevancia": "\"Parar de trabalhar\" com investimentos que pagam salário fala direto com o desejo de sair do CLT.",
+  "gancho": "Enquanto tô fazendo esse vídeo aqui para você, muito provavelmente tem algum tipo de dividendo de salário caindo na minha conta e nem é o dividendo da minha própria empresa. São dividendos ou salários de investimentos que eu tenho que foram feitos para isso, para pagar salário.",
+  "estrutura": [
+    "Gancho: 'tem dividendo caindo na minha conta agora'. Separa investimento que cresce de investimento que paga renda passiva e promete 4 investimentos",
+    "Vinheta e aviso de que é um 'resumão' com trechos de outros vídeos",
+    "Base: quanto dinheiro é preciso, e a regra do 72 (72 ÷ 13,9% = 5,17 anos para dobrar um CDB que vence em 2030); CTA de inscrição",
+    "Investimento 1: fundos imobiliários (mínimo de 8 FIIs, compra pelo código, aluguel mensal, exemplo Joaquina R$ 100 mil × Joaquim R$ 70 mil); venda do Me Poupe+",
+    "Objeção 'tenho medo de renda variável' → Investimento 2: Tesouro Prefixado com juros semestrais (o dela a 15,20% até 2035); CTA de compartilhar no WhatsApp",
+    "Investimento 3: prefixados com FGC (13–17% ao ano, 17% dobra em 4,2 anos, travar a taxa antes do corte de juros, garantia de R$ 250 mil)",
+    "Investimento 4: Tesouro Renda+ (240 parcelas mensais, dois títulos para cobrir dos 60 aos 100 anos, a partir de R$ 30)",
+    "Fechamento: aporte mensal e juros compostos"
+  ],
+  "por_que_clicaram": "Pergunta direta a um desejo enorme ('QUER PARAR DE TRABALHAR?') mais um número concreto ('4 investimentos') e uma metáfora fácil e desejada ('que pagam salário'). Fala com quem tem um salário e sonha em trocá-lo por renda passiva. Autoridade da Nathalia.",
+  "por_que_assistiram": "Abre com a prova em tempo real ('enquanto gravo, tem dinheiro caindo') e entrega uma lista numerada com progressão de risco (FII → Tesouro → CDB → Renda+). Cada objeção é respondida na voz do público ('tenho medo', 'e se eu viver mais de 240 meses?'). Os números são concretos (15,20%, 17%, 4,2 anos, R$ 250 mil, R$ 30) e o 'calma que não acabou' abre um loop para o 4º item. O formato de compilação deixa o ritmo rápido.",
+  "ideias": [
+    {
+      "id": "GiZR3S6zwoE-1",
+      "titulo": "Quanto você PRECISA investir pra ganhar R$ 3 MIL por mês SEM TRABALHAR (fiz a conta)",
+      "gancho": "R$ 3 mil. Era o meu salário de motoboy CLT. Fiz a conta de quanto dinheiro eu precisaria ter investido pra receber esses R$ 3 mil todo mês sem pilotar mais nenhum dia, e o número tá aqui na tela.",
+      "topicos": [
+        "A conta de trás pra frente: renda desejada ÷ rendimento mensal líquido. Com ~0,8% ao mês, R$ 3 mil pedem ~R$ 375 mil",
+        "Regra do 72 com números de CLT: quanto tempo para dobrar R$ 10 mil a 12% ao ano (~6 anos)",
+        "Aportando R$ 800/mês, como eu fazia: quantos anos até R$ 375 mil, e como uma renda extra encurta isso",
+        "Onde eu começaria hoje com R$ 100: Tesouro e CDB com FGC (até R$ 250 mil), sem promessa de 10% ao mês",
+        "Objeção: 'Léo, mas isso leva 20 anos!' Por que aumentar a renda bate o percentual do investimento no começo",
+        "FGTS e 13º no plano: quanto eles somam por ano em cima de um salário de R$ 3 mil"
+      ]
+    },
+    {
+      "id": "GiZR3S6zwoE-2",
+      "titulo": "Eu guardava dinheiro DEBAIXO DA GAVETA: onde colocar sua reserva de emergência hoje",
+      "gancho": "R$ 20 mil. Essa foi a reserva de emergência que me deixou pedir demissão do CLT. Só que antes disso eu guardava dinheiro debaixo da gaveta e caía em golpe. Vou te mostrar quanto a gaveta te faz perder por ano e onde deixar esse dinheiro.",
+      "topicos": [
+        "Passo 1 já no 1º minuto: o tamanho da tua reserva = custo mensal × 6 (R$ 3 mil × 6 = R$ 18 mil, perto dos meus R$ 20 mil)",
+        "Quanto a gaveta perde: com inflação de ~5% ao ano, R$ 20 mil parados perdem ~R$ 1 mil de poder de compra",
+        "Onde fica a reserva: Tesouro Selic ou CDB de liquidez diária a 100% do CDI, e o que o FGC cobre (R$ 250 mil)",
+        "Reserva não é investimento para ficar rico: por que não pôr em ação, cripto ou na banca",
+        "Os golpes e a pirâmide em que eu caí: 3 sinais (retorno fixo alto, pressa, pagar para indicar)",
+        "Depois da reserva: separar o dinheiro de 'sair do CLT' do dinheiro de emergência, como eu fiz com os R$ 35 mil"
+      ]
+    },
+    {
+      "id": "GiZR3S6zwoE-3",
+      "titulo": "'CNPJ RICO, EMPRESÁRIO POBRE': como eu tiro um SALÁRIO da minha própria empresa",
+      "gancho": "Minha empresa lucrou R$ 570 mil em 2024, e mesmo assim eu me pago um salário fixo todo mês, igual quando eu era CLT. Vou te mostrar por que misturar o Pix da empresa com o teu é o jeito mais rápido de quebrar.",
+      "topicos": [
+        "O erro: CNPJ faturando e você gastando direto da conta PJ. O que é 'CNPJ rico, empresário pobre'",
+        "Passo 1 prático: abrir uma conta PJ separada (até MEI pode) e definir um pró-labore fixo",
+        "Pró-labore × distribuição de lucro: o que paga imposto e o que não paga (impostos da empresa em 2024: R$ 74 mil)",
+        "Caixa da empresa: quantos meses de custo deixar parado (custos de R$ 460 mil/ano na minha)",
+        "Investir o lucro para ele virar 'salário' (CDB, Tesouro, FII) em vez de virar carro",
+        "Objeção: 'Léo, eu ainda sou CLT com renda extra de R$ 800...' Quando vale abrir o MEI e já separar"
+      ]
+    }
+  ]
 }

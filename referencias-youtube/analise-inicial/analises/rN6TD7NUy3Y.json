@@ -1,5 +1,63 @@
 {
   "relevancia": 4,
   "tema": "dívida/orçamento",
-  "motivo_relevancia": "Carro de R$ 200 mil com salário de R$ 3 mil: o salário é o do Léo motoboy; ótimo contraste com quem guardou e saiu."
+  "motivo_relevancia": "Carro de R$ 200 mil com salário de R$ 3 mil: o salário é o do Léo motoboy; ótimo contraste com quem guardou e saiu.",
+  "gancho": "Eu estava andando no estacionamento de um shopping e não era shopping de luxo não. Eu reparei que só tinha carrão. Era Tcross, era Corolla Cross, era Bid, era Val, tudo o carro próximo de R$ 200.000. E essa impressão não foi só minha.",
+  "estrutura": [
+    "Cena do estacionamento + dados: 1,3 milhão de carros novos no 1º semestre de 2026 (+19,9%), Strada, T-Cross, Compass vs salário médio de R$ 3.600",
+    "Carro como status no Brasil x EUA (carro dormindo na rua em Los Angeles/Las Vegas) e o marketing de 'como você vai ser visto'",
+    "História pessoal: com milhão na conta ninguém acreditava; só o Audi TT de R$ 180 mil 'provou' que tinham dinheiro",
+    "A armadilha da parcelinha: juros do Banco Central (22% a 60% a.a.), simulação T-Cross R$ 120 mil, 72x de R$ 2.527, total de R$ 205 mil",
+    "Quem ganha R$ 3 mil não financia carro de R$ 200 mil: herança, pai ou carro emprestado; depreciação de 15% no 1º ano e 50% em 6 anos; carro alienado",
+    "Custo real por mês: parcela + IPVA (R$ 400) + seguro (R$ 300) + manutenção (R$ 150) = R$ 3.800–4.000",
+    "A conta virada: carro simples à vista e R$ 2.500/mês investidos = R$ 262 mil em 6 anos; trocando 3 carros em 18 anos = R$ 2,72 mi (R$ 952 mil reais de hoje)",
+    "Merchan da análise de carteira (DN Capital) + caso de gerente empurrando produto ruim",
+    "Regra deles: luxo só com 10x o valor investido; primeiro carro foi um i30 de R$ 60 mil; pergunta final 'o carro aproveita de você?'"
+  ],
+  "por_que_clicaram": "Contraste numérico extremo no título (carro de R$ 200 MIL x salário de R$ 3 MIL) em forma de pergunta-curiosidade ('Como TANTA GENTE consegue?'). Todo mundo já viu essa cena e sentiu a dúvida 'onde eu errei?'. CAIXA ALTA nos números e em 'TANTA GENTE' reforça o choque.",
+  "por_que_assistiram": "Começa por uma cena que o espectador reconhece e logo dá prova com dados (ranking de vendidos e salário médio). Usa a história pessoal (Audi TT que 'provou' o dinheiro) para validar a tese do status. O corpo é uma simulação passo a passo com números na tela (juros, parcela, IPVA, seguro), e a virada 'é aqui que a conta vira do avesso' abre o loop do 'milionário em 20 anos', que só fecha perto do fim. Termina com pergunta moral, sem julgar.",
+  "ideias": [
+    {
+      "id": "rN6TD7NUy3Y-1",
+      "titulo": "Eu ganhava R$ 3 MIL como MOTOBOY: por que NÃO financiei um carro (e o que fiz com o dinheiro)",
+      "gancho": "R$ 2.527 por mês. É a parcela de um T-Cross em 72 vezes. Quando eu era motoboy e ganhava R$ 3 mil, isso era quase o meu salário inteiro. Em vez de financiar, eu juntei R$ 35 mil e comprei minha liberdade. Te mostro a conta.",
+      "topicos": [
+        "A conta na tela em 10 s: parcela de R$ 2.527 x salário de R$ 3 mil = 84% do salário",
+        "O que eu tinha: moto de trabalho, dinheiro debaixo da gaveta na comunidade e R$ 600–800 guardados por mês",
+        "Por que carro novo é o maior inimigo de quem quer sair do CLT: custo real de R$ 3.800–4.000/mês com IPVA, seguro e manutenção",
+        "(~3–4 min) inscrição + propósito: liberdade vale mais que status no estacionamento",
+        "Os R$ 35 mil que eu juntei (R$ 20 mil de reserva + o resto pra investir no negócio) = 1 ano para tentar sem salário",
+        "Objeção na voz do público: 'Léo, mas eu preciso de carro pra trabalhar' — carro simples à vista de R$ 25–30 mil e a diferença investida",
+        "Quando um carro faz sentido: a regra de ter X vezes o valor guardado antes de comprar"
+      ]
+    },
+    {
+      "id": "rN6TD7NUy3Y-2",
+      "titulo": "A PARCELINHA que prende o CLT: quanto custa DE VERDADE um carro de R$ 120 MIL",
+      "gancho": "Um carro de R$ 120 mil financiado em 6 anos sai por R$ 205 mil. E daqui 6 anos ele vale R$ 70 mil. Tô com a calculadora aberta aqui e vou te mostrar quanto isso te custa em anos de CLT.",
+      "topicos": [
+        "Simulação na tela: entrada de R$ 24 mil, 72x de R$ 2.527, juros de 2% ao mês = 26,8% ao ano",
+        "Os custos que o vendedor não fala: IPVA, seguro e manutenção somando R$ 850/mês",
+        "Traduzindo em horas: com salário de R$ 3 mil, quantos meses de trabalho vão só pro carro (spoiler: mais de 5 anos de salário)",
+        "(~4 min) inscrição + por que eu falo de dinheiro com quem está onde eu estava em 2020",
+        "O mesmo dinheiro aplicado: R$ 2.500/mês no Tesouro/CDB por 72 meses = cerca de R$ 262 mil",
+        "E se em vez de investir você usar R$ 500 dessa parcela pra montar uma renda extra: meu exemplo de R$ 700–800/mês por fora do salário",
+        "Checklist de 5 perguntas antes de assinar qualquer financiamento"
+      ]
+    },
+    {
+      "id": "rN6TD7NUy3Y-3",
+      "titulo": "CNPJ RICO, EMPRESÁRIO POBRE: a regra que eu sigo antes de gastar com STATUS",
+      "gancho": "Em 2024 minha empresa faturou R$ 1 milhão e lucrou R$ 570 mil. E o erro que eu mais vejo em quem começa a ganhar dinheiro é o mesmo do CLT que financia o carrão: gastar como se o dinheiro da empresa fosse dele.",
+      "topicos": [
+        "Os números na tela: faturamento de R$ 1 milhão, lucro de R$ 570 mil e quanto disso virou pró-labore (PF) x caixa da empresa (PJ)",
+        "O que é 'CNPJ rico, empresário pobre' e por que separar a conta PF da PJ desde o MEI",
+        "O carro como armadilha de quem começou a ganhar: 1º mês de R$ 5 mil e já quer parcela de R$ 2.500",
+        "(~3–4 min) inscrição + princípio: dinheiro é ferramenta, não vitrine",
+        "Minha ordem de prioridade: reserva de 12 meses de custo, caixa da empresa, investimento, só depois consumo",
+        "Objeção: 'Léo, mas eu mereço depois de tanto ralar' — a regra de só comprar luxo quando o investido for várias vezes o valor",
+        "Plano em 3 números para o CLT que está começando a renda extra: % para reinvestir, % para reserva, % para gastar"
+      ]
+    }
+  ]
 }
