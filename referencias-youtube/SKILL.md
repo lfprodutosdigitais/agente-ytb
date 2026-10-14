@@ -125,6 +125,10 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
 
 ## Fase 4 — Aprendizado (toda rodada)
 
+- **Meus vídeos** (`scripts/postados.py`, aba no painel): números aos 2/7/30 dias vs a média do Léo, curva de
+  retenção vs a média, quedas → seção do roteiro e lição do Claude (`licoes-videos.json`); as regras das lições entram
+  no contexto do gerador de ideias e roteiros.
+
 1. `python3 ~/.claude/skills/referencias-youtube/scripts/aprendizado.py`:
    - importa o `avaliacoes*.json` mais novo de `~/Downloads`;
    - para ideias com status **postado** + URL, puxa do Analytics as métricas do vídeo do Léo aos 7 e 30 dias e

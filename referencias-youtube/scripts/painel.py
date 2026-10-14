@@ -73,6 +73,8 @@ def build_data(cfg):
             "fila_processada": read_json(o / "fila-processada.json", []) or [],
             "gerador": gerador_disponivel(),
             "imagem": thumbs_info(),
+            "meus_videos": read_json(o / "meus-videos.json", None),
+            "licoes": read_json(o / "licoes-videos.json", {}) or {},
             "cortes": {"longo": cfg["corte_longo"], "short": cfg["corte_short"]}}
 
 
@@ -314,6 +316,33 @@ details ul{padding-left:18px}
 .rsec .obj{color:var(--muted);font-size:12.5px}
 .rsec .fala{white-space:pre-wrap;font-size:14.5px;line-height:1.55}
 .rsec .tela{font-size:13px;color:var(--muted)}
+.mv{border-radius:var(--r-xl);padding:16px;display:flex;flex-direction:column;gap:12px}
+.mv-top{display:grid;grid-template-columns:160px 1fr;gap:14px;align-items:start}
+.mv-top img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px}
+.mv-top h4{margin:0 0 4px;font-size:16px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi{border-radius:14px;padding:10px 12px;background:var(--glass);border:1px solid var(--stroke-dark);font-size:13px}
+.kpi b{display:block;font-size:12px;color:var(--faint);font-weight:600;margin-bottom:4px}
+.kpi .v{font:700 19px var(--display);font-variant-numeric:tabular-nums}
+.kpi .s{color:var(--muted);font-variant-numeric:tabular-nums}
+.diag{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.chart{position:relative}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart .grid{stroke:var(--stroke-dark);stroke-width:1}
+.chart .ax{fill:var(--faint);font-size:11px}
+.chart .l-este{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
+.chart .l-media{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:5 4;stroke-linejoin:round}
+.chart .queda{fill:var(--down);stroke:var(--bg);stroke-width:2}
+.chart .qlab{fill:var(--fg);font-size:11px}
+.chart .cross{stroke:var(--faint);stroke-width:1}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
+.legend i.m{border-top:2px dashed var(--muted)}
+.tip{position:absolute;pointer-events:none;background:var(--glass-strong);border:1px solid var(--stroke-dark);border-radius:10px;padding:6px 9px;font-size:12.5px;white-space:nowrap;transform:translate(-50%,-110%);box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.licao{border-radius:14px;padding:12px 14px;background:var(--accent-soft);font-size:14px;display:flex;flex-direction:column;gap:6px}
+.licao ul{margin:0;padding-left:18px}
+.mv-top.so{grid-template-columns:1fr}
+@media (max-width:640px){.mv-top{grid-template-columns:1fr}.kpis{gap:6px}.kpi{padding:8px;font-size:11.5px}.kpi .v{font-size:16px}}
 .status.err{color:var(--down)}
 .status.ok{color:var(--accent)}
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--stroke-dark);border-top-color:var(--accent);display:inline-block;vertical-align:-3px;animation:sp .8s linear infinite}
@@ -373,6 +402,7 @@ details ul{padding-left:18px}
     <nav class="tabs" role="tablist" aria-label="Seções">
       <button class="tab" role="tab" data-view="ideias" aria-selected="true">Ideias para gravar</button>
       <button class="tab" role="tab" data-view="aprovadas" aria-selected="false">Aprovadas<span class="n" id="n-aprov"></span></button>
+      <button class="tab" role="tab" data-view="videos" aria-selected="false">Meus vídeos</button>
       <button class="tab" role="tab" data-view="refs" aria-selected="false">Referências</button>
     </nav>
     <div class="filters" id="filters" role="group" aria-label="Filtros" hidden>
@@ -398,6 +428,13 @@ details ul{padding-left:18px}
     <h2>Aprovadas</h2>
     <p class="hint">Acompanhe cada ideia até virar vídeo. Quando postar, cole o link: o sistema mede o vídeo aos 7 e 30 dias.</p>
     <div class="feed" id="aprovadas"></div>
+  </div>
+
+  <div id="view-videos" hidden>
+    <h2>Meus vídeos</h2>
+    <p class="hint">Cada vídeo do Léo aos 2, 7 e 30 dias contra a média dele, onde o público saiu e o que aprender. <span id="mv-quando"></span></p>
+    <div class="row" style="margin-bottom:12px"><button class="btn" id="mv-atualizar">Atualizar números</button><span class="status" id="mv-status"></span></div>
+    <div class="feed" id="meus-videos"></div>
   </div>
 
   <div id="view-refs" hidden>
@@ -728,12 +765,12 @@ function renderAprov(){
 }
 function showView(v){
   VIEW = v; ls.set('grana-painel-aba', v);
-  for (const x of ['ideias', 'aprovadas', 'refs']) document.getElementById('view-' + x).hidden = x !== v;
+  for (const x of ['ideias', 'aprovadas', 'videos', 'refs']) document.getElementById('view-' + x).hidden = x !== v;
   document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.view === v));
   document.getElementById('filters').hidden = v !== 'refs';
   renderAll();
 }
-function renderAll(){ renderFeed(); renderAprov(); render(); }
+function renderAll(){ renderFeed(); renderAprov(); renderVideos(); render(); }
 document.querySelector('.tabs').addEventListener('click', e => { const t = e.target.closest('.tab'); if (t) showView(t.dataset.view); });
 document.getElementById('undo').addEventListener('click', () => { if (undoFn) undoFn(); document.getElementById('toast').classList.remove('show'); });
 
@@ -856,6 +893,83 @@ document.getElementById('r-copiar').addEventListener('click', async () => {
   const txt = p.secoes.map(s => `[${mmss(s.inicio_s)}] ${s.nome.toUpperCase()}\n${s.fala}\n(Na tela: ${s.na_tela})`).join('\n\n');
   try { await navigator.clipboard.writeText(txt); toast('Roteiro copiado'); } catch (e) { toast('Não deu para copiar; use “Baixar .md”'); }
 });
+
+// meus vídeos
+const pct = x => x == null ? '—' : Math.round(x * 100) + '%';
+function kpi(r, d, med){
+  const j = r['d' + d]; if (!j) return `<div class="kpi"><b>${d} dias</b><span class="s">ainda não chegou</span></div>`;
+  const m = (med || {})['d' + d] || {};
+  const x = j.x_mediana != null ? `${j.x_mediana.toFixed(1).replace('.', ',')}x a média` : 'sem média ainda';
+  return `<div class="kpi"><b>${d} dias${j.parcial ? ' · parcial' : ''}</b><span class="v">${fmt(j.views)}</span> views <span class="s">(${x})</span>
+    <div class="s">CTR ${j.ctr != null ? j.ctr.toFixed(1).replace('.', ',') + '%' : '—'}${m.ctr ? ` · média ${m.ctr.toFixed(1).replace('.', ',')}%` : ''}</div>
+    <div class="s">Assistido ${j.averageViewPercentage != null ? Math.round(j.averageViewPercentage) + '%' : '—'}${m.averageViewPercentage ? ` · média ${Math.round(m.averageViewPercentage)}%` : ''}</div>
+    <div class="s">+${fmt(j.subscribersGained || 0)} inscritos</div></div>`;
+}
+function chart(r, media){
+  const c = r.curva || []; if (c.length < 2) return '<p class="hint">Curva de retenção ainda não disponível.</p>';
+  const W = innerWidth < 640 ? 340 : 600, H = innerWidth < 640 ? 200 : 190, L = 34, B = 22, T = 18, dur = r.duracao_s || 0;
+  const ymax = Math.max(1, ...c.map(p => p[1]), ...(media || []).map(p => p[1]));
+  const X = x => L + x * (W - L - 6), Y = y => T + (1 - y / ymax) * (H - T - B);
+  const path = pts => pts.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join('');
+  const grid = [0.25, 0.5, 0.75, 1].map(g => `<line class="grid" x1="${L}" x2="${W - 6}" y1="${Y(g)}" y2="${Y(g)}"/><text class="ax" x="${L - 6}" y="${Y(g) + 4}" text-anchor="end">${g * 100}%</text>`).join('');
+  const xt = (W < 400 ? [0, 0.5, 1] : [0, 0.25, 0.5, 0.75, 1]).map(f => `<text class="ax" x="${X(f)}" y="${H - 6}" text-anchor="${f === 0 ? 'start' : f === 1 ? 'end' : 'middle'}">${mmss(Math.round(f * dur))}</text>`).join('');
+  const qs = ((r.retencao || {}).quedas || []).map(q => { const y = (c.find(p => p[0] >= q.pos) || c[c.length - 1])[1];
+    return `<circle class="queda" cx="${X(q.pos)}" cy="${Y(y)}" r="5"/><text class="qlab" x="${X(q.pos)}" y="${Y(y) - 10}" text-anchor="middle">${esc(q.em)}</text>`; }).join('');
+  return `<div class="chart" data-vid="${esc(r.video_id)}"><div class="legend"><span><i></i>Este vídeo</span>${media && media.length ? '<span><i class="m"></i>Média do Léo</span>' : ''}<span><span style="color:var(--down)">●</span> queda forte</span></div>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Retenção ao longo do vídeo: quanto do público ainda assistia em cada momento">${grid}${xt}
+    ${media && media.length ? `<path class="l-media" d="${path(media)}"/>` : ''}<path class="l-este" d="${path(c)}"/>${qs}
+    <line class="cross" x1="0" x2="0" y1="${T}" y2="${H - B}" visibility="hidden"/><rect x="${L}" y="0" width="${W - L}" height="${H}" fill="transparent"/></svg>
+    <div class="tip" hidden></div></div>`;
+}
+let mvNarrow = innerWidth < 640;
+addEventListener('resize', () => { if ((innerWidth < 640) !== mvNarrow) { mvNarrow = innerWidth < 640; renderVideos(); } });
+function renderVideos(){
+  const el = document.getElementById('meus-videos'), rel = D.meus_videos;
+  document.getElementById('mv-atualizar').hidden = !SERVER;
+  document.getElementById('mv-quando').textContent = rel ? `Atualizado em ${new Date(rel.atualizado_em).toLocaleString('pt-BR')}.` : '';
+  if (!rel || !rel.videos.length) { el.innerHTML = `<div class="empty">${rel ? 'Nenhum vídeo longo recente.' : 'Ainda sem números. Clique em “Atualizar números”.'}</div>`; return; }
+  el.innerHTML = rel.videos.map(r => { const li = (D.licoes || {})[r.video_id];
+    const quedas = ((r.retencao || {}).quedas || []).map(q => `${esc(q.em)} (−${Math.round(q.queda * 100)} pts${q.secao ? ', seção “' + esc(q.secao) + '”' : ''})`).join(' · ');
+    return `<div class="mv glass"><div class="mv-top${r.thumb ? '' : ' so'}">${r.thumb ? `<img src="${esc(r.thumb)}" alt="" loading="lazy">` : ''}
+      <div><h4>${esc(r.titulo)}</h4><div class="hint">Publicado em ${esc(r.publicado.split('-').reverse().join('/'))} · ${r.idade_dias} dias${r.ideia_titulo ? ' · ideia: ' + esc(r.ideia_titulo) : ''}</div>
+      <ul class="diag" style="margin-top:8px">${(r.diagnostico || []).map(d => `<li>${d.tipo === 'bom' ? '✅' : '⚠️'} ${esc(d.texto)}</li>`).join('')}</ul></div></div>
+      <div class="kpis">${[2, 7, 30].map(d => kpi(r, d, rel.medianas)).join('')}</div>
+      ${chart(r, rel.curva_media)}
+      <p class="hint" style="margin:0">Ainda assistindo aos 30 s: <b>${pct((r.retencao || {}).ret_gancho)}</b> (média ${pct((rel.medianas || {}).ret_gancho)})${quedas ? ' · Onde mais saíram: ' + quedas : ''}${r.ideia_id && !r.tem_roteiro ? ' · Gere o roteiro pelo painel para ver em qual seção o público saiu.' : ''}</p>
+      ${li ? `<div class="licao"><b>O que aprender</b><div>${esc(li.resumo)}</div>
+        ${li.funcionou.length ? `<div>✅ Funcionou<ul>${li.funcionou.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}
+        ${li.mudar.length ? `<div>🔧 Mudar<ul>${li.mudar.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}
+        <div>📌 <b>Regra para os próximos:</b> ${esc(li.regra)}</div></div>` : ''}
+      ${SERVER && D.gerador ? `<div class="row"><button class="btn" data-licao="${esc(r.video_id)}">${li ? 'Refazer a lição' : 'O que aprender com este vídeo'}</button></div>` : ''}</div>`; }).join('');
+}
+const mvStatus = document.getElementById('mv-status');
+document.getElementById('mv-atualizar').addEventListener('click', async e => {
+  e.target.disabled = true; mvStatus.className = 'status'; mvStatus.innerHTML = '<span class="spin"></span> Buscando no YouTube Analytics…';
+  try { await api('/api/meus-videos', {acao: 'atualizar'}); await refresh(); mvStatus.textContent = ''; }
+  catch (err) { mvStatus.className = 'status err'; mvStatus.textContent = err.message; }
+  finally { e.target.disabled = false; }
+});
+document.getElementById('meus-videos').addEventListener('click', async e => {
+  const b = e.target.closest('[data-licao]'); if (!b) return;
+  b.disabled = true; b.innerHTML = '<span class="spin"></span> O Claude está lendo os números e a fala do vídeo…';
+  try { await api('/api/meus-videos', {acao: 'licao', video_id: b.dataset.licao}); await refresh(); }
+  catch (err) { toast(err.message, 6000); b.disabled = false; b.textContent = 'Tentar de novo'; }
+});
+document.getElementById('meus-videos').addEventListener('pointermove', e => {
+  const box = e.target.closest('.chart'); if (!box) return;
+  const svg = box.querySelector('svg'), tip = box.querySelector('.tip'), cross = box.querySelector('.cross');
+  const r = (D.meus_videos.videos || []).find(v => v.video_id === box.dataset.vid); if (!r) return;
+  const pt = svg.getBoundingClientRect(), W = svg.viewBox.baseVal.width, L = 34, f = Math.min(1, Math.max(0, ((e.clientX - pt.left) / pt.width * W - L) / (W - L - 6)));
+  const near = arr => (arr || []).reduce((a, p) => Math.abs(p[0] - f) < Math.abs(a[0] - f) ? p : a, (arr || [[0, null]])[0]);
+  const p = near(r.curva), m = near(D.meus_videos.curva_media);
+  const x = L + p[0] * (W - L - 6); cross.setAttribute('x1', x); cross.setAttribute('x2', x); cross.setAttribute('visibility', 'visible');
+  tip.hidden = false; tip.style.left = (x / W * 100) + '%'; tip.style.top = '30px';
+  tip.innerHTML = `<b>${mmss(Math.round(p[0] * (r.duracao_s || 0)))}</b> · este vídeo ${pct(p[1])}${m && m[1] != null ? ` · média ${pct(m[1])}` : ''}`;
+});
+document.getElementById('meus-videos').addEventListener('pointerleave', () => {
+  document.querySelectorAll('#meus-videos .tip').forEach(t => t.hidden = true);
+  document.querySelectorAll('#meus-videos .cross').forEach(c => c.setAttribute('visibility', 'hidden'));
+}, true);
 
 fillSelects(); showView(VIEW);
 </script>
@@ -1044,6 +1158,26 @@ def make_handler(cfg, token, lock, job=None):
                     return self._send(200, {"ok": False, "erro": str(e)})
                 except Exception as e:  # rede, chave, limite da API
                     return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
+            if self.path == "/api/meus-videos":
+                import postados
+                try:
+                    if body.get("acao") == "atualizar":
+                        postados.atualizar(cfg=cfg)
+                    elif body.get("acao") == "licao":
+                        import gerador
+                        ok, motivo = gerador.disponivel()
+                        if not ok:
+                            return self._send(200, {"ok": False, "erro": motivo})
+                        postados.licao(str(body.get("video_id") or ""), cfg=cfg)
+                    else:
+                        return self._send(400, {"ok": False, "erro": "ação inválida"})
+                    with lock:
+                        generate(cfg, token)
+                    return self._send(200, {"ok": True})
+                except (ValueError, SystemExit) as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except Exception as e:  # rede, token do Google, limite da API
+                    return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
             if self.path == "/api/adicionar":
                 try:
                     with lock:
@@ -1070,10 +1204,35 @@ def make_handler(cfg, token, lock, job=None):
     return Handler
 
 
+def refresh_meus_videos(cfg, token, lock, max_horas=12):
+    """Atualiza os números dos vídeos do Léo em segundo plano se tiverem mais de `max_horas` (abre o painel na hora)."""
+    import os
+    import postados
+    from yt_common import load_env, parse_date
+    load_env()
+    if not os.environ.get("GOOGLE_REFRESH_TOKEN"):
+        return None
+    rel = read_json(postados.arquivo(), None)
+    if rel and (now() - parse_date(rel["atualizado_em"])).total_seconds() < max_horas * 3600:
+        return None
+
+    def run():
+        try:
+            postados.atualizar(cfg=cfg)
+            with lock:
+                generate(cfg, token)
+        except (Exception, SystemExit) as e:  # sem rede/token: fica com os números anteriores
+            log(f"Meus vídeos: não atualizou agora ({e})")
+    th = threading.Thread(target=run, daemon=True)
+    th.start()
+    return th
+
+
 def serve(cfg, port=8765, open_browser=True):
     token = secrets.token_urlsafe(24)
     generate(cfg, token)
     lock = threading.Lock()
+    refresh_meus_videos(cfg, token, lock)
     handler = make_handler(cfg, token, lock)
     for p in range(port, port + 20):
         try:

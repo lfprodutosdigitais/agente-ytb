@@ -47,6 +47,11 @@ def _bloco(md_text, chave):
     return m.group(1).strip() if m else ""
 
 
+def _regras():
+    import postados
+    return postados.regras_aprendidas()
+
+
 def contexto_fixo():
     """Parte estável do pedido (fica em cache entre ideias)."""
     o = out_dir()
@@ -61,8 +66,9 @@ def contexto_fixo():
         "## Diagnóstico do canal do Léo\n" + "\n\n".join(x for x in (
             _bloco(mc, "tom"), _bloco(mc, "retencao"), _bloco(mc, "cobertos")) if x),
         "## Aprendizados com as avaliações e os vídeos postados\n" + _bloco(ap, "analise"),
+        "## Regras tiradas dos números reais dos vídeos do Léo (siga)\n" + "\n".join(f"- {r}" for r in _regras()),
     ]
-    return "\n\n".join(p for p in partes if p.strip())
+    return "\n\n".join(p for p in partes if p.strip() and not p.rstrip().endswith("(siga)"))
 
 
 def escolher_referencia(analyses, ratings, rejeitada_ref=None):

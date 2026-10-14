@@ -135,6 +135,19 @@ segunda também roda isso, até `auto_max_por_rodada`, 10).
 Chave em <https://console.anthropic.com/settings/keys>. Custo: alguns centavos de dólar por ideia
 (modelo Claude Opus 5.5; a parte fixa do pedido fica em cache). Sem a chave, o 👎 só troca pela próxima da fila.
 
+## Meus vídeos (relatório de cada vídeo postado)
+
+Aba **Meus vídeos** do painel: cada vídeo longo do Léo dos últimos 120 dias (e toda ideia marcada "postado" com
+link) aos **2, 7 e 30 dias** — views, CTR, % assistido e inscritos contra a média dele no mesmo período, a curva de
+retenção contra a curva média dele, onde o público mais saiu (e em que seção do roteiro, se o roteiro foi feito pelo
+painel) e uma leitura automática (problema de clique, de gancho ou do meio do vídeo). Botão **O que aprender**: o
+Claude lê os números e o que o Léo falava em cada queda e escreve o que funcionou, o que mudar e **uma regra** —
+as regras entram sozinhas no pedido das próximas ideias e roteiros.
+
+Os números se atualizam ao abrir o painel (se tiverem mais de 12 h) e na rodada de segunda, que também escreve a
+lição quando um vídeo fecha 7 e 30 dias. O YouTube leva ~3 dias para fechar os números de um dia: até lá a janela
+aparece como "parcial". Pelo terminal: `python3 ~/.claude/skills/referencias-youtube/scripts/postados.py [--licoes]`.
+
 ## Roteiro (pacote do vídeo)
 
 Na aba **Aprovadas**, botão **📝 Roteiro** (precisa da chave da Anthropic): 5 opções de título com a recomendada,

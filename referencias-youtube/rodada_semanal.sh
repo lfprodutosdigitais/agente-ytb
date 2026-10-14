@@ -8,6 +8,7 @@ PY="${REFERENCIAS_PYTHON:-python3}"
 mkdir -p "$WORK/referencias" && cd "$WORK" || exit 1
 echo "===== $(date '+%Y-%m-%d %H:%M') rodada semanal ====="
 "$PY" "$SKILL/scripts/meu_canal.py" || echo "AVISO: meu_canal.py falhou"
+"$PY" "$SKILL/scripts/postados.py" --licoes || echo "AVISO: relatório dos vídeos falhou"
 "$PY" "$SKILL/scripts/referencias.py" coletar || echo "AVISO: coleta falhou"
 "$PY" "$SKILL/scripts/referencias.py" transcrever || echo "AVISO: transcrição falhou"
 "$PY" "$SKILL/scripts/aprendizado.py" || echo "AVISO: aprendizado falhou"
