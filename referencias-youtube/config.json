@@ -1,4 +1,5 @@
 {
+  "fonte": "youtube_api",
   "meu_canal_url": "https://www.youtube.com/@Granapropria",
   "short_max_segundos": 180,
   "corte_longo": 3.0,
@@ -9,5 +10,17 @@
   "em_alta_max_dias": 30,
   "relevancia_minima": 3,
   "max_longos": 50,
-  "max_shorts": 0
+  "max_shorts": 0,
+  "termos_descoberta": [
+    "sair do CLT",
+    "renda extra",
+    "como ganhar dinheiro",
+    "primeiro negócio",
+    "low ticket",
+    "largar o emprego",
+    "empreender do zero",
+    "dinheiro na internet"
+  ],
+  "descobrir_min_inscritos": 5000,
+  "descobrir_max_inscritos": 2000000
 }

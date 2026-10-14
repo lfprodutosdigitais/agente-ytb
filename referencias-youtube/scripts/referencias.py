@@ -3,8 +3,9 @@ transcrições e temas validados. A parte de julgamento (relevância, análise, 
 que grava ./referencias/analises/{video_id}.json — ver SKILL.md.
 
 Uso:
-  python3 scripts/referencias.py teste @primorico   # coleta 1 canal e mostra custo real + estimativa p/ todos
+  python3 scripts/referencias.py teste @primorico   # coleta 1 canal (e, no Apify, mostra custo + estimativa)
   python3 scripts/referencias.py coletar            # todos os canais de canais.txt, depois calcula
+  python3 scripts/referencias.py descobrir          # sugere canais novos (busca da API) em canais-sugeridos.md
   python3 scripts/referencias.py calcular           # só recalcula scores com os dados já coletados
   python3 scripts/referencias.py transcrever        # baixa legendas dos candidatos com relevância >= 3
   python3 scripts/referencias.py temas              # recalcula temas validados a partir das análises
@@ -20,6 +21,14 @@ from yt_common import (SKILL_DIR, HttpError, http, load_config, load_env, log, m
 
 APIFY = "https://api.apify.com/v2"
 DEFAULTS = {
+    "fonte": "youtube_api",  # "youtube_api" (oficial, grátis) ou "apify" (reserva, pago)
+    "max_paginas_api": 6,
+    "termos_descoberta": ["sair do CLT", "renda extra", "como ganhar dinheiro", "primeiro negócio",
+                          "low ticket", "largar o emprego", "empreender do zero", "dinheiro na internet"],
+    "descobrir_dias": 90,
+    "descobrir_min_inscritos": 5000,
+    "descobrir_max_inscritos": 2000000,
+    "descobrir_top": 20,
     "apify_actor": "streamers~youtube-scraper",
     "apify_input_extra": {},
     "max_longos": 50,
@@ -454,40 +463,57 @@ def transcribe(cfg):
 
 # ---------------------------------------------------------------- main
 
+def run_collect(chans, cfg):
+    """Coleta pela fonte configurada. Devolve (records, texto de custo)."""
+    import os
+    if cfg["fonte"] == "apify":
+        token = os.environ.get("APIFY_TOKEN")
+        if not token:
+            raise SystemExit("Falta APIFY_TOKEN no .env da skill (~/.claude/skills/referencias-youtube/.env).")
+        recs, usd = collect(chans, cfg, token)
+        return recs, f"custo Apify US$ {usd:.4f}", usd
+    import youtube_publico
+    recs, units = youtube_publico.collect(chans, cfg)
+    return recs, f"grátis (YouTube API: {units} de 10.000 unidades diárias)", 0.0
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("acao", choices=["teste", "coletar", "calcular", "transcrever", "temas"])
+    ap.add_argument("acao", choices=["teste", "coletar", "calcular", "transcrever", "temas", "descobrir"])
     ap.add_argument("canal", nargs="?")
     args = ap.parse_args()
     cfg = config()
     load_env()
-    import os
-    token = os.environ.get("APIFY_TOKEN")
     chans = read_channels()
 
     if args.acao in ("teste", "coletar"):
-        if not token:
-            raise SystemExit("Falta APIFY_TOKEN no .env da skill (~/.claude/skills/referencias-youtube/.env).")
         if args.acao == "teste":
             c = match_channel(args.canal or "@primorico", chans)
-            recs, usd = collect([c], cfg, token)
-            n = len(chans)
+            recs, custo, usd = run_collect([c], cfg)
             log("")
-            log(f"Teste com {c['handle']}: {len(recs)} vídeos coletados, custo real US$ {usd:.4f}.")
-            if recs:
+            log(f"Teste com {c['handle']}: {len(recs)} vídeos coletados — {custo}.")
+            if recs and cfg["fonte"] == "apify":
+                n = len(chans)
                 log(f"Estimativa para os {n} canais de canais.txt: ~US$ {usd * n:.2f} por rodada "
                     f"(~US$ {usd * n * 4:.2f}/mês rodando 1x por semana).")
-                log("Exemplos:")
-                for r in recs[:3]:
-                    log(f"  [{r['formato']}] {r['views']} views · {r['comentarios']} coment. · {r['data']} · {r['titulo']}")
+            for r in recs[:3]:
+                log(f"  [{r['formato']}] {r['views']} views · {r['comentarios']} coment. · {r['data']} · {r['titulo']}")
         else:
-            recs, usd = collect(chans, cfg, token)
-            log(f"Rodada: {len(recs)} vídeos de {len(chans)} canais, custo US$ {usd:.4f}")
+            recs, custo, _ = run_collect(chans, cfg)
+            log(f"Rodada: {len(recs)} vídeos de {len(chans)} canais — {custo}")
         recalc(cfg)
     elif args.acao in ("calcular", "temas"):
         recalc(cfg)
     elif args.acao == "transcrever":
         transcribe(cfg)
+    elif args.acao == "descobrir":
+        import youtube_publico
+        own = (read_json(paths()["out"] / "meu-canal-dados.json", {}) or {}).get("channel", {}).get("id")
+        sugs, units = youtube_publico.discover(cfg, [c["handle"] for c in chans], own_channel_id=own)
+        log(f"{len(sugs)} canais sugeridos ({units} unidades de cota) — veja ./referencias/canais-sugeridos.md")
+        for s_ in sugs[:10]:
+            top = s_["videos"][0]
+            log(f"  {s_['canal']} ({s_['inscritos']:,} inscritos) — {top['views_por_inscrito']}x: {top['titulo'][:60]}")
 
 
 if __name__ == "__main__":

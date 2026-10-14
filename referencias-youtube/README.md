@@ -90,6 +90,17 @@ python3 ~/.claude/skills/referencias-youtube/scripts/meu_canal.py --refresh  # r
 Cache: vídeos com mais de 35 dias na última coleta não são consultados de novo (as métricas já
 estabilizaram); transcrições são baixadas uma vez só.
 
+## Rodada automática (toda semana)
+
+```bash
+bash ~/.claude/skills/referencias-youtube/agendar_mac.sh          # agenda: toda segunda às 7h
+bash ~/.claude/skills/referencias-youtube/agendar_mac.sh remover  # cancela
+```
+
+Atualiza o seu canal, coleta as referências (YouTube API, grátis) e baixa as legendas. Log em
+`~/GranaPropria/referencias/agendamento.log`. Descobrir canais novos:
+`python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py descobrir`.
+
 ## Testes
 
 ```bash

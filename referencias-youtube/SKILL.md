@@ -45,11 +45,16 @@ usuário pelo `README.md` da skill (seção "Configurar o Google") e rode `scrip
 Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <ação>`. Cortes e pesos em
 `config.json` (`corte_longo`, `corte_short`, `vizinhos`, `idade_minima_dias`, `em_alta_fator`, ...).
 
-1. **Coleta** (`coletar`): Apify `streamers/youtube-scraper`, últimos 50 longos de cada canal (Shorts desligados:
-   `max_shorts: 0` no `config.json`; ponha 50 para voltar a coletar) de
-   `canais.txt`. Grava `./referencias/videos.json`, um snapshot de views por dia em `historico.json` e o custo
-   de cada run em `custos-apify.json`. Depois calcula os scores e gera `candidatos.json`.
-   - Canal novo ou primeira vez: rode antes `teste @handle` e mostre ao usuário o custo e a estimativa.
+1. **Coleta** (`coletar`): pela **YouTube Data API oficial** (grátis, mesma autorização do canal do Léo), últimos
+   50 longos de cada canal de `canais.txt`, sem lives (Shorts desligados: `max_shorts: 0`). Grava
+   `./referencias/videos.json`, um snapshot de views por dia em `historico.json` e o uso de cota em
+   `custos-apify.json`. Depois calcula os scores e gera `candidatos.json`.
+   - Reserva: `"fonte": "apify"` no `config.json` volta a usar o Apify (pago; precisa de `APIFY_TOKEN`).
+   - **Descoberta** (`descobrir`): busca na API os `termos_descoberta` dos últimos 90 dias e sugere canais
+     fora da lista cujo vídeo foi muito além dos próprios inscritos → `canais-sugeridos.md`. Mostre ao
+     usuário; ele decide quais entram no `canais.txt`.
+   - **Automático**: `agendar_mac.sh` agenda `rodada_semanal.sh` (meu canal + coleta + legendas) toda
+     segunda às 7h. A parte do Claude (relevância, análise, ideias) roda quando o usuário chamar a skill.
 2. **Scores** (automático; `calcular` refaz sem gastar Apify):
    - `outlier_score` = views ÷ mediana dos ~10 vídeos do mesmo canal e formato mais próximos na data.
      Outlier se ≥ `corte_longo` (3x) ou ≥ `corte_short` (5x); vídeos com menos de 7 dias ficam de fora.

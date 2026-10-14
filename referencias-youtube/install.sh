@@ -7,6 +7,7 @@ DEST="$HOME/.claude/skills/referencias-youtube"
 mkdir -p "$DEST/scripts"
 cp "$SRC"/SKILL.md "$SRC"/README.md "$SRC"/.env.example "$DEST"/
 cp "$SRC"/scripts/*.py "$DEST/scripts/"
+cp "$SRC"/rodada_semanal.sh "$SRC"/agendar_mac.sh "$DEST"/ && chmod +x "$DEST"/*.sh
 for f in config.json canais.txt; do [ -f "$DEST/$f" ] || cp "$SRC/$f" "$DEST/$f"; done
 # config.json já existente: acrescenta só as chaves novas, sem mudar o que você editou
 python3 - "$SRC/config.json" "$DEST/config.json" <<'PY'
