@@ -98,6 +98,23 @@ class Painel(unittest.TestCase):
         self.assertNotIn("adicionar", json.loads((o / "avaliacoes.json").read_text()))
         self.assertIn('"fila_processada": ["@novo"]', (o / "painel.html").read_text())
 
+    def test_analise_em_segundo_plano(self):
+        import threading
+        cfg = painel.R.config()
+        job, chamados = {}, []
+
+        def fake(vid, ratings, client, cfg):
+            chamados.append(vid)
+            if vid == "v0000000002":
+                raise RuntimeError("sem rede")
+            return {"ideias": [{}, {}]}
+        painel.start_analysis(job, ["v0000000001", "v0000000002"], cfg, "TOK", threading.Lock(), analisar=fake).join(30)
+        self.assertFalse(job["rodando"])
+        self.assertEqual(chamados, ["v0000000001", "v0000000002"])
+        self.assertEqual((job["feitos"], job["ideias"], len(job["erros"])), (2, 2, 1))
+        self.assertTrue((Path(self.tmp.name) / "painel.html").exists())
+        self.assertIn("acompanhar()", (Path(self.tmp.name) / "painel.html").read_text())
+
     def test_servidor_local(self):
         import threading
         import urllib.request
@@ -132,6 +149,9 @@ class Painel(unittest.TestCase):
             self.assertEqual(json.loads(body)["msg"], "ok @canal en")
             st, body = call("/api/dados")
             self.assertTrue(json.loads(body)["ok"])
+            st, body = call("/api/status")
+            self.assertEqual(json.loads(body)["job"]["rodando"], False)
+            self.assertEqual(call("/api/status", token="errado")[0], 403)
         finally:
             painel.R.add_reference = orig
             httpd.shutdown()

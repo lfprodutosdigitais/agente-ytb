@@ -104,6 +104,10 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
   **Adicionar referência** (cole @canal, link do canal ou link de vídeo) coleta na hora. Pela linha de comando:
   `referencias.py adicionar @canal [--en]` ou `referencias.py adicionar <link do vídeo>`.
   Vídeos colados à mão ficam marcados `manual` e entram em `pendentes_relevancia` para receber nota e ideias.
+  Com `ANTHROPIC_API_KEY`, o próprio painel (e `referencias.py adicionar`) já analisa os outliers novos sozinho
+  (`gerador.analisar`: nota, gancho literal, estrutura e 2–3 ideias, gravados com `analisado_por: "auto"`).
+  `referencias.py analisar [@canal]` faz o mesmo para os pendentes. Na rodada completa, revise as análises
+  `auto` com nota ≥4 que ainda não têm voto, se algo destoar do briefing.
 - **Aba "Ideias para gravar"** (tela principal): o Léo só responde 👍 Sim / 👎 Não. 👎 tira a ideia e a próxima
   entra; a fila é reordenada na hora pelos votos (canal e tema rejeitados descem). No modo servidor, cada 👎
   também cria **uma ideia nova na hora** (`scripts/gerador.py`, API da Anthropic, modelo `modelo_ideias` do

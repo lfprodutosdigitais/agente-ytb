@@ -85,5 +85,61 @@ class Gerador(unittest.TestCase):
         self.assertIn("ANTHROPIC", motivo)
 
 
+ANALISE = {"relevancia": 4, "motivo_relevancia": "fala com quem quer sair do CLT", "tema": "negócio/empreender",
+           "gancho": "If I had to start over", "estrutura": ["a", "b"], "por_que_clicaram": "x", "por_que_assistiram": "y",
+           "ideias": [{"titulo": f"Ideia {n}", "gancho": "R$ 3 mil", "topicos": ["t", " "], "a_conferir": ""}
+                      for n in range(1, 5)]}
+
+
+class Analise(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        os.environ["REFERENCIAS_DIR"] = self.tmp.name
+        o = Path(self.tmp.name)
+        (o / "analises").mkdir()
+        (o / "videos.json").write_text(json.dumps({
+            "hx1": {"video_id": "hx1", "canal": "Alex Hormozi", "canal_handle": "@AlexHormozi", "idioma": "en",
+                    "titulo": "How I Would Build a $10M Service Business", "descricao": "d", "outlier": True}}))
+        (o / "candidatos.json").write_text(json.dumps({"pendentes_relevancia": ["hx1", "outro"], "candidatos": [
+            {"video_id": "outro", "canal_handle": "@Outro"}, {"video_id": "hx1", "canal_handle": "@AlexHormozi"}]}))
+        self.orig = gerador._transcricao
+        gerador._transcricao = lambda vid, titulo: ("[0:00] If I had to start over", "If I had to start over")
+
+    def tearDown(self):
+        gerador._transcricao = self.orig
+        self.tmp.cleanup()
+
+    def test_analisa_grava_nota_e_no_maximo_3_ideias(self):
+        c = FakeClient(ANALISE)
+        a = gerador.analisar("hx1", {}, client=c, cfg=gerador.R.config())
+        salvo = json.loads((Path(self.tmp.name) / "analises" / "hx1.json").read_text())
+        self.assertEqual(salvo, a)
+        self.assertEqual((a["relevancia"], a["tema"], a["analisado_por"]), (4, "negócio/empreender", "auto"))
+        self.assertEqual([i["id"] for i in a["ideias"]], ["hx1-1", "hx1-2", "hx1-3"])
+        self.assertEqual(a["ideias"][0]["topicos"], ["t"])
+        self.assertNotIn("a_conferir", a["ideias"][0])
+        self.assertEqual(a["gancho_literal"], "If I had to start over")
+        pedido = c.calls[0]["messages"][0]["content"]
+        self.assertIn("If I had to start over", pedido)
+        self.assertIn("Alex Hormozi", pedido)
+
+    def test_relevancia_baixa_nao_gera_ideias_e_nao_apaga_as_existentes(self):
+        gerador.analisar("hx1", {}, client=FakeClient({**ANALISE, "relevancia": 2}), cfg=gerador.R.config())
+        a = json.loads((Path(self.tmp.name) / "analises" / "hx1.json").read_text())
+        self.assertEqual(a["ideias"], [])
+        p = Path(self.tmp.name) / "analises" / "hx1.json"
+        p.write_text(json.dumps({"ideias": [{"id": "hx1-1", "titulo": "votada"}]}))
+        a = gerador.analisar("hx1", {}, client=FakeClient(ANALISE), cfg=gerador.R.config())
+        self.assertEqual([i["titulo"] for i in a["ideias"]], ["votada"])
+
+    def test_a_analisar_filtra_pelo_canal_e_pelo_video(self):
+        cfg = gerador.R.config()
+        self.assertEqual(gerador.a_analisar(cfg, "@alexhormozi"), ["hx1"])
+        self.assertEqual(gerador.a_analisar(cfg), ["outro", "hx1"])
+        self.assertEqual(gerador.a_analisar(cfg, video_id="novo"), ["novo"])
+        (Path(self.tmp.name) / "analises" / "novo.json").write_text(json.dumps({"relevancia": 3}))
+        self.assertEqual(gerador.a_analisar(cfg, video_id="novo"), [])
+
+
 if __name__ == "__main__":
     unittest.main()

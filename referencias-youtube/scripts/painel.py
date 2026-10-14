@@ -282,6 +282,7 @@ details ul{padding-left:18px}
 .sheet input[type=text]{width:100%;font-size:15px;padding:12px 16px}
 .check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
 .status{font-size:13.5px;min-height:20px}
+.job{font-size:13.5px;color:var(--muted)}
 .status.err{color:var(--down)}
 .status.ok{color:var(--accent)}
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--stroke-dark);border-top-color:var(--accent);display:inline-block;vertical-align:-3px;animation:sp .8s linear infinite}
@@ -330,6 +331,7 @@ details ul{padding-left:18px}
         <div><h1>Referências do Grana Própria</h1><div class="sub" id="sub"></div></div>
       </div>
       <div class="stats" id="stats"></div>
+      <div class="job" id="job" role="status" aria-live="polite" hidden></div>
       <div class="row">
         <button class="btn primary" id="btn-add">＋ Adicionar referência</button>
         <button class="btn" id="exportar" title="Baixa avaliacoes.json para a pasta Downloads">Exportar avaliações</button>
@@ -391,7 +393,7 @@ details ul{padding-left:18px}
 <div class="scrim" id="scrim" hidden>
   <form class="sheet glass" id="form-add" autocomplete="off">
     <h3>Adicionar referência</h3>
-    <p>Cole o <b>@ do canal</b>, o <b>link do canal</b> ou o <b>link de um vídeo</b>. Canal entra na lista e é coletado; vídeo entra como referência avulsa.</p>
+    <p>Cole o <b>@ do canal</b>, o <b>link do canal</b> ou o <b>link de um vídeo</b>. Canal entra na lista e é coletado; vídeo entra como referência avulsa. Com a chave da Anthropic, o Claude já dá a nota e escreve as ideias.</p>
     <input class="pill" type="text" id="entrada" placeholder="@canal, youtube.com/@canal ou youtu.be/…" aria-label="Canal ou vídeo">
     <label class="check"><input type="checkbox" id="en"> Canal em inglês (adaptar para o Brasil)</label>
     <div class="status" id="status" role="status" aria-live="polite"></div>
@@ -560,12 +562,33 @@ document.getElementById('form-add').addEventListener('submit', async e => {
   statusEl.className = 'status'; statusEl.innerHTML = '<span class="spin"></span> Buscando no YouTube…';
   try {
     const r = await api('/api/adicionar', {entrada, lang});
-    statusEl.className = 'status ok'; statusEl.textContent = r.msg;
-    D = (await api('/api/dados')).dados; mergeAv(D.avaliacoes); fillSelects(); renderAll();
+    statusEl.className = 'status ok';
+    statusEl.textContent = r.msg + (r.analisando ? ` O Claude está analisando ${r.analisando} vídeo(s); as ideias aparecem em “Ideias para gravar” conforme ficam prontas.` : (r.aviso ? ' ' + r.aviso : ''));
+    await refresh();
     document.getElementById('entrada').value = '';
+    if (r.analisando) acompanhar();
   } catch (err) { statusEl.className = 'status err'; statusEl.textContent = err.message; }
   finally { btn.disabled = false; }
 });
+
+async function refresh(){ D = (await api('/api/dados')).dados; mergeAv(D.avaliacoes); fillSelects(); renderAll(); }
+const jobEl = document.getElementById('job');
+let jobT = null, jobFeitos = 0;
+async function acompanhar(){
+  clearTimeout(jobT);
+  let j;
+  try { j = (await api('/api/status')).job; } catch (e) { jobT = setTimeout(acompanhar, 5000); return; }
+  if (j.feitos > jobFeitos) { jobFeitos = j.feitos; await refresh().catch(() => {}); }
+  if (j.rodando) {
+    jobEl.hidden = false;
+    jobEl.innerHTML = `<span class="spin"></span> Claude analisando ${j.atual} de ${j.total}: ${esc(j.titulo || '')}`;
+    jobT = setTimeout(acompanhar, 3000);
+  } else if (j.total) {
+    jobFeitos = 0; jobEl.hidden = true;
+    toast(`Pronto: ${j.ideias} ideias novas de ${j.feitos} vídeo(s)` + (j.erros.length ? ` · ${j.erros.length} erro(s): ${j.erros[0]}` : ''), 9000);
+  }
+}
+if (SERVER) acompanhar();  // retoma o acompanhamento se a página for recarregada no meio
 
 // exportar / importar
 document.getElementById('exportar').addEventListener('click', () => {
@@ -709,8 +732,49 @@ def generate(cfg, token=""):
 
 # ---------------------------------------------------------------- servidor local (opcional)
 
-def make_handler(cfg, token, lock):
+def start_analysis(job, ids, cfg, token, lock, analisar=None):
+    """Analisa `ids` numa thread (rede fora do lock; grava e refaz o painel a cada vídeo)."""
+    import gerador
+    analisar = analisar or gerador.analisar
+    if job.get("rodando"):
+        ids = [i for i in ids if i not in job["fila"]]
+        job["fila"] += ids
+        job["total"] += len(ids)
+        return
+    videos = read_json(R.paths()["videos"], {}) or {}
+    job.update(rodando=True, fila=list(ids), total=len(ids), feitos=0, atual=0, ideias=0, erros=[], titulo="")
+
+    def run():
+        try:
+            while job["fila"]:
+                vid = job["fila"].pop(0)
+                job["atual"] += 1
+                job["titulo"] = (videos.get(vid) or {}).get("titulo", vid)
+                try:
+                    with lock:
+                        ratings = (read_json(out_dir() / "avaliacoes.json", {}) or {}).get("ideias") or {}
+                    a = analisar(vid, ratings, None, cfg)
+                    job["ideias"] += len(a.get("ideias") or [])
+                except Exception as e:
+                    job["erros"].append(f"{type(e).__name__}: {e}"[:200])
+                    log(f"  {vid}: {job['erros'][-1]}")
+                    if type(e).__name__ in ("AuthenticationError", "PermissionDeniedError", "NotFoundError"):
+                        job["fila"].clear()
+                with lock:
+                    R.recalc(cfg, quiet=True)
+                    generate(cfg, token)
+                job["feitos"] += 1
+        finally:
+            job["rodando"] = False
+
+    th = threading.Thread(target=run, daemon=True)
+    th.start()
+    return th
+
+
+def make_handler(cfg, token, lock, job=None):
     o = out_dir()
+    job = job if job is not None else {}
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *a):
@@ -737,6 +801,12 @@ def make_handler(cfg, token, lock):
                 with lock:
                     data = build_data(cfg)
                 return self._send(200, {"ok": True, "dados": data})
+            if self.path == "/api/status":
+                if not self._authorized():
+                    return self._send(403, {"ok": False, "erro": "não autorizado"})
+                return self._send(200, {"ok": True, "job": {k: job.get(k, d) for k, d in (
+                    ("rodando", False), ("total", 0), ("feitos", 0), ("atual", 0), ("ideias", 0),
+                    ("erros", []), ("titulo", ""))}})
             return self._send(404, {"ok": False, "erro": "não encontrado"})
 
         def do_POST(self):
@@ -771,6 +841,15 @@ def make_handler(cfg, token, lock):
                     with lock:
                         res = R.add_reference(body.get("entrada", ""), cfg, "en" if body.get("lang") == "en" else "pt")
                         generate(cfg, token)
+                        import gerador
+                        ids = (gerador.a_analisar(cfg, res.get("handle"), res.get("id") if res["tipo"] == "video" else None)
+                               if res.get("handle") or res["tipo"] == "video" else [])
+                    ok, motivo = gerador.disponivel()
+                    if ids and ok:
+                        start_analysis(job, ids, cfg, token, lock)
+                        res["analisando"] = len(ids)
+                    elif ids:
+                        res["aviso"] = f"Para o Claude dar a nota e escrever as ideias sozinho: {motivo}"
                     return self._send(200, {"ok": True, **res})
                 except ValueError as e:
                     return self._send(200, {"ok": False, "erro": str(e)})

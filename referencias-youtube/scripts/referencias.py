@@ -45,6 +45,8 @@ DEFAULTS = {
     "engajamento_peso": 0.25,
     "engajamento_bonus_max": 0.5,
     "relevancia_minima": 3,
+    "auto_max_por_canal": 6,  # ao adicionar canal: quantos outliers o Claude analisa na hora
+    "auto_max_por_rodada": 10,  # rodada semanal: quantos pendentes analisa sozinho (se houver ANTHROPIC_API_KEY)
     "tema_validado_canais": 2,
     "tema_validado_dias": 90,
 }
@@ -538,6 +540,28 @@ def process_queue(cfg, queue, g=None):
     return feitos
 
 
+def ratings_atuais():
+    return (read_json(paths()["out"] / "avaliacoes.json", {}) or {}).get("ideias") or {}
+
+
+def auto_analyze(cfg, handle=None, video_id=None, maximo=None):
+    """Nota + ideias pelo Claude (API da Anthropic) dos pendentes; sem chave, só avisa."""
+    import gerador
+    ok, motivo = gerador.disponivel()
+    ids = gerador.a_analisar(cfg, handle, video_id, maximo)
+    if not ids:
+        log("Nada novo para analisar.")
+        return
+    if not ok:
+        log(f"{len(ids)} vídeo(s) esperando análise. Para o Claude analisar sozinho: {motivo}")
+        return
+    log(f"Analisando {len(ids)} vídeo(s) com o Claude (nota, gancho e ideias)…")
+    feitos, erros = gerador.analisar_varios(ids, ratings_atuais(), cfg=cfg)
+    n_ideias = sum(len(a.get("ideias") or []) for _, a in feitos)
+    log(f"{len(feitos)} analisado(s), {n_ideias} ideias novas" + (f", {len(erros)} erro(s)" if erros else "")
+        + ". Abra o painel para ver.")
+
+
 def run_collect(chans, cfg):
     """Coleta pela fonte configurada. Devolve (records, texto de custo)."""
     import os
@@ -554,7 +578,7 @@ def run_collect(chans, cfg):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("acao", choices=["teste", "coletar", "calcular", "transcrever", "temas", "descobrir", "adicionar"])
+    ap.add_argument("acao", choices=["teste", "coletar", "calcular", "transcrever", "temas", "descobrir", "adicionar", "analisar"])
     ap.add_argument("--en", action="store_true", help="canal em inglês (com 'adicionar')")
     ap.add_argument("canal", nargs="?")
     args = ap.parse_args()
@@ -586,9 +610,13 @@ def main():
         if not args.canal:
             raise SystemExit("Uso: referencias.py adicionar @canal | link do canal | link do vídeo [--en]")
         try:
-            log(add_reference(args.canal, cfg, "en" if args.en else "pt")["msg"])
+            res = add_reference(args.canal, cfg, "en" if args.en else "pt")
         except ValueError as e:
             raise SystemExit(str(e))
+        log(res["msg"])
+        auto_analyze(cfg, res.get("handle"), res.get("id") if res["tipo"] == "video" else None)
+    elif args.acao == "analisar":
+        auto_analyze(cfg, args.canal, maximo=None if args.canal else cfg["auto_max_por_rodada"])
     elif args.acao == "descobrir":
         import youtube_publico
         own = (read_json(paths()["out"] / "meu-canal-dados.json", {}) or {}).get("channel", {}).get("id")

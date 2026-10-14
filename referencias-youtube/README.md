@@ -126,6 +126,12 @@ python3 -m pip install --user --break-system-packages anthropic   # Python do Ho
 open -e ~/.claude/skills/referencias-youtube/.env   # preencher ANTHROPIC_API_KEY=sk-ant-...
 ```
 
+Com a chave, **"＋ Adicionar referência"** também faz tudo sozinho: coleta o canal, e o Claude dá a nota de
+relevância, lê a legenda e escreve 2–3 ideias de cada outlier (até `auto_max_por_canal`, 6). O progresso aparece no
+topo do painel e as ideias entram em "Ideias para gravar" conforme ficam prontas. Pelo terminal:
+`referencias.py adicionar @canal --en` faz o mesmo; `referencias.py analisar` analisa os pendentes (a rodada de
+segunda também roda isso, até `auto_max_por_rodada`, 10).
+
 Chave em <https://console.anthropic.com/settings/keys>. Custo: alguns centavos de dólar por ideia
 (modelo Claude Opus 5.5; a parte fixa do pedido fica em cache). Sem a chave, o 👎 só troca pela próxima da fila.
 
