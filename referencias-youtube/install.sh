@@ -40,8 +40,14 @@ CMD
   mkdir -p "$WORK/fotos-leo"  # 3–4 fotos do rosto do Léo para as thumbs geradas
 fi
 [ -f "$DEST/.env" ] || { cp "$SRC/.env.example" "$DEST/.env"; chmod 600 "$DEST/.env"; }
+grep -q "^ALERTA_EMAIL_PARA=" "$DEST/.env" || printf "\n# Opcional: alerta de vídeo explodindo por e-mail (Gmail: myaccount.google.com/apppasswords)\nALERTA_EMAIL_PARA=\nSMTP_USUARIO=\nSMTP_SENHA=\n" >> "$DEST/.env"
 grep -q "^GEMINI_API_KEY=" "$DEST/.env" || printf "\n# Opcional: imagem da thumb (aistudio.google.com → Get API key)\nGEMINI_API_KEY=\n" >> "$DEST/.env"
 python3 -c "import anthropic" 2>/dev/null || echo "Opcional (ideia nova na hora ao dar 👎): python3 -m pip install --user --break-system-packages anthropic  e ANTHROPIC_API_KEY no .env"
 command -v yt-dlp >/dev/null || echo "Instale o yt-dlp: pip install -U yt-dlp  (ou brew install yt-dlp)"
+# quem já tinha a rodada semanal agendada ganha o alerta de 3 em 3 h sem precisar rodar nada
+if [ "$(uname)" = "Darwin" ] && [ -f "$HOME/Library/LaunchAgents/com.granapropria.referencias.plist" ] \
+   && [ ! -f "$HOME/Library/LaunchAgents/com.granapropria.alertas.plist" ]; then
+  bash "$DEST/agendar_mac.sh" >/dev/null 2>&1 && echo "Alerta de vídeo explodindo agendado (a cada 3 h)."
+fi
 echo "Skill instalada em $DEST"
 [ -f "$DEST/client_secret.json" ] || echo "Próximo passo: coloque o client_secret.json em $DEST e rode: python3 $DEST/scripts/auth_google.py"

@@ -65,7 +65,7 @@ def build_data(cfg):
             "gancho": a.get("gancho_literal") or a.get("gancho"),
             "estrutura": a.get("estrutura") or [], "clique": a.get("por_que_clicaram"),
             "assistiram": a.get("por_que_assistiram"), "ideias": a.get("ideias") or [],
-            "peso": v.get("peso", 1.0), "manual": bool(v.get("manual")),
+            "peso": v.get("peso", 1.0), "manual": bool(v.get("manual")), "alerta": bool(v.get("alerta")),
         })
     publico = [{
         "id": aid, "publico": True, "canal": "Comentários do público", "tema": a.get("tema"), "relevancia": 5,
@@ -80,6 +80,7 @@ def build_data(cfg):
             "gerador": gerador_disponivel(),
             "imagem": thumbs_info(),
             "meus_videos": read_json(o / "meus-videos.json", None),
+            "alertas": alertas_ativos(),
             "licoes": read_json(o / "licoes-videos.json", {}) or {},
             "cortes": {"longo": cfg["corte_longo"], "short": cfg["corte_short"]}}
 
@@ -92,6 +93,11 @@ def thumbs_info():
     rots = sorted(f.stem for f in roteiro.pasta().glob("*.json")) if roteiro.pasta().exists() else []
     return {"ok": ok, "motivo": motivo, "fotos": len(thumbs.fotos()), "pasta_fotos": str(thumbs.pasta_fotos()),
             "feitos": feitos, "roteiros": rots}
+
+
+def alertas_ativos():
+    import alerta
+    return alerta.ativos()
 
 
 def gerador_disponivel():
@@ -350,6 +356,13 @@ a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
 .tp-bar button[aria-pressed="true"]{background:#14532d;border-color:#22c55e}
 .tp-grp{display:inline-flex;align-items:center;gap:6px;color:#ccc;font-size:14px}
 .tp-tempo{color:#aaa;font-variant-numeric:tabular-nums;font-size:14px}
+#alertas{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;max-width:860px}
+.alerta{text-decoration:none;color:inherit;border-radius:var(--r-lg);padding:10px 12px;display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;border:1px solid rgba(225,29,72,.35);background:linear-gradient(90deg,rgba(225,29,72,.10),transparent 70%)}
+.alerta img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;display:block}
+.alerta b{display:block;font-size:14.5px}
+.alerta .s{font-size:12.5px;color:var(--muted)}
+.chip.fogo{background:rgba(225,29,72,.14);color:var(--down)}
+@media (max-width:520px){.alerta{grid-template-columns:84px 1fr}}
 .pbloco .cab{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .pbloco pre{margin:0;white-space:pre-wrap;font:inherit;font-size:14px;line-height:1.5;max-height:340px;overflow:auto}
 .abthumbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:8px}
@@ -461,6 +474,7 @@ a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
   <div id="view-ideias">
     <h2>Ideias para gravar</h2>
     <p class="hint" id="hint-ideias">Só diga <b>Sim</b> ou <b>Não</b>. O que você recusa sai da lista e outra entra no lugar; o sistema aprende com o padrão dos seus “nãos”.</p>
+    <div id="alertas" hidden></div>
     <div class="row" style="margin-bottom:12px" id="com-row"><button class="btn" id="btn-com">💬 Buscar ideias nos comentários</button><span class="status" id="com-status"></span></div>
     <div class="feed" id="feed"></div>
   </div>
@@ -804,7 +818,7 @@ function pool(){
   return allIdeas().filter(({i}) => !(AV[i.id] || {}).voto)
     .map(x => ({...x, s: base(x.r) * w('canal', x.r.canal) * w('tema', x.r.tema)}))
     // ideias recém-criadas (✨) entram no topo, no lugar da que foi recusada; a mais nova primeiro
-    .sort((a, b) => ((b.i.origem === 'gerada') - (a.i.origem === 'gerada')) || (b.i.gerada_em || '').localeCompare(a.i.gerada_em || '') || (b.s - a.s));
+    .sort((a, b) => ((b.i.origem === 'gerada') - (a.i.origem === 'gerada')) || ((b.r.alerta || false) - (a.r.alerta || false)) || (b.i.gerada_em || '').localeCompare(a.i.gerada_em || '') || (b.s - a.s));
 }
 function feedCardPublico({i, r}, n){
   return `<article class="fcard glass" data-id="${esc(i.id)}">
@@ -832,7 +846,7 @@ function feedCard({i, r}, n){
       <span class="rank">#${n} · baseada em ${esc(r.canal)} (${r.score ? r.score + 'x' : 'manual'})</span>
       <h3>${esc(i.titulo)}</h3>
       <div class="meta">${r.tema ? `<span class="chip ${r.tema_validado ? 'val' : ''}">${esc(r.tema)}${r.tema_validado ? ' ✓' : ''}</span>` : ''}
-        ${i.origem === 'gerada' ? '<span class="chip new">✨ nova</span>' : ''}</div>
+        ${i.origem === 'gerada' ? '<span class="chip new">✨ nova</span>' : ''}${r.alerta ? '<span class="chip fogo">🔥 explodindo</span>' : ''}</div>
       <div class="hook">${esc(i.gancho)}</div>
       <details><summary>Ver roteiro${i.a_conferir ? ' e o que conferir' : ''}</summary>
         <ul>${(i.topicos || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
@@ -842,7 +856,15 @@ function feedCard({i, r}, n){
     </div>
   </article>`;
 }
+function renderAlertas(){
+  const el = document.getElementById('alertas'), al = D.alertas || [];
+  el.hidden = !al.length;
+  el.innerHTML = al.length ? `<h3 style="margin:0;font-size:16px">🔥 Explodindo agora</h3>` + al.map(a => `<a class="alerta" href="${esc(a.url)}" target="_blank" rel="noopener">
+      ${a.thumb ? `<img src="${esc(a.thumb)}" alt="" loading="lazy">` : '<span></span>'}
+      <span><b>${esc(a.titulo)}</b><span class="s">${esc(a.canal)} · ${fmt(a.views)} views em ${a.horas} h · <b style="display:inline;color:var(--down)">${String(a.ritmo).replace('.', ',')}x</b> o ritmo normal do canal${a.ideias && a.ideias.length ? ` · ${a.ideias.length} ideia(s) na lista abaixo` : ''}</span></span></a>`).join('') : '';
+}
 function renderFeed(){
+  renderAlertas();
   const p = pool();
   const el = document.getElementById('feed');
   const sk = Array.from({length: GERANDO}, () => '<div class="skeleton glass"><span class="spin"></span> Criando uma ideia nova a partir das referências…</div>').join('');

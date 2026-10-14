@@ -135,6 +135,22 @@ segunda também roda isso, até `auto_max_por_rodada`, 10).
 Chave em <https://console.anthropic.com/settings/keys>. Custo: alguns centavos de dólar por ideia
 (modelo Claude Opus 5.5; a parte fixa do pedido fica em cache). Sem a chave, o 👎 só troca pela próxima da fila.
 
+## Alerta de vídeo explodindo
+
+A cada 3 horas (agendado sozinho no Mac junto com a rodada de segunda) o sistema confere os últimos uploads dos canais
+de referência (~15 de 10.000 unidades diárias da API por conferência, grátis). Um vídeo longo de até 7 dias que está
+**3x acima do ritmo normal do canal para a idade dele** gera um alerta. O Claude já dá a nota e escreve as ideias;
+se o vídeo não serve para o público do Léo (nota baixa), não avisa. O alerta chega:
+
+- como **notificação do Mac** (sempre);
+- na faixa **🔥 Explodindo agora** no topo de "Ideias para gravar", com as ideias dele no começo da fila;
+- por **e-mail**, se configurado no `.env` da skill: `ALERTA_EMAIL_PARA=` (quem recebe), `SMTP_USUARIO=` (o Gmail
+  que envia) e `SMTP_SENHA=` (uma **senha de app** criada em <https://myaccount.google.com/apppasswords>; precisa da
+  verificação em duas etapas ligada). Testar: `python3 ~/.claude/skills/referencias-youtube/scripts/alerta.py --teste-email`.
+
+Ajustes no `config.json`: `alerta_fator` (3), `alerta_min_views` (1000), `alerta_max_dias` (7). Log em
+`~/GranaPropria/referencias/alertas.log`. O Mac precisa estar ligado (se estiver dormindo, confere ao acordar).
+
 ## Ideias dos comentários
 
 Botão **💬 Buscar ideias nos comentários** na aba "Ideias para gravar" (e toda segunda, sozinho): lê os comentários

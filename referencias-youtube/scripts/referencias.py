@@ -391,7 +391,7 @@ def weight(v, analysis, pesos):
 
 
 def candidates(videos, analyses, cfg):
-    cands = [v for v in videos.values() if v.get("manual") or ((v.get("outlier") or v.get("em_alta"))
+    cands = [v for v in videos.values() if v.get("manual") or v.get("alerta") or ((v.get("outlier") or v.get("em_alta"))
              and (cfg["max_shorts"] or v.get("formato") != "short"))]
     pesos = load_weights()
     for v in cands:
