@@ -104,6 +104,13 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
   **Adicionar referência** (cole @canal, link do canal ou link de vídeo) coleta na hora. Pela linha de comando:
   `referencias.py adicionar @canal [--en]` ou `referencias.py adicionar <link do vídeo>`.
   Vídeos colados à mão ficam marcados `manual` e entram em `pendentes_relevancia` para receber nota e ideias.
+- **Aba "Ideias para gravar"** (tela principal): o Léo só responde 👍 Sim / 👎 Não. 👎 tira a ideia e a próxima
+  entra; a fila é reordenada na hora pelos votos (canal e tema rejeitados descem). No modo servidor, cada 👎
+  também cria **uma ideia nova na hora** (`scripts/gerador.py`, API da Anthropic, modelo `modelo_ideias` do
+  config, padrão `claude-opus-5-5`) a partir da melhor referência analisada, usando `briefing.md`, `meu-canal.md`,
+  `aprendizados.md` e os 👍/👎 como exemplos; ela entra no topo marcada ✨ e fica salva em `analises/` com
+  `origem: "gerada"`. Precisa de `ANTHROPIC_API_KEY` no `.env` e `pip install anthropic`; sem isso, só a troca.
+  Aba "Aprovadas": status ideia → roteiro → gravado → postado + link do vídeo.
 - `referencias.csv` (abre no Excel/Numbers) e `ideias.md`, ordenados por score × relevância.
 - Na rodada seguinte o script copia o `avaliacoes*.json` mais novo de `~/Downloads` para
   `./referencias/avaliacoes.json`. Rode o painel sempre no fim da Fase 2.

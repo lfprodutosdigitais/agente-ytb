@@ -70,7 +70,13 @@ def build_data(cfg):
     return {"gerado_em": now().isoformat(), "temas": temas, "refs": refs,
             "avaliacoes": avaliacoes.get("ideias", avaliacoes),
             "fila_processada": read_json(o / "fila-processada.json", []) or [],
+            "gerador": gerador_disponivel(),
             "cortes": {"longo": cfg["corte_longo"], "short": cfg["corte_short"]}}
+
+
+def gerador_disponivel():
+    import gerador
+    return gerador.disponivel()[0]
 
 
 def merge_ratings(o, incoming):
@@ -283,6 +289,33 @@ details ul{padding-left:18px}
 .toast{position:fixed;left:50%;bottom:max(18px, env(safe-area-inset-bottom, 0px));transform:translate(-50%,20px);opacity:0;transition:.25s;z-index:40;border-radius:999px;padding:10px 18px;font-size:14px;max-width:calc(100% - 32px)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .mode{font-size:12px;color:var(--faint)}
+.tabs{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--glass-soft);border:1px solid var(--stroke-dark);width:max-content;max-width:100%;overflow-x:auto}
+.tab{border:0;background:transparent;border-radius:999px;padding:7px 16px;font-weight:600;font-size:14px;color:var(--muted);white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--glass-strong);color:var(--fg);box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.tab .n{font-weight:500;color:var(--faint);margin-left:4px}
+.feed{display:flex;flex-direction:column;gap:14px;max-width:860px}
+.fcard{border-radius:var(--r-xl);padding:14px;display:grid;grid-template-columns:168px 1fr;gap:16px;align-items:start;transition:transform .32s ease, opacity .32s ease}
+.fcard.leave-up{transform:translateX(40px);opacity:0}
+.fcard.leave-down{transform:translateX(-40px);opacity:0}
+.fcard.enter{animation:enter .45s ease}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fthumb{display:block;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:var(--glass-soft)}
+.fthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.fbody{display:flex;flex-direction:column;gap:9px;min-width:0}
+.fbody h3{margin:0;font:650 18px/1.3 var(--display);letter-spacing:-.012em;text-wrap:balance}
+.rank{font:600 12px var(--font);color:var(--faint)}
+.chip.new{background:linear-gradient(90deg,rgba(124,58,237,.18),rgba(14,165,233,.18));color:var(--fg);border-color:transparent;font-weight:600}
+.yesno{display:flex;gap:10px;margin-top:2px}
+.big{flex:1;min-height:46px;border-radius:16px;font:650 16px var(--display);border:1px solid var(--stroke-dark);display:flex;align-items:center;justify-content:center;gap:8px}
+.big.no{background:var(--glass-soft)}
+.big.no:hover{background:rgba(225,29,72,.12);border-color:rgba(225,29,72,.35)}
+.big.yes{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.big.yes:hover{filter:brightness(1.06)}
+.skeleton{border-radius:var(--r-xl);padding:18px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px}
+.aprov{border-radius:var(--r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.aprov h4{margin:0;font:620 16px/1.35 var(--display)}
+.toast .undo{margin-left:12px;border:0;background:transparent;color:var(--accent);font-weight:700}
+@media (max-width:720px){.fcard{grid-template-columns:1fr}.fthumb{max-height:170px}.tabs{width:100%}.tab{flex:1;padding:7px 6px;font-size:13.5px}}
 @media (max-width:720px){header.bar{position:relative;top:0}.filters .pill{flex:1 1 44%}.flabel{display:none}h2{font-size:19px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -304,7 +337,12 @@ details ul{padding-left:18px}
         <input type="file" id="arquivo" accept=".json" hidden>
       </div>
     </div>
-    <div class="filters" role="group" aria-label="Filtros">
+    <nav class="tabs" role="tablist" aria-label="Seções">
+      <button class="tab" role="tab" data-view="ideias" aria-selected="true">Ideias para gravar</button>
+      <button class="tab" role="tab" data-view="aprovadas" aria-selected="false">Aprovadas<span class="n" id="n-aprov"></span></button>
+      <button class="tab" role="tab" data-view="refs" aria-selected="false">Referências</button>
+    </nav>
+    <div class="filters" id="filters" role="group" aria-label="Filtros" hidden>
       <span class="flabel">Filtrar</span>
       <select class="pill" id="f-canal" aria-label="Canal"><option value="">Todos os canais</option></select>
       <select class="pill" id="f-tema" aria-label="Tema"><option value="">Todos os temas</option></select>
@@ -317,6 +355,19 @@ details ul{padding-left:18px}
     </div>
   </header>
 
+  <div id="view-ideias">
+    <h2>Ideias para gravar</h2>
+    <p class="hint" id="hint-ideias">Só diga <b>Sim</b> ou <b>Não</b>. O que você recusa sai da lista e outra entra no lugar; o sistema aprende com o padrão dos seus “nãos”.</p>
+    <div class="feed" id="feed"></div>
+  </div>
+
+  <div id="view-aprovadas" hidden>
+    <h2>Aprovadas</h2>
+    <p class="hint">Acompanhe cada ideia até virar vídeo. Quando postar, cole o link: o sistema mede o vídeo aos 7 e 30 dias.</p>
+    <div class="feed" id="aprovadas"></div>
+  </div>
+
+  <div id="view-refs" hidden>
   <section id="sec-manual" hidden>
     <h2>Adicionadas por você <span class="n" id="n-manual"></span></h2>
     <p class="hint">Vídeos que você colou à mão. Entram na próxima análise para ganhar nota e ideias.</p>
@@ -334,6 +385,7 @@ details ul{padding-left:18px}
   <h2>Referências <span class="n" id="n-refs"></span></h2>
   <p class="hint">Ordem: score × relevância × peso aprendido com as suas avaliações.</p>
   <div class="grid" id="refs"></div>
+  </div>
 </div>
 
 <div class="scrim" id="scrim" hidden>
@@ -349,7 +401,7 @@ details ul{padding-left:18px}
     </div>
   </form>
 </div>
-<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
+<div class="toast glass" id="toast" role="status" aria-live="polite"><span id="toast-msg"></span><button class="undo" id="undo" hidden>Desfazer</button></div>
 
 <script id="dados" type="application/json">__DATA__</script>
 <script>
@@ -368,7 +420,9 @@ FILA = FILA.filter(x => !(D.fila_processada || []).includes(x.entrada)); ls.set(
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => (n ?? 0).toLocaleString('pt-BR');
 const prio = r => (r.score || 0) * (r.relevancia || 0) * (r.tema_validado ? 1.25 : 1) * (r.peso || 1);
-function toast(t, ms=2600){ const el = document.getElementById('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), ms); }
+let undoFn = null;
+function toast(t, ms=2600, undo=null){ const el = document.getElementById('toast'); document.getElementById('toast-msg').textContent = t;
+  undoFn = undo; document.getElementById('undo').hidden = !undo; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), ms); }
 async function api(path, body){
   const r = await fetch(path, {method: body ? 'POST' : 'GET', headers: {'Content-Type': 'application/json', 'X-Token': TOKEN}, body: body ? JSON.stringify(body) : undefined});
   const j = await r.json().catch(() => ({ok: false, erro: 'Resposta inválida do servidor'}));
@@ -507,7 +561,7 @@ document.getElementById('form-add').addEventListener('submit', async e => {
   try {
     const r = await api('/api/adicionar', {entrada, lang});
     statusEl.className = 'status ok'; statusEl.textContent = r.msg;
-    D = (await api('/api/dados')).dados; mergeAv(D.avaliacoes); fillSelects(); render();
+    D = (await api('/api/dados')).dados; mergeAv(D.avaliacoes); fillSelects(); renderAll();
     document.getElementById('entrada').value = '';
   } catch (err) { statusEl.className = 'status err'; statusEl.textContent = err.message; }
   finally { btn.disabled = false; }
@@ -527,10 +581,112 @@ document.getElementById('exportar').addEventListener('click', () => {
 document.getElementById('importar').addEventListener('click', () => document.getElementById('arquivo').click());
 document.getElementById('arquivo').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
-  try { const j = JSON.parse(await f.text()); mergeAv(j.ideias || j); persist(); render(); toast('Avaliações importadas'); }
+  try { const j = JSON.parse(await f.text()); mergeAv(j.ideias || j); persist(); renderAll(); toast('Avaliações importadas'); }
   catch (err) { toast('Arquivo inválido'); }
 });
-fillSelects(); render();
+// ---------- Ideias para gravar (Sim / Não) ----------
+const FEED_N = 8;
+let VIEW = ls.get('grana-painel-aba', 'ideias');
+let GERANDO = 0;
+function liveWeights(){
+  const t = {canal: {}, tema: {}};
+  for (const r of D.refs) for (const i of r.ideias) {
+    const v = (AV[i.id] || {}).voto; if (!v) continue;
+    for (const k of ['canal', 'tema']) { const key = r[k] || '—'; t[k][key] = t[k][key] || {u: 0, d: 0}; t[k][key][v === 'up' ? 'u' : 'd']++; }
+  }
+  const w = (k, key) => { const x = t[k][key]; return x ? 0.5 + (x.u + 1) / (x.u + x.d + 2) : 1; };
+  return w;
+}
+function allIdeas(){ return D.refs.flatMap(r => r.ideias.map(i => ({i, r}))); }
+function pool(){
+  const w = liveWeights();
+  const base = r => (r.score || 1) * (r.relevancia || 3) * (r.tema_validado ? 1.25 : 1);
+  return allIdeas().filter(({i}) => !(AV[i.id] || {}).voto)
+    .map(x => ({...x, s: base(x.r) * w('canal', x.r.canal) * w('tema', x.r.tema)}))
+    // ideias recém-criadas (✨) entram no topo, no lugar da que foi recusada; a mais nova primeiro
+    .sort((a, b) => ((b.i.origem === 'gerada') - (a.i.origem === 'gerada')) || (b.i.gerada_em || '').localeCompare(a.i.gerada_em || '') || (b.s - a.s));
+}
+function feedCard({i, r}, n){
+  const thumb = r.thumb || `https://i.ytimg.com/vi/${r.id}/hqdefault.jpg`;
+  return `<article class="fcard glass" data-id="${esc(i.id)}">
+    <a class="fthumb" href="${esc(r.url)}" target="_blank" rel="noopener" title="Ver a referência"><img loading="lazy" src="${esc(thumb)}" alt="" onerror="this.style.visibility='hidden'"></a>
+    <div class="fbody">
+      <span class="rank">#${n} · baseada em ${esc(r.canal)} (${r.score ? r.score + 'x' : 'manual'})</span>
+      <h3>${esc(i.titulo)}</h3>
+      <div class="meta">${r.tema ? `<span class="chip ${r.tema_validado ? 'val' : ''}">${esc(r.tema)}${r.tema_validado ? ' ✓' : ''}</span>` : ''}
+        ${i.origem === 'gerada' ? '<span class="chip new">✨ nova</span>' : ''}</div>
+      <div class="hook">${esc(i.gancho)}</div>
+      <details><summary>Ver roteiro${i.a_conferir ? ' e o que conferir' : ''}</summary>
+        <ul>${(i.topicos || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        ${i.a_conferir ? `<div class="conferir" style="margin-top:8px">⚠️ ${esc(i.a_conferir)}</div>` : ''}
+        <p class="count">Referência: <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.titulo)}</a></p></details>
+      <div class="yesno"><button class="big no" data-v="down">👎 Não</button><button class="big yes" data-v="up">👍 Sim</button></div>
+    </div>
+  </article>`;
+}
+function renderFeed(){
+  const p = pool();
+  const el = document.getElementById('feed');
+  const sk = Array.from({length: GERANDO}, () => '<div class="skeleton glass"><span class="spin"></span> Criando uma ideia nova a partir das referências…</div>').join('');
+  el.innerHTML = p.length ? p.slice(0, FEED_N).map((x, k) => feedCard(x, k + 1)).join('') + sk
+    : sk + '<div class="empty">Você avaliou todas as ideias. As próximas chegam com a análise das novas referências.</div>';
+  document.getElementById('hint-ideias').innerHTML = `Só diga <b>Sim</b> ou <b>Não</b>. O que você recusa sai e outra entra no lugar${D.gerador ? ' — e uma ideia <b>nova</b> é criada na hora' : ''}. ${p.length} na fila.`;
+}
+function renderAprov(){
+  const ups = allIdeas().filter(({i}) => (AV[i.id] || {}).voto === 'up')
+    .sort((a, b) => STATUS.indexOf((AV[b.i.id] || {}).status || 'ideia') - STATUS.indexOf((AV[a.i.id] || {}).status || 'ideia'));
+  document.getElementById('n-aprov').textContent = ups.length || '';
+  document.getElementById('aprovadas').innerHTML = ups.map(({i, r}) => { const a = AV[i.id] || {}, st = a.status || 'ideia';
+    return `<div class="aprov glass idea" data-id="${esc(i.id)}"><span class="rank">${esc(r.canal)} · ${esc(r.tema || '')}</span><h4>${esc(i.titulo)}</h4>
+      <details><summary>Gancho e roteiro</summary><div class="hook" style="margin-top:8px">${esc(i.gancho)}</div><ul>${(i.topicos || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+      ${i.a_conferir ? `<div class="conferir">⚠️ ${esc(i.a_conferir)}</div>` : ''}</details>
+      <div class="row"><select class="pill status" aria-label="Status">${STATUS.map(s => `<option ${s === st ? 'selected' : ''}>${s}</option>`).join('')}</select>
+        <input class="pill url" placeholder="link do vídeo postado" value="${esc(a.url)}" ${st === 'postado' ? '' : 'hidden'} aria-label="Link do vídeo">
+        <button class="btn" data-tirar="1">Tirar</button></div></div>`; }).join('') || '<div class="empty">Nenhuma aprovada ainda. Diga “Sim” nas ideias que quer gravar.</div>';
+}
+function showView(v){
+  VIEW = v; ls.set('grana-painel-aba', v);
+  for (const x of ['ideias', 'aprovadas', 'refs']) document.getElementById('view-' + x).hidden = x !== v;
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.view === v));
+  document.getElementById('filters').hidden = v !== 'refs';
+  renderAll();
+}
+function renderAll(){ renderFeed(); renderAprov(); render(); }
+document.querySelector('.tabs').addEventListener('click', e => { const t = e.target.closest('.tab'); if (t) showView(t.dataset.view); });
+document.getElementById('undo').addEventListener('click', () => { if (undoFn) undoFn(); document.getElementById('toast').classList.remove('show'); });
+
+async function gerarNova(rejeitada){
+  if (!SERVER || !D.gerador) return;
+  GERANDO++; renderFeed();
+  try {
+    const res = await api('/api/gerar', {rejeitada, ideias: AV});
+    const ref = D.refs.find(r => r.id === res.ref_id);
+    if (ref) ref.ideias.push(res.ideia);
+    toast('✨ Ideia nova criada: ' + res.ideia.titulo, 3500);
+  } catch (err) { toast('Não deu para criar ideia nova agora: ' + err.message, 4000); }
+  finally { GERANDO--; renderAll(); }
+}
+document.getElementById('feed').addEventListener('click', e => {
+  const b = e.target.closest('.big'); if (!b) return;
+  const card = b.closest('.fcard'), id = card.dataset.id, v = b.dataset.v;
+  setAv(id, {voto: v});
+  card.classList.add(v === 'up' ? 'leave-up' : 'leave-down');
+  const undo = () => { setAv(id, {voto: null}); renderAll(); };
+  toast(v === 'up' ? '👍 Foi para Aprovadas' : '👎 Removida', 3200, undo);
+  setTimeout(() => { renderAll(); const f = document.querySelector('#feed .fcard:nth-child(' + FEED_N + ')'); if (f) f.classList.add('enter'); }, 300);
+  if (v === 'down') gerarNova(id);
+});
+document.getElementById('aprovadas').addEventListener('click', e => {
+  const b = e.target.closest('[data-tirar]'); if (!b) return;
+  const id = b.closest('.idea').dataset.id; setAv(id, {voto: null}); renderAll(); toast('Voltou para a fila');
+});
+document.getElementById('aprovadas').addEventListener('change', e => {
+  const box = e.target.closest('.idea'); if (!box) return; const id = box.dataset.id;
+  if (e.target.classList.contains('status')) { setAv(id, {status: e.target.value}); box.querySelector('.url').hidden = e.target.value !== 'postado'; renderAprov(); }
+  else if (e.target.classList.contains('url')) setAv(id, {url: e.target.value.trim()});
+});
+
+fillSelects(); showView(VIEW);
 </script>
 </body>
 </html>
@@ -595,6 +751,21 @@ def make_handler(cfg, token, lock):
                 with lock:
                     merge_ratings(o, body.get("ideias"))
                 return self._send(200, {"ok": True})
+            if self.path == "/api/gerar":
+                import gerador
+                ok, motivo = gerador.disponivel()
+                if not ok:
+                    return self._send(200, {"ok": False, "erro": motivo})
+                try:
+                    with lock:
+                        av = merge_ratings(o, body.get("ideias"))["ideias"]
+                        ref_id, ideia = gerador.gerar(av, rejeitada_id=body.get("rejeitada"), cfg=cfg)
+                        generate(cfg, token)
+                    return self._send(200, {"ok": True, "ref_id": ref_id, "ideia": ideia})
+                except ValueError as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except Exception as e:  # rede, chave inválida, limite da API
+                    return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
             if self.path == "/api/adicionar":
                 try:
                     with lock:

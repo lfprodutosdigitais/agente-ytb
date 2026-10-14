@@ -117,6 +117,18 @@ Atualiza o seu canal, coleta as referências (YouTube API, grátis) e baixa as l
 - **Custo:** coleta pela YouTube Data API é grátis (~100 de 10.000 unidades diárias com 14 canais; a descoberta
   usa ~800). Apify só se `"fonte": "apify"`: ~US$ 0,004 por vídeo (~US$ 0,20 por canal por rodada).
 
+## Ideia nova na hora (opcional)
+
+Quando o Léo dá 👎 no painel (aberto pelo atalho `Abrir painel`), o Claude cria uma ideia nova no lugar:
+
+```bash
+python3 -m pip install --user anthropic
+open -e ~/.claude/skills/referencias-youtube/.env   # preencher ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Chave em <https://console.anthropic.com/settings/keys>. Custo: alguns centavos de dólar por ideia
+(modelo Claude Opus 5.5; a parte fixa do pedido fica em cache). Sem a chave, o 👎 só troca pela próxima da fila.
+
 ## Testes
 
 ```bash

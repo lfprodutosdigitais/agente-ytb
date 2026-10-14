@@ -5,7 +5,7 @@ set -euo pipefail
 SRC="$(cd "$(dirname "$0")" && pwd)"
 DEST="$HOME/.claude/skills/referencias-youtube"
 mkdir -p "$DEST/scripts"
-cp "$SRC"/SKILL.md "$SRC"/README.md "$SRC"/.env.example "$DEST"/
+cp "$SRC"/SKILL.md "$SRC"/README.md "$SRC"/.env.example "$SRC"/briefing.md "$DEST"/
 cp "$SRC"/scripts/*.py "$DEST/scripts/"
 cp "$SRC"/rodada_semanal.sh "$SRC"/agendar_mac.sh "$DEST"/ && chmod +x "$DEST"/*.sh
 for f in config.json canais.txt; do [ -f "$DEST/$f" ] || cp "$SRC/$f" "$DEST/$f"; done
@@ -25,6 +25,7 @@ CMD
   chmod +x "$WORK/Abrir painel.command"
 fi
 [ -f "$DEST/.env" ] || { cp "$SRC/.env.example" "$DEST/.env"; chmod 600 "$DEST/.env"; }
+python3 -c "import anthropic" 2>/dev/null || echo "Opcional (ideia nova na hora ao dar 👎): python3 -m pip install --user anthropic  e ANTHROPIC_API_KEY no .env"
 command -v yt-dlp >/dev/null || echo "Instale o yt-dlp: pip install -U yt-dlp  (ou brew install yt-dlp)"
 echo "Skill instalada em $DEST"
 [ -f "$DEST/client_secret.json" ] || echo "Próximo passo: coloque o client_secret.json em $DEST e rode: python3 $DEST/scripts/auth_google.py"

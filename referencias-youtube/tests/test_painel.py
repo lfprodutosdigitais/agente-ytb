@@ -47,6 +47,9 @@ class Painel(unittest.TestCase):
         o = Path(self.tmp.name)
         html = (o / "painel.html").read_text()
         self.assertIn("Referências do Grana Própria", html)
+        self.assertIn("[hidden]{display:none!important}", html)  # senão a janela escondida bloqueia os cliques
+        self.assertIn("Qualquer score", html)
+        self.assertIn('data-view="ideias"', html)
         self.assertNotIn("Eu saí do CLT </script>", html)          # não quebra o <script> de dados
         self.assertIn("Eu saí do CLT <\\/script>", html)
         md = (o / "ideias.md").read_text()
