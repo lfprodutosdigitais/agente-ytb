@@ -11,6 +11,7 @@ Uso: python3 scripts/comentarios.py
 """
 import hashlib
 import re
+from pathlib import Path
 from datetime import timedelta
 
 from yt_common import HttpError, log, now, out_dir, parse_date, read_json, write_json
@@ -58,25 +59,60 @@ def fontes(cfg):
     return out
 
 
+DIAG = {"videos": 0, "recebidos": 0, "desativados": 0, "via_ytdlp": 0, "erro": ""}
+
+
+def via_ytdlp(vid, n=100):
+    """Comentários mais curtidos pelo yt-dlp (sem API). [] se não conseguir."""
+    import json as _json
+    import subprocess
+    import tempfile
+    import transcricao
+    with tempfile.TemporaryDirectory() as tmp:
+        cmd = transcricao.ytdlp_cmd() + ["--skip-download", "--write-comments", "--no-warnings", "-q",
+               "--extractor-args", f"youtube:max_comments={n},all,0,0;comment_sort=top",
+               "-o", f"{tmp}/%(id)s.%(ext)s", f"https://www.youtube.com/watch?v={vid}"]
+        subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+        f = next(Path(tmp).glob("*.info.json"), None)
+        if not f:
+            return []
+        info = _json.loads(f.read_text(encoding="utf-8"))
+    return [{"texto": (c.get("text") or "").strip()[:600], "likes": c.get("like_count") or 0, "respostas": 0}
+            for c in info.get("comments") or [] if c.get("parent") in (None, "root")]
+
+
 def baixar(g, vid, tipo):
     """Comentários (texto + curtidas) de um vídeo, com cache. [] se os comentários estão desativados."""
     f = out_dir() / "cache" / "comentarios" / f"{vid}.json"
     c = read_json(f, None)
-    if c and now() - parse_date(c["em"]) < timedelta(days=VALIDADE[tipo]):
+    DIAG["videos"] += 1
+    if c and c.get("itens") and now() - parse_date(c["em"]) < timedelta(days=VALIDADE[tipo]):
+        DIAG["recebidos"] += len(c["itens"])
         return c["itens"]
+    itens = None
     try:
         r = g.get(f"{DATA}/commentThreads", {"part": "snippet", "videoId": vid, "maxResults": 100,
                                              "order": "relevance", "textFormat": "plainText"})
+        itens = []
+        for it in r.get("items") or []:
+            sn = it["snippet"]["topLevelComment"]["snippet"]
+            itens.append({"texto": (sn.get("textDisplay") or sn.get("textOriginal") or "").strip()[:600],
+                          "likes": sn.get("likeCount", 0), "respostas": it["snippet"].get("totalReplyCount", 0)})
     except HttpError as e:
-        if e.status in (403, 404):  # comentários desativados ou vídeo removido
+        if "commentsDisabled" in e.body or e.status == 404:  # comentários desativados ou vídeo removido
+            DIAG["desativados"] += 1
             return []
-        raise
-    itens = []
-    for it in r.get("items") or []:
-        sn = it["snippet"]["topLevelComment"]["snippet"]
-        itens.append({"texto": (sn.get("textDisplay") or sn.get("textOriginal") or "").strip()[:600],
-                      "likes": sn.get("likeCount", 0), "respostas": it["snippet"].get("totalReplyCount", 0)})
-    write_json(f, {"em": now().isoformat(), "itens": itens})
+        DIAG["erro"] = f"API {e.status}: {e.body[:160]}"
+    if not itens:  # API recusou ou veio vazia: tenta pelo yt-dlp
+        try:
+            itens = via_ytdlp(vid)
+            DIAG["via_ytdlp"] += 1 if itens else 0
+        except Exception as e:
+            DIAG["erro"] = DIAG["erro"] or f"yt-dlp: {e}"[:160]
+            itens = []
+    DIAG["recebidos"] += len(itens)
+    if itens:
+        write_json(f, {"em": now().isoformat(), "itens": itens})
     return itens
 
 
@@ -88,6 +124,7 @@ def filtrar(itens):
 
 def coletar(g, cfg):
     """{'leo': [...], 'ref': [...]} de comentários filtrados (texto, curtidas, vídeo)."""
+    DIAG.update(videos=0, recebidos=0, desativados=0, via_ytdlp=0, erro="")
     out, unidades = {"leo": [], "ref": []}, 0
     for vid, tipo, titulo in fontes(cfg):
         itens = baixar(g, vid, tipo)
@@ -95,8 +132,11 @@ def coletar(g, cfg):
         out[tipo] += [{**c, "video": titulo} for c in filtrar(itens)]
     for k in out:
         out[k].sort(key=lambda c: -(c["likes"] + 2 * c["respostas"]))
-    log(f"Comentários: {len(out['leo'])} perguntas no canal do Léo, {len(out['ref'])} nas referências "
-        f"(~{unidades} unidades de cota)")
+    log(f"Comentários: {DIAG['recebidos']} lidos em {DIAG['videos']} vídeos → {len(out['leo'])} perguntas no canal "
+        f"do Léo, {len(out['ref'])} nas referências (~{unidades} unidades de cota"
+        + (f"; {DIAG['via_ytdlp']} vídeo(s) pelo yt-dlp" if DIAG["via_ytdlp"] else "")
+        + (f"; {DIAG['desativados']} com comentários desativados" if DIAG["desativados"] else "") + ")"
+        + (f" · último erro: {DIAG['erro']}" if DIAG["erro"] else ""))
     return out
 
 

@@ -128,10 +128,13 @@ def _chamar(client, cfg, schema, pedido, max_tokens=16000):
         system=[{"type": "text", "text": contexto_fixo(), "cache_control": {"type": "ephemeral"}}],
         messages=[{"role": "user", "content": pedido}],
     )
+    # streaming: o SDK recusa pedidos longos (max_tokens alto) sem ele; get_final_message junta a resposta
     try:  # com fallback automático se o modelo recusar (SDK recente)
-        resp = client.beta.messages.create(betas=["server-side-fallback-2026-07-01"], fallbacks="default", **params)
+        with client.beta.messages.stream(betas=["server-side-fallback-2026-07-01"], fallbacks="default", **params) as st:
+            resp = st.get_final_message()
     except TypeError:  # SDK antigo sem esses parâmetros
-        resp = client.messages.create(**params)
+        with client.messages.stream(**params) as st:
+            resp = st.get_final_message()
     if resp.stop_reason == "refusal":
         raise ValueError("O modelo recusou esse pedido. Tente de novo.")
     if resp.stop_reason == "max_tokens":

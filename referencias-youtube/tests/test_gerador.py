@@ -1,4 +1,5 @@
 """Gerador de ideias na hora (cliente Anthropic simulado, sem rede)."""
+import contextlib
 import json
 import os
 import sys
@@ -15,10 +16,14 @@ import gerador  # noqa: E402
 class FakeClient:
     def __init__(self, payload, stop="end_turn"):
         self.payload, self.stop, self.calls = payload, stop, []
-        self.beta = types.SimpleNamespace(messages=types.SimpleNamespace(create=self._create))
+        self.beta = types.SimpleNamespace(messages=types.SimpleNamespace(stream=self._stream))
 
-    def _create(self, **kw):
+    def _stream(self, **kw):
         self.calls.append(kw)
+        msg = self._msg()
+        return contextlib.nullcontext(types.SimpleNamespace(get_final_message=lambda: msg))
+
+    def _msg(self):
         return types.SimpleNamespace(
             stop_reason=self.stop, content=[types.SimpleNamespace(type="text", text=json.dumps(self.payload))],
             usage=types.SimpleNamespace(input_tokens=100, output_tokens=50, cache_read_input_tokens=900))

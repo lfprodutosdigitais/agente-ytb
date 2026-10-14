@@ -114,7 +114,10 @@ def comentarios_coleta(ctx):
     import comentarios
     c = comentarios.coletar(ctx.get("g"), R.config())
     ex = (c["leo"] + c["ref"])[:1]
-    return f"{len(c['leo'])} perguntas no canal do Léo, {len(c['ref'])} nas referências" + (f" · ex.: “{ex[0]['texto'][:60]}”" if ex else "")
+    d = comentarios.DIAG
+    return (f"{d['recebidos']} comentários lidos em {d['videos']} vídeos → {len(c['leo'])} perguntas no canal do Léo, "
+            f"{len(c['ref'])} nas referências" + (f" · {d['via_ytdlp']} pelo yt-dlp" if d["via_ytdlp"] else "")
+            + (f" · erro: {d['erro']}" if d["erro"] else "") + (f" · ex.: “{ex[0]['texto'][:60]}”" if ex else ""))
 
 
 @passo("Alerta (conferência sem avisar)")
