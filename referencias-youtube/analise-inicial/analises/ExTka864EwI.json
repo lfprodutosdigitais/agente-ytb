@@ -1,5 +1,63 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Dinheiro com IA do jeito \"preguiçoso\": renda extra digital acessível."
+  "motivo_relevancia": "Dinheiro com IA do jeito \"preguiçoso\": renda extra digital acessível.",
+  "gancho": "É engraçado porque há três anos atrás eu não conseguiria gravar esse vídeo, ou pelo menos nenhum de forma honesta, porque há 3 anos você não podia colocar as palavras ganhar dinheiro e fácil na mesma frase.",
+  "estrutura": [
+    "Abertura: IA dá a qualquer um o poder de uma empresa, mas é 'Ferrari na mão de quem não sabe dirigir'",
+    "Promessa/desafio ao vivo: criar anúncio, achar cliente, vender e entregar um site do zero em um vídeo + forma gratuita no final",
+    "Funil: 5 criativos feitos no ChatGPT no Facebook Ads (campanha 1-1-1) para autônomos → WhatsApp → paga só depois de ver o site",
+    "Acompanhamento do dia: R$ 3 por conversa, muitos curiosos, objeção 'pago antes ou depois?'",
+    "Cliente barbeiro fecha; respostas no WhatsApp feitas por um GPT próprio; R$ 99 gastos em anúncio",
+    "Criação do site: GPT gera o prompt → Bolt e Lovable constroem (agendamento + painel admin)",
+    "Pix de R$ 197 recebido na tela; upsells: hospedagem R$ 20–30/mês, domínio R$ 50, alterações R$ 50",
+    "Tutorial de publicação na Hostinger (GitHub, npm run build, pasta dist)",
+    "Forma gratuita: prospectar barbearias/dentistas no Google Maps e chamar no WhatsApp; escalar com equipe"
+  ],
+  "por_que_clicaram": "Título de curiosidade + contraste ('mais PREGUIÇOSA' x 'fazer dinheiro'), superlativo e IA como palavra-ímã; promete atalho com pouco esforço. Formato de desafio sugerido ('ao vivo, do zero') no próprio início.",
+  "por_que_assistiram": "Desafio com open loop claro (será que fecha a venda?), prova em tempo real (gastos de R$ 2,81, R$ 6, R$ 99, conversas reais no WhatsApp) e clímax com o Pix de R$ 197 na tela; promessa da 'forma gratuita no final' segura até o fim; passo a passo de ferramentas dá sensação de 'eu consigo copiar'.",
+  "ideias": [
+    {
+      "id": "ExTka864EwI-1",
+      "titulo": "Testei VENDER um SITE feito com IA pro comércio do bairro com R$ 0 de anúncio (só Google Maps)",
+      "gancho": "R$ 197 por um site que a IA monta em 1 hora. Vou abrir o Google Maps aqui em Floripa, chamar 20 comércios no WhatsApp sem gastar 1 real de anúncio e te mostrar quantos responderam e quantos pagaram.",
+      "topicos": [
+        "Passo 1 já no primeiro minuto: buscar no Google Maps 'barbearia' ou 'dentista' na sua cidade e filtrar quem não tem site",
+        "A mensagem de WhatsApp (feita com IA) e a regra 'paga só depois de aprovar' — por que ela derruba a objeção",
+        "Placar ao vivo: 20 contatos → quantas respostas → quantas vendas",
+        "Montando o site com IA na tela: quanto tempo levou de verdade",
+        "Conta final: R$ 0 de anúncio vs. o teste da referência com R$ 99 de anúncio para 1 venda de R$ 197",
+        "O que o CLT faz no horário de almoço e o que fica para a noite"
+      ],
+      "a_conferir": "O Léo precisaria executar o teste de verdade (prospecção e venda) antes de gravar; resultados não podem ser inventados."
+    },
+    {
+      "id": "ExTka864EwI-2",
+      "titulo": "Quantos clientes de R$ 30 por MÊS você precisa pra SUBSTITUIR seu salário? (a conta da recorrência)",
+      "gancho": "Uma venda de R$ 197 paga uma conta. Mas R$ 30 por mês de 100 clientes são R$ 3 mil — exatamente o salário que eu ganhava de motoboy. Hoje eu faço na tela a conta de quanto tempo leva pra montar isso sem largar o CLT.",
+      "topicos": [
+        "Venda única x recorrência: R$ 197 uma vez contra R$ 20–30/mês de hospedagem/manutenção",
+        "A conta: R$ 3 mil ÷ R$ 30 = 100 clientes; e com o upsell de R$ 50 por alteração",
+        "Ritmo realista do CLT: 2 clientes novos por semana → mês a mês até 100, na planilha",
+        "O que mata a recorrência: cliente que cancela — simulação perdendo 5% ao mês",
+        "Comparando com os R$ 35 mil que eu juntei antes de pedir demissão: em quantos meses a recorrência paga a tua saída",
+        "Quando abrir MEI pra emitir nota e cobrar mensalidade direito"
+      ],
+      "a_conferir": "Valores de recorrência (R$ 20–30) vêm do vídeo de referência; o Léo não tem histórico próprio com venda de sites."
+    },
+    {
+      "id": "ExTka864EwI-3",
+      "titulo": "A maneira 'PREGUIÇOSA' de ganhar dinheiro com IA NÃO é preguiçosa: os 5 trabalhos que ninguém mostra",
+      "gancho": "R$ 99 de anúncio, dezenas de conversas, 1 venda de R$ 197. O guru chama isso de 'jeito preguiçoso'. Eu já perdi dinheiro com promessa de 'fácil' e vou te mostrar os 5 trabalhos escondidos por trás desse Pix.",
+      "topicos": [
+        "Trabalho 1: atender curiosos — no teste, R$ 3 por conversa e a maioria era 'oi, tem nada não'",
+        "Trabalho 2: vender — objeção do 'pago antes ou depois?' e o risco de fazer o site e não receber",
+        "Trabalho 3: entregar — prompt, Bolt/Lovable, ajustes e publicar (npm, hospedagem): não é 1 clique",
+        "Trabalho 4: suporte — o cliente que pede alteração todo mês",
+        "Trabalho 5: imposto e taxa — o que sobra dos R$ 197 depois de anúncio (R$ 99) e custos",
+        "Minha régua de golpe: quando 'fácil' e 'dinheiro' aparecem juntos, o que eu checo antes de entrar"
+      ],
+      "a_conferir": "Não repetir o vídeo já sugerido de '5 sinais de golpe'; aqui o foco é o trabalho escondido, não golpe."
+    }
+  ]
 }

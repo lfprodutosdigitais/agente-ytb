@@ -1,5 +1,63 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "\"Laziest way\" com IA (Tilbury): adaptar para o Brasil."
+  "motivo_relevancia": "\"Laziest way\" com IA (Tilbury): adaptar para o Brasil.",
+  "gancho": "People are secretly making thousands of dollars using Claude to make AI influencers like this, this, and this all from the comfort of their own home without showing their face. I've generated $100,000 in the last 30 days with my AI creators.",
+  "estrutura": [
+    "Abertura: prints/clips de pessoas que dizem faturar US$ 100 mil com influenciadores de IA; Tilbury cético e cria desafio de 7 dias com aposta de US$ 1.000",
+    "3 regras: até US$ 99, sem usar rosto/voz, primeiro influenciador pronto no 1º dia",
+    "Espionar a concorrência (Lil Miquela, 'Mother Satori', vovó de IA) e listar formas de ganhar: publi, produto físico, afiliado, produto digital",
+    "Escolher nichos (saúde, riqueza, relacionamentos) e criar 3 personagens com Claude",
+    "Gerar fotos, vozes e vídeos com Higgsfield (patrocínio com cupom) e roteiros com skills do Claude",
+    "Lançar 3 contas no Instagram, 10 vídeos cada, e escolher o vencedor (Amos)",
+    "Monetizar com produto digital: workbook 'desafio de 30 dias' criado no Claude, vendido na Stan Store a US$ 12",
+    "Reviravolta: a conta que ele abandonou (Vivian) viraliza com 250 mil views",
+    "Contas finais: 23 vendas = US$ 276; custos US$ 118,52; lucro US$ 157,48 — desafio falhou, sorteia US$ 1.000"
+  ],
+  "por_que_clicaram": "Autoridade cética (milionário 'à moda antiga') testando a promessa da moda; 'I Tried' + 'LAZIEST' = desafio pessoal + curiosidade; IA como tema em alta; thumbnail provavelmente com rosto dele + personagem de IA.",
+  "por_que_assistiram": "Desafio com prazo (7 dias), regras e aposta de US$ 1.000 criam open loop até o fim; checklist de etapas que vai sendo 'ticado'; reviravolta (escolheu o influenciador errado); transparência com números finais e custos, incluindo admitir que falhou.",
+  "ideias": [
+    {
+      "id": "LlhTEttKcwQ-1",
+      "titulo": "'Faturei 100 MIL com IA': refiz a conta do teste e sobraram R$ 800 (o que o CLT pode copiar)",
+      "gancho": "O print diz 100 mil em 30 dias. O teste honesto deu 23 vendas de um produto de uns R$ 65 e, tirando custo e taxa, sobrou menos de R$ 900. Eu vou fazer essa conta na tela em reais e te mostrar a única parte que dá pra um CLT copiar.",
+      "topicos": [
+        "O print de US$ 100 mil vs. o teste real: 23 vendas, US$ 276 de faturamento, US$ 157 de lucro — convertido para reais",
+        "Onde foi o dinheiro: ferramenta de US$ 99 e taxa de PayPal de quase US$ 20 (no Brasil: plataforma + taxa do Pix/cartão)",
+        "O que NÃO vale copiar: perfil fake e viver de seguidor — por que eu não recomendo pro CLT",
+        "O que vale copiar: o produto digital de R$ 19–29 que vendeu",
+        "A conta brasileira: quantas vendas de R$ 19,90 pra pagar a ferramenta e quantas pra chegar em R$ 700/mês",
+        "Minha régua de guru: quando o print é grande demais, peça o custo"
+      ],
+      "a_conferir": "Conversão em reais deve usar o câmbio do dia da gravação (os R$ ~65 e R$ ~900 do gancho são aproximações)."
+    },
+    {
+      "id": "LlhTEttKcwQ-2",
+      "titulo": "E-book MORREU: o produto digital que o brasileiro ainda PAGA em 2026 (caderno de desafio de 30 dias)",
+      "gancho": "Ninguém mais paga R$ 19,90 num e-book que o ChatGPT responde de graça. Mas um caderno de desafio de 30 dias vendeu 23 cópias numa semana no teste que eu analisei. Vou te mostrar a diferença e montar um na tela pro CLT que quer sair do vermelho.",
+      "topicos": [
+        "Por que o PDF de texto genérico parou de vender e o que o cliente paga: estrutura, tarefa diária e acompanhamento",
+        "Exemplo do teste: desafio de 30 dias com 1 regra por dia, caixa de marcar e tabela pra colar na geladeira",
+        "Montando na tela: '30 dias pra juntar os primeiros R$ 1.000' — 1 tarefa por dia, metas em reais",
+        "Preço e esteira: entrada de R$ 19,90 e o próximo degrau de R$ 97",
+        "Onde vender no Brasil sem site: plataforma com Pix e link na bio/WhatsApp",
+        "Conta: quantas vendas para os R$ 700–800 por mês que eu fazia de renda extra"
+      ],
+      "a_conferir": "Diferenciar das ideias já sugeridas de 'criar produto de R$ 19,90 com IA ao vivo' — aqui o foco é o FORMATO (desafio de 30 dias x e-book)."
+    },
+    {
+      "id": "LlhTEttKcwQ-3",
+      "titulo": "Testei 3 ideias de renda extra ao MESMO tempo com R$ 99: a que eu achava que ia ganhar PERDEU",
+      "gancho": "R$ 99 divididos em 3 testes de R$ 33. Eu tinha certeza de qual ia vencer — e errei. Nesse vídeo eu te mostro os 3 placares na tela e a regra que o CLT deve usar pra não gastar 1 ano numa ideia que não vende.",
+      "topicos": [
+        "A regra de testar 3 ofertas pequenas em vez de apostar tudo numa (lição do teste de 7 dias do Tilbury)",
+        "Teste 1, 2 e 3: produto de R$ 19,90, serviço local e uma terceira oferta — R$ 33 de orçamento cada",
+        "Placar depois de 7 dias: cliques, conversas e vendas de cada um",
+        "A reviravolta: por que a 'favorita' perdeu e a que eu desprezei andou",
+        "Quando dobrar a aposta e quando parar: os números de corte",
+        "Ligando com minha história: comecei com banca de R$ 100 — começar pequeno e medir"
+      ],
+      "a_conferir": "Requer que o Léo execute o teste real com 3 ofertas; o resultado (qual vence) não pode ser roteirizado antes. Evitar sobrepor com 'Gastei R$ 20 em anúncio...' (já sugerido)."
+    }
+  ]
 }

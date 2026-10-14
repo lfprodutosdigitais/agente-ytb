@@ -1,5 +1,63 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "Desafio \"R$ 0,01 a R$ 1.000 em 24 h\": formato de desafio com número, ótimo para o Léo."
+  "motivo_relevancia": "Desafio \"R$ 0,01 a R$ 1.000 em 24 h\": formato de desafio com número, ótimo para o Léo.",
+  "gancho": "Isso aqui é tudo que eu tenho e isso aqui são R$ 1.000. Eu tenho 24 horas para transformar esse R centavo em R$ 1.000. E essas são as regras. Primeiro, eu não posso gastar nen R do meu bolso.",
+  "estrutura": [
+    "Gancho: 1 centavo na mão vs. R$ 1.000 + 3 regras (não gastar do bolso, não usar rosto/audiência, se falhar perde tudo)",
+    "Fase 1 – escambo na rua: abordagens fracassadas até ganhar R$ 0,50 e R$ 0,51; 'o mais difícil é achar gente na rua'",
+    "Virada de sorte: um padre manda R$ 15 no Pix → R$ 16,01",
+    "Fase 2 – revenda: compra 12 paçocas por R$ 14 (R$ 1,20 cada) e balas de R$ 1, vende a R$ 2–3; R$ 25 → semáforo → R$ 55,96",
+    "Sobe de nível: 1 kg de Sonho de Valsa por R$ 50 (50 un.), venda a R$ 3; 29 mil passos, 22 km, R$ 63,46 → R$ 126 em 8 h",
+    "Fase 3 – muda a estratégia: app de finanças criado com IA, página de vendas a R$ 29,90",
+    "Fase 4 – divulgação: compra stories de microinfluenciadoras (R$ 80 e R$ 45), depois só comissão 70/30 e 50/50",
+    "Resultado: 13 vendas, 3 parcerias, R$ 356 de comissão (~R$ 400 brutos) – não bateu os R$ 1.000 + CTA para vídeo privado"
+  ],
+  "por_que_clicaram": "Contraste extremo de números no título (R$ 0,01 → R$ 1.000), prazo curto (24 HORAS) e formato de desafio com risco de falhar. A thumb inferida mostra a moeda vs. o maço de dinheiro: curiosidade pura de 'será que dá?'.",
+  "por_que_assistiram": "Placar visível o tempo todo (R$ 0,51 → R$ 16,01 → R$ 55,96 → R$ 126 → R$ 356), regras com punição, relógio correndo, fracassos reais (rejeições, cansaço, '29 mil passos'), viradas de estratégia que reabrem a curiosidade e um final honesto (não bateu a meta). O espectador fica para saber o número final.",
+  "ideias": [
+    {
+      "id": "4yTJ4ZcHkRI-1",
+      "titulo": "Peguei os R$ 600 que eu guardava por mês como CLT: quanto eles viram em 30 DIAS?",
+      "gancho": "Esses R$ 600 aqui eram o que eu conseguia guardar por mês quando eu era motoboy e ganhava R$ 3 mil. Hoje eu tenho 30 dias pra multiplicar esse valor sem usar meu nome, meu canal nem um real a mais do meu bolso. O placar tá aqui no canto da tela.",
+      "topicos": [
+        "As regras: R$ 600 iniciais (o aporte mensal do Léo CLT), sem usar os 188 mil inscritos, sem dinheiro extra, sem apostas",
+        "Semana 1 – serviço rápido para gerar caixa: meta R$ 300 e placar diário",
+        "Semana 2 – produto de R$ 19,90 com IA: quantas vendas precisa para dobrar o que sobrou",
+        "Semana 3 – R$ 20/dia de anúncio no produto que vendeu: custo por venda na tela",
+        "Semana 4 – reinvestir o lucro e fechar a conta: R$ 600 viraram quanto?",
+        "Comparação final: quanto os mesmos R$ 600 renderiam parados no CDB/Tesouro em 30 dias",
+        "Lição para o CLT: o que eu faria diferente com esses R$ 600 se eu ganhasse R$ 3 mil de novo"
+      ],
+      "a_conferir": "Desafio precisa ser executado e documentado pelo Léo antes de afirmar resultados; confirmar se ele topa gravar sem usar a própria audiência."
+    },
+    {
+      "id": "4yTJ4ZcHkRI-2",
+      "titulo": "O DESAFIO DO FIM DE SEMANA: quanto um CLT faz só no sábado e no domingo começando com R$ 50",
+      "gancho": "R$ 50 e 48 horas. É só isso que um CLT tem livre: o sábado e o domingo. Eu vou começar com esses R$ 50, sem usar meu nome, e o desafio só conta o que entrar no Pix até domingo à meia-noite.",
+      "topicos": [
+        "As regras: começa com R$ 50, só sábado e domingo, sem audiência, segunda-feira 'volta pro trabalho'",
+        "Sábado de manhã – revenda local em Floripa (praia/feira): compra, preço de venda e margem por unidade",
+        "Sábado à tarde – reinvestir o lucro: o placar de R$ 50 até o fim do dia",
+        "Domingo – oferecer um serviço para quem eu conheci no sábado (o dinheiro mais rápido)",
+        "Resultado final na tela: faturamento, custo, lucro e lucro por hora trabalhada",
+        "A conta que importa: esse fim de semana repetido 4x por mês dá quanto? Chega nos R$ 700–800 que eu fazia de renda extra?"
+      ],
+      "a_conferir": "Execução real do desafio e local de gravação em Floripa; resultados só depois de gravado."
+    },
+    {
+      "id": "4yTJ4ZcHkRI-3",
+      "titulo": "Comecei do ZERO de novo, SEM os meus 188 mil inscritos: consigo fazer R$ 1.000 em 7 DIAS?",
+      "gancho": "Eu já faturei mais de R$ 3 milhões, mas quase tudo veio de um canal com 188 mil inscritos. Então eu proibi a mim mesmo de usar ele: perfil novo, R$ 0, 7 dias, meta de R$ 1.000. Se eu não bater, eu admito aqui que sem audiência eu não sei fazer.",
+      "topicos": [
+        "As regras: conta nova, zero real inicial, sem rosto conhecido, sem citar o canal antigo",
+        "Dia 1 – escolher o que vender usando só o que eu sei (planilha financeira? organização de dinheiro?)",
+        "Dias 2–3 – primeiro dinheiro: vender serviço para financiar o produto (placar na tela)",
+        "Dias 4–5 – produto de R$ 19,90 com IA + primeiro teste de R$ 20 de anúncio pago com o lucro",
+        "Dia 6 – o que deu errado e quanto custou cada erro",
+        "Dia 7 – número final e a lição para o CLT: o que é habilidade e o que era só audiência"
+      ],
+      "a_conferir": "Se o Léo aceita o risco de falhar publicamente; se isso não conflita com o desafio prometido 'do zero aos primeiros 100 mil' (pode virar o episódio 1 dele)."
+    }
+  ]
 }

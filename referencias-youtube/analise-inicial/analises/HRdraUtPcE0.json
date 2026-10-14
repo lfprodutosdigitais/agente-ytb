@@ -1,5 +1,64 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "Teste real de todas as formas de dinheiro rápido: formato de prova que o canal do Léo precisa."
+  "motivo_relevancia": "Teste real de todas as formas de dinheiro rápido: formato de prova que o canal do Léo precisa.",
+  "gancho": "I just realized that I've wasted a huge amount of my life. I spent years testing practically every way to make money that exists on the internet today. And honestly, I'm not an expert in any of these things, but I have experience in every possible way to make money online.",
+  "gancho_traduzido": true,
+  "estrutura": [
+    "Gancho: 'desperdicei anos testando todas as formas de ganhar dinheiro na internet' + promessa de revelar a forma que de fato dá dinheiro rápido",
+    "Origem: aos 14–15 anos editava clipes de Free Fire por R$ 30 cada; 5 edições = R$ 150, e largou",
+    "O erro: pulou de coisa em coisa (dropshipping, infoproduto, marketing digital, criação de conteúdo, canal dark, low ticket) porque tudo exigia tempo",
+    "Conselho 1: foque numa coisa só por pelo menos 1 ano",
+    "A resposta para dinheiro rápido: prestar serviço com o que você já sabe fazer (editar, sites, roteiro)",
+    "Exemplo prático: cadastrava comércios no Google Maps cobrando R$ 40–150 (média R$ 80) por cliente",
+    "Vale até fora da internet (instalar chuveiro, capinar); 'quem promete dinheiro fácil está mentindo'",
+    "CTA: produto de produtividade na descrição + 'comenta o que você sabe fazer e poderia vender'"
+  ],
+  "por_que_clicaram": "Título de promessa exaustiva ('TODAS as formas') + desejo imediato ('DINHEIRO RÁPIDO') + autoridade de quem testou ('Eu testei'). O espectador clica para economizar anos de tentativa e erro: o vídeo promete o veredito de um teste que ele não precisa fazer.",
+  "por_que_assistiram": "Confissão logo no gancho ('desperdicei parte da minha vida') cria empatia e um open loop ('descobri a forma de fazer dinheiro rápido') que só fecha na metade. História pessoal com números pequenos e críveis (R$ 30 por edição, R$ 80 por cadastro no Maps) e a virada contraintuitiva (não existe atalho, o atalho é vender o que você já sabe). Vídeo curto, sem enrolação.",
+  "ideias": [
+    {
+      "id": "HRdraUtPcE0-1",
+      "titulo": "Testei as PROMESSAS de dinheiro rápido que me fizeram PERDER dinheiro quando eu era CLT",
+      "gancho": "Em 2020 eu ganhava R$ 3 mil como motoboy e caí em golpe e em pirâmide tentando ganhar dinheiro rápido. Hoje eu já faturei mais de R$ 3 milhões. Então eu voltei nessas promessas e testei uma por uma pra te mostrar, com número na tela, qual é mentira.",
+      "topicos": [
+        "O ponto de partida: salário de R$ 3 mil, dinheiro debaixo da gaveta, e a vontade de 'ganhar rápido'",
+        "Promessa 1 – pirâmide ('indique 3 e receba'): a conta na tela de quantas pessoas precisam entrar para o 1º sair no lucro",
+        "Promessa 2 – 'venda 100% automática': simular quantas vendas o guru precisaria e quanto custa o anúncio por trás",
+        "Promessa 3 – app que paga para assistir/avaliar: horas trabalhadas vs. centavos recebidos, calculando o valor da hora",
+        "O que funcionou de verdade: R$ 600–800/mês guardados do salário e R$ 700–800/mês de renda extra com algo que eu estudei",
+        "Checklist de 5 sinais de golpe para o CLT antes de colocar R$ 1 em qualquer coisa"
+      ],
+      "a_conferir": "Quais golpes/pirâmides o Léo caiu exatamente e quanto perdeu em cada um (o BRIEFING só cita os R$ 5 mil em apostas, que não devem entrar no gancho). Se ele topa testar ao vivo apps de 'ganhe assistindo'."
+    },
+    {
+      "id": "HRdraUtPcE0-2",
+      "titulo": "Vendi um SERVIÇO de R$ 80 em 24 HORAS: a renda extra mais rápida para quem é CLT",
+      "gancho": "R$ 80. Foi isso que eu cobrei pra resolver um problema de um comércio aqui de Floripa, e eu fechei em menos de 24 horas, sem produto, sem anúncio e sem seguidor. Vou te mostrar quantos desses você precisa pra fazer R$ 800 por mês sem largar o CLT.",
+      "topicos": [
+        "A conta na tela: R$ 800/mês de renda extra (o que eu fazia como motoboy) = 10 serviços de R$ 80, ou 2–3 por semana",
+        "Passo 1 no 1º minuto: listar 3 coisas que você já sabe fazer e que alguém pagaria R$ 50–150",
+        "Teste ao vivo: achar 20 comércios sem perfil no Google Maps/sem foto boa e oferecer o serviço",
+        "Placar do teste: quantos abordados, quantos responderam, quantos pagaram via Pix",
+        "Quanto cobrar: tabela de R$ 50 (cliente simples) a R$ 150 (cliente com mais verba)",
+        "Por que serviço vem antes de produto: dinheiro na semana 1 vs. produto que leva meses para validar",
+        "Do serviço à renda recorrente: transformar 10 clientes de R$ 80 em mensalidade"
+      ],
+      "a_conferir": "O teste precisa ser gravado de verdade pelo Léo (qual serviço ele sabe prestar e se topa abordar comércios em Floripa); o resultado não pode ser afirmado antes."
+    },
+    {
+      "id": "HRdraUtPcE0-3",
+      "titulo": "Quanto TEMPO cada renda extra leva pra pagar o primeiro R$ 1.000 (fiz a conta)",
+      "gancho": "Serviço: 1 semana. Produto de R$ 19,90: 1 a 2 meses. Canal no YouTube: eu levei meses pra ver o primeiro real. Eu coloquei na tela quanto tempo cada forma de renda extra leva pra pagar o seu primeiro R$ 1.000, pra você parar de pular de uma pra outra.",
+      "topicos": [
+        "O erro que faz o CLT desistir: trocar de método a cada 30 dias porque 'não deu dinheiro rápido'",
+        "Serviço (freela/local): R$ 1.000 = ~12 clientes de R$ 80, tempo estimado e horas por semana",
+        "Produto digital de R$ 19,90: R$ 1.000 = ~51 vendas, quanto de anúncio e quanto tempo",
+        "Conteúdo/YouTube: minha régua real – canal aberto em 2022, hoje R$ 47 mil/ano só de AdSense, mas o 1º real demorou",
+        "Investir o que sobra: quanto precisa aplicar para render R$ 1.000 (simulação com CDB/Tesouro)",
+        "Ranking final para quem tem 2 h por dia depois do expediente e a regra: escolhe 1 e fica 1 ano"
+      ],
+      "a_conferir": "Quanto tempo levou para o canal de trade do Léo pagar o primeiro AdSense e o primeiro R$ 1.000; taxa usada na simulação de investimento."
+    }
+  ]
 }

@@ -1,5 +1,64 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "\"O vídeo acaba quando eu fizer um salário mínimo\": desafio ao vivo, formato perfeito para o Léo."
+  "motivo_relevancia": "\"O vídeo acaba quando eu fizer um salário mínimo\": desafio ao vivo, formato perfeito para o Léo.",
+  "gancho": "By the end of this video, I need to make a minimum wage online. And I'm going to do that in three steps. First, I'm going to create a product using AI. Second, I'm going to create all the marketing to promote this product. And third, I'm going to use a strategy to reach this result as fast as possible.",
+  "gancho_traduzido": true,
+  "estrutura": [
+    "Gancho: 'até o fim do vídeo preciso fazer um salário mínimo' + plano em 3 passos (produto com IA, marketing, estratégia)",
+    "Achar produto: Biblioteca de Anúncios do Meta, modelar oferta gringa (900 projetos de marcenaria) para o Brasil",
+    "Clonar e traduzir a página com IA, trocar imagens, preço R$ 19,90/R$ 27,90 (17 min de ajuste)",
+    "Criativos: 5 anúncios traduzidos com ChatGPT, sobe no Facebook/Instagram Ads",
+    "Dia 1: 1ª venda em 4 h; fecha com R$ 103 de receita, R$ 174 investidos, prejuízo de R$ 71; funil mostra pouca gente no checkout",
+    "Dia 2: página mais enxuta (checkout de 6–7% para 28%), criativo 2 vencedor e variações 2.1–2.6; R$ 409 líquidos, 14 vendas",
+    "Dia 3: checkout com banner, prova social e order bumps (ticket de R$ 27,90 para R$ 67); ROI 2,33",
+    "Resultado: R$ 1.717 em vendas, R$ 763 de lucro, 58 vendas em 3 dias + lição 'ajuste o que dá errado' + CTA de curso/mentoria"
+  ],
+  "por_que_clicaram": "Título com condição de término ('O vídeo ACABA quando...') cria um open loop no próprio título e uma meta que todo brasileiro entende de cabeça (SALÁRIO MÍNIMO). Promessa de prova em tempo real.",
+  "por_que_assistiram": "Passo a passo prático já no 1º minuto, números de prejuízo e lucro a cada dia (–R$ 71 → +R$ 32 → +R$ 175 → R$ 763), diagnóstico de funil com porcentagens (6% → 28% no checkout) e a tensão de 'será que chega?'. Os erros mostrados dão credibilidade.",
+  "ideias": [
+    {
+      "id": "yxPKV6XPOcg-1",
+      "titulo": "O vídeo SÓ ACABA quando eu fizer os R$ 3 MIL que eu ganhava de motoboy",
+      "gancho": "R$ 3 mil. Esse era o meu salário em 2020 levando sangue pra hospital de moto. Esse vídeo só acaba quando eu fizer esse valor com um produto de R$ 19,90 que eu vou criar agora com IA. São 151 vendas, e o contador tá aqui na tela.",
+      "topicos": [
+        "A conta na tela: R$ 3.000 ÷ R$ 19,90 = 151 vendas (e quantas por dia em 7, 15 e 30 dias)",
+        "Passo 1 no 1º minuto: escolher o produto pelo que o CLT precisa (ex.: planilha para organizar o salário)",
+        "Criar o produto e a página com IA: tempo gasto e custo em R$",
+        "Primeiro teste com R$ 20 de anúncio: custo por clique, por venda, e prejuízo/lucro do dia 1",
+        "Diagnóstico do funil com porcentagens: onde as pessoas pararam e o que eu mudei",
+        "Placar até as 151 vendas: dias que levou e lucro real depois de anúncio e taxas",
+        "O que isso significa para quem está no CLT: o mesmo produto rodando todo mês substitui o salário?"
+      ],
+      "a_conferir": "Execução real (o vídeo só existe depois de bater a meta); se a planilha/produto citado já existe no portfólio do Léo."
+    },
+    {
+      "id": "yxPKV6XPOcg-2",
+      "titulo": "Vendi o MESMO produto de 2 jeitos: com R$ 0 e com R$ 20 de anúncio. Qual chegou no SALÁRIO MÍNIMO primeiro?",
+      "gancho": "Mesmo produto, mesmo preço de R$ 19,90, mesma semana. De um lado, só conteúdo grátis. Do outro, R$ 20 por dia de anúncio. O primeiro lado que fizer um salário mínimo ganha, e eu te mostro o placar dos dois agora.",
+      "topicos": [
+        "As regras: produto igual, preço igual, 2 links de rastreio, meta = 1 salário mínimo (~82 vendas de R$ 19,90)",
+        "Lado orgânico: quantos posts/Shorts por dia e quanto tempo isso custa ao CLT",
+        "Lado pago: R$ 20/dia, custo por venda e prejuízo dos primeiros dias",
+        "Placar diário na tela: vendas, gasto e lucro de cada lado",
+        "Quem venceu e quanto custou cada venda (em R$ e em horas)",
+        "Recomendação para o CLT conforme o que ele tem: tempo ou dinheiro"
+      ],
+      "a_conferir": "Valor exato do salário mínimo vigente em 2026 para a meta (e o nº de vendas); execução real do teste pelo Léo."
+    },
+    {
+      "id": "yxPKV6XPOcg-3",
+      "titulo": "Meu produto VENDEU e eu tive PREJUÍZO: os 3 erros que eu consertei até dar lucro",
+      "gancho": "Primeiro dia: R$ [gasto] em anúncio, R$ [vendido] em vendas. Prejuízo de R$ [x]. Esse é o número que ninguém mostra. Neste vídeo eu te mostro os 3 erros que causaram isso e o que eu mudei até a conta ficar positiva.",
+      "topicos": [
+        "Por que mostrar prejuízo: o guru mostra só o print do lucro (desmontando a 'venda automática')",
+        "Erro 1 – página longa demais: % de quem clicou em comprar antes e depois",
+        "Erro 2 – anúncio errado: desligar o criativo que dá prejuízo, duplicar o que vende",
+        "Erro 3 – checkout sem confiança: prova social e explicação do que a pessoa recebe",
+        "O ticket médio: oferecer um 2º produto no checkout (R$ 19,90 → quanto?) sem gastar mais com anúncio",
+        "Conta final: quantos dias até zerar o prejuízo e regra de quanto o CLT pode perder num teste sem afetar a reserva"
+      ],
+      "a_conferir": "Os valores entre colchetes saem do teste real do Léo (na referência foram R$ 174 gastos, R$ 103 vendidos, –R$ 71); não usar os números da referência como se fossem dele."
+    }
+  ]
 }
