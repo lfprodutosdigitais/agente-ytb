@@ -92,6 +92,17 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
 6. **Temas validados**: `temas` (ou `calcular`) grava `temas-validados.json`: mesmo tema outlier em 2+
    canais nos últimos 90 dias. Ideias desses temas têm prioridade.
 
-## Fases 3–4
+## Fase 3 — Painel
 
-Ainda não implementadas (a construção avança fase a fase, só depois da anterior testada).
+`python3 ~/.claude/skills/referencias-youtube/scripts/painel.py` gera em `./referencias/`:
+- `painel.html` (abrir com `open referencias/painel.html`): seções Temas validados, Em alta e Referências;
+  cards com thumbnail, canal, score, relevância, tema, gancho e ideias; filtros por canal, tema, formato,
+  score e relevância; por ideia: 👍/👎 com motivo, status (ideia → roteiro → gravado → postado) e URL do
+  vídeo do Léo quando postado (salvo no navegador). "Exportar avaliações" baixa `avaliacoes.json`.
+- `referencias.csv` (abre no Excel/Numbers) e `ideias.md`, ordenados por score × relevância.
+- Na rodada seguinte o script copia o `avaliacoes*.json` mais novo de `~/Downloads` para
+  `./referencias/avaliacoes.json`. Rode o painel sempre no fim da Fase 2.
+
+## Fase 4
+
+Ainda não implementada (a construção avança fase a fase, só depois da anterior testada).
