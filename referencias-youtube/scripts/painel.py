@@ -316,6 +316,12 @@ details ul{padding-left:18px}
 .rsec .obj{color:var(--muted);font-size:12.5px}
 .rsec .fala{white-space:pre-wrap;font-size:14.5px;line-height:1.55}
 .rsec .tela{font-size:13px;color:var(--muted)}
+.pbloco{border-radius:var(--r-lg);padding:12px 14px;background:var(--glass);border:1px solid var(--stroke-dark);display:flex;flex-direction:column;gap:8px}
+a.btn{text-decoration:none;color:inherit;display:inline-flex;align-items:center}
+.pbloco .cab{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pbloco pre{margin:0;white-space:pre-wrap;font:inherit;font-size:14px;line-height:1.5;max-height:340px;overflow:auto}
+.abthumbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:8px}
+.abthumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;display:block}
 .mv{border-radius:var(--r-xl);padding:16px;display:flex;flex-direction:column;gap:12px}
 .mv-top{display:grid;grid-template-columns:160px 1fr;gap:14px;align-items:start}
 .mv-top img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px}
@@ -495,6 +501,20 @@ details ul{padding-left:18px}
       <button type="button" class="btn" id="r-refazer">Refazer</button>
       <button type="button" class="btn primary" id="r-fechar">Fechar</button>
     </div>
+  </div>
+</div>
+<div class="scrim" id="pscrim" hidden>
+  <div class="sheet glass wide" role="dialog" aria-modal="true" aria-labelledby="p-tit">
+    <h3 id="p-tit">Material de publicação</h3>
+    <p>Cole o link do vídeo já enviado ao YouTube (pode ser <b>não listado</b>). O sistema lê a legenda do vídeo e escreve descrição, capítulos, comentário fixado e tags.</p>
+    <div class="row"><input class="pill" type="text" id="p-link" placeholder="youtu.be/… ou youtube.com/watch?v=…" aria-label="Link do vídeo">
+      <button type="button" class="btn primary" id="p-gerar">Gerar</button></div>
+    <details id="p-links-box"><summary>Links fixos da descrição (grupo, Instagram…) — entram em todo vídeo</summary>
+      <textarea class="pill" id="p-links" rows="4" style="width:100%;margin-top:8px;border-radius:14px;padding:10px 14px;font:inherit" placeholder="👉 Grupo VIP: https://…&#10;📸 Instagram: https://instagram.com/…"></textarea>
+      <div class="row" style="margin-top:6px"><button type="button" class="btn" id="p-salvar-links">Salvar links</button></div></details>
+    <div class="status" id="p-status" role="status" aria-live="polite"></div>
+    <div id="p-corpo" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="row" style="justify-content:flex-end"><a class="btn" id="p-baixar" hidden download>Baixar .txt</a><button type="button" class="btn primary" id="p-fechar">Fechar</button></div>
   </div>
 </div>
 <div class="toast glass" id="toast" role="status" aria-live="polite"><span id="toast-msg"></span><button class="undo" id="undo" hidden>Desfazer</button></div>
@@ -759,6 +779,7 @@ function renderAprov(){
       ${i.a_conferir ? `<div class="conferir">⚠️ ${esc(i.a_conferir)}</div>` : ''}</details>
       <div class="row"><select class="pill status" aria-label="Status">${STATUS.map(s => `<option ${s === st ? 'selected' : ''}>${s}</option>`).join('')}</select>
         <input class="pill url" placeholder="link do vídeo postado" value="${esc(a.url)}" ${st === 'postado' ? '' : 'hidden'} aria-label="Link do vídeo">
+        ${SERVER && D.gerador && ['gravado', 'postado'].includes(st) ? `<button class="btn" data-pub="1">📦 Publicação</button>` : ''}
         ${SERVER && D.gerador ? `<button class="btn" data-roteiro="1">📝 Roteiro${(D.imagem.roteiros || []).includes(i.id) ? ' ✓' : ''}</button>` : ''}
         ${SERVER && D.gerador ? `<button class="btn" data-thumb="1">🎨 Thumb${(D.imagem.feitos || []).includes(i.id) ? ' ✓' : ''}</button>` : ''}
         <button class="btn" data-tirar="1">Tirar</button></div></div>`; }).join('') || '<div class="empty">Nenhuma aprovada ainda. Diga “Sim” nas ideias que quer gravar.</div>';
@@ -798,6 +819,7 @@ document.getElementById('feed').addEventListener('click', e => {
 document.getElementById('aprovadas').addEventListener('click', e => {
   const t = e.target.closest('[data-thumb]'); if (t) return abrirThumb(t.closest('.idea').dataset.id);
   const ro = e.target.closest('[data-roteiro]'); if (ro) return abrirRoteiro(ro.closest('.idea').dataset.id);
+  const pb = e.target.closest('[data-pub]'); if (pb) { const id = pb.closest('.idea').dataset.id; return abrirPub((AV[id] || {}).url || '', id); }
   const b = e.target.closest('[data-tirar]'); if (!b) return;
   const id = b.closest('.idea').dataset.id; setAv(id, {voto: null}); renderAll(); toast('Voltou para a fila');
 });
@@ -940,7 +962,7 @@ function renderVideos(){
         ${li.funcionou.length ? `<div>✅ Funcionou<ul>${li.funcionou.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}
         ${li.mudar.length ? `<div>🔧 Mudar<ul>${li.mudar.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}
         <div>📌 <b>Regra para os próximos:</b> ${esc(li.regra)}</div></div>` : ''}
-      ${SERVER && D.gerador ? `<div class="row"><button class="btn" data-licao="${esc(r.video_id)}">${li ? 'Refazer a lição' : 'O que aprender com este vídeo'}</button></div>` : ''}</div>`; }).join('');
+      ${SERVER && D.gerador ? `<div class="row"><button class="btn" data-licao="${esc(r.video_id)}">${li ? 'Refazer a lição' : 'O que aprender com este vídeo'}</button><button class="btn" data-pubv="${esc(r.video_id)}" data-ideia="${esc(r.ideia_id || '')}">📦 Publicação</button></div>` : ''}</div>`; }).join('');
 }
 const mvStatus = document.getElementById('mv-status');
 document.getElementById('mv-atualizar').addEventListener('click', async e => {
@@ -950,6 +972,7 @@ document.getElementById('mv-atualizar').addEventListener('click', async e => {
   finally { e.target.disabled = false; }
 });
 document.getElementById('meus-videos').addEventListener('click', async e => {
+  const pv = e.target.closest('[data-pubv]'); if (pv) return abrirPub('https://youtu.be/' + pv.dataset.pubv, pv.dataset.ideia || null);
   const b = e.target.closest('[data-licao]'); if (!b) return;
   b.disabled = true; b.innerHTML = '<span class="spin"></span> O Claude está lendo os números e a fala do vídeo…';
   try { await api('/api/meus-videos', {acao: 'licao', video_id: b.dataset.licao}); await refresh(); }
@@ -970,6 +993,53 @@ document.getElementById('meus-videos').addEventListener('pointerleave', () => {
   document.querySelectorAll('#meus-videos .tip').forEach(t => t.hidden = true);
   document.querySelectorAll('#meus-videos .cross').forEach(c => c.setAttribute('visibility', 'hidden'));
 }, true);
+
+// material de publicação
+const pscrim = document.getElementById('pscrim'), pStatus = document.getElementById('p-status');
+let PIDEIA = null, PDADOS = null;
+function pMsg(html, cls=''){ pStatus.className = 'status ' + cls; pStatus.innerHTML = html; }
+function bloco(titulo, texto, extra=''){ return `<div class="pbloco"><div class="cab"><b>${titulo}</b><button class="btn" data-copiar="${esc(texto)}">Copiar</button></div><pre>${esc(texto)}</pre>${extra}</div>`; }
+async function renderPub(){
+  const p = PDADOS, corpo = document.getElementById('p-corpo'), bx = document.getElementById('p-baixar');
+  bx.hidden = !p; if (!p) { corpo.innerHTML = ''; return; }
+  bx.href = `/publicacao/${encodeURIComponent(p.video_id)}.txt`;
+  let ab = '';
+  if (p.ideia_id) {
+    try { const t = (await api('/api/thumb', {id: p.ideia_id, acao: 'ver'})).thumb;
+      const ims = t ? Object.values(t.imagens || {}).map(l => l[l.length - 1]).filter(Boolean) : [];
+      ab = ims.length ? `<div class="pbloco"><b>Thumbs para o teste A/B</b><div class="abthumbs">${ims.map(f => `<a href="/thumbs/${encodeURIComponent(f)}" download><img src="/thumbs/${encodeURIComponent(f)}" alt="Thumb ${esc(f)}"></a>`).join('')}</div>
+        <p class="hint" style="margin:0">No YouTube Studio: Detalhes do vídeo → Miniatura → <b>Testar e comparar</b> → suba ${ims.length > 1 ? 'estas ' + ims.length : 'esta e mais 2'}. O YouTube escolhe a que der mais tempo assistido.</p></div>`
+        : `<div class="pbloco"><b>Thumbs para o teste A/B</b><p class="hint" style="margin:0">Gere as imagens no botão 🎨 Thumb da ideia (uma por conceito) e suba as 3 em <b>Testar e comparar</b> no YouTube Studio.</p></div>`;
+    } catch (e) {}
+  }
+  corpo.innerHTML = (p.avisos.length ? `<div class="conferir">${p.avisos.map(esc).join('<br>')}</div>` : '') +
+    bloco('Descrição (com capítulos, links e hashtags)', p.descricao_completa) +
+    bloco('Comentário fixado', p.comentario_fixado) + bloco('Tags', p.tags.join(', ')) + ab;
+}
+async function abrirPub(link, ideia){
+  PIDEIA = ideia; PDADOS = null; pscrim.hidden = false; pMsg(''); renderPub();
+  document.getElementById('p-link').value = link || '';
+  try { const r = await api('/api/publicacao', {acao: 'links'}); document.getElementById('p-links').value = r.links || '';
+    document.getElementById('p-links-box').open = !r.links; } catch (e) {}
+  if (link) { try { PDADOS = (await api('/api/publicacao', {acao: 'ver', video: link})).publicacao; renderPub(); } catch (e) {} }
+}
+document.getElementById('p-gerar').addEventListener('click', async e => {
+  const link = document.getElementById('p-link').value.trim(); if (!link) { pMsg('Cole o link do vídeo.', 'err'); return; }
+  e.target.disabled = true; pMsg('<span class="spin"></span> Lendo a legenda do vídeo e escrevendo (até 1 min)…');
+  try { PDADOS = (await api('/api/publicacao', {acao: 'gerar', video: link, ideia: PIDEIA})).publicacao; pMsg(''); renderPub(); }
+  catch (err) { pMsg(esc(err.message), 'err'); }
+  finally { e.target.disabled = false; }
+});
+document.getElementById('p-salvar-links').addEventListener('click', async () => {
+  try { await api('/api/publicacao', {acao: 'salvar_links', links: document.getElementById('p-links').value}); toast('Links salvos: entram na próxima descrição'); }
+  catch (err) { toast(err.message); }
+});
+document.getElementById('p-corpo').addEventListener('click', async e => {
+  const b = e.target.closest('[data-copiar]'); if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copiar); toast('Copiado'); } catch (err) { toast('Não deu para copiar; use “Baixar .txt”'); }
+});
+document.getElementById('p-fechar').addEventListener('click', () => { pscrim.hidden = true; });
+pscrim.addEventListener('click', e => { if (e.target === pscrim) pscrim.hidden = true; });
 
 fillSelects(); showView(VIEW);
 </script>
@@ -1072,6 +1142,13 @@ def make_handler(cfg, token, lock, job=None):
                 if not (nome.endswith(".md") and thumbs.ID_OK.match(nome[:-3])) or not f.is_file():
                     return self._send(404, {"ok": False, "erro": "não encontrado"})
                 return self._send(200, f.read_bytes(), "text/markdown; charset=utf-8")
+            if self.path.startswith("/publicacao/"):
+                import publicacao
+                nome = urllib.parse.unquote(self.path[len("/publicacao/"):])
+                f = publicacao.pasta() / nome
+                if not (nome.endswith(".txt") and publicacao.ID_RE.match(nome[:-4])) or not f.is_file():
+                    return self._send(404, {"ok": False, "erro": "não encontrado"})
+                return self._send(200, f.read_bytes(), "text/plain; charset=utf-8")
             if self.path == "/api/dados":
                 if not self._authorized():
                     return self._send(403, {"ok": False, "erro": "não autorizado"})
@@ -1177,6 +1254,32 @@ def make_handler(cfg, token, lock, job=None):
                 except (ValueError, SystemExit) as e:
                     return self._send(200, {"ok": False, "erro": str(e)})
                 except Exception as e:  # rede, token do Google, limite da API
+                    return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
+            if self.path == "/api/publicacao":
+                import publicacao
+                acao = body.get("acao")
+                try:
+                    if acao == "links":
+                        return self._send(200, {"ok": True, "links": publicacao.links_fixos()})
+                    if acao == "salvar_links":
+                        publicacao.salvar_links(str(body.get("links") or "")[:3000])
+                        return self._send(200, {"ok": True})
+                    vid = publicacao.video_id(str(body.get("video") or ""))
+                    if acao == "ver":
+                        return self._send(200, {"ok": True, "publicacao": read_json(publicacao.pasta() / f"{vid}.json", None)})
+                    if acao == "gerar":
+                        import gerador
+                        import thumbs
+                        ok, motivo = gerador.disponivel()
+                        if not ok:
+                            return self._send(200, {"ok": False, "erro": motivo})
+                        ideia = body.get("ideia")
+                        ideia = ideia if ideia and thumbs.ID_OK.match(str(ideia)) else None
+                        return self._send(200, {"ok": True, "publicacao": publicacao.gerar(vid, ideia, cfg=cfg)})
+                    return self._send(400, {"ok": False, "erro": "ação inválida"})
+                except ValueError as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except Exception as e:  # rede, chave, limite da API
                     return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
             if self.path == "/api/adicionar":
                 try:

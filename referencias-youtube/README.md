@@ -148,6 +148,15 @@ Os números se atualizam ao abrir o painel (se tiverem mais de 12 h) e na rodada
 lição quando um vídeo fecha 7 e 30 dias. O YouTube leva ~3 dias para fechar os números de um dia: até lá a janela
 aparece como "parcial". Pelo terminal: `python3 ~/.claude/skills/referencias-youtube/scripts/postados.py [--licoes]`.
 
+## Material de publicação
+
+Botão **📦 Publicação** nas Aprovadas (status gravado/postado) e em Meus vídeos. Cole o link do vídeo já enviado
+(pode ser **não listado**): o sistema lê a legenda do próprio vídeo e o Claude escreve a descrição (com capítulos
+pelos tempos reais, conferidos pelas regras do YouTube), o comentário fixado, tags e hashtags. Se o YouTube ainda não
+gerou a legenda, usa o roteiro e avisa que os tempos são estimados. Os links fixos (grupo, Instagram) são cadastrados
+uma vez no próprio painel e entram em toda descrição — o Claude nunca inventa link. Mostra também as thumbs geradas
+para subir no **Testar e comparar** do YouTube Studio. Arquivos em `./referencias/publicacao/` (.txt pronto para colar).
+
 ## Roteiro (pacote do vídeo)
 
 Na aba **Aprovadas**, botão **📝 Roteiro** (precisa da chave da Anthropic): 5 opções de título com a recomendada,

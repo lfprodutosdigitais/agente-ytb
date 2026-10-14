@@ -166,6 +166,14 @@ class Painel(unittest.TestCase):
             (Path(self.tmp.name) / "roteiros" / "v0000000000-1.md").write_text("# r")
             self.assertEqual(call("/roteiros/v0000000000-1.md"), (200, b"# r"))
             self.assertEqual(call("/roteiros/..%2Favaliacoes.json")[0], 404)
+            self.assertEqual(json.loads(call("/api/publicacao", {"acao": "ver", "video": "@canal"})[1])["ok"], False)
+            st, body = call("/api/publicacao", {"acao": "ver", "video": "https://youtu.be/ABCDEFGHIJK"})
+            self.assertIsNone(json.loads(body)["publicacao"])
+            call("/api/publicacao", {"acao": "salvar_links", "links": "👉 https://x"})
+            self.assertEqual(json.loads(call("/api/publicacao", {"acao": "links"})[1])["links"], "👉 https://x")
+            (Path(self.tmp.name) / "publicacao" / "ABCDEFGHIJK.txt").write_text("ok")
+            self.assertEqual(call("/publicacao/ABCDEFGHIJK.txt"), (200, b"ok"))
+            self.assertEqual(call("/publicacao/links.txt")[0], 404)
         finally:
             painel.R.add_reference = orig
             httpd.shutdown()

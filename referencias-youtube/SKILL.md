@@ -115,6 +115,8 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
   `aprendizados.md` e os 👍/👎 como exemplos; ela entra no topo marcada ✨ e fica salva em `analises/` com
   `origem: "gerada"`. Precisa de `ANTHROPIC_API_KEY` no `.env` e `pip install anthropic`; sem isso, só a troca.
   Aba "Aprovadas": status ideia → roteiro → gravado → postado + link do vídeo.
+  **📦 Publicação** (`scripts/publicacao.py`): descrição + capítulos (regras do YouTube) + comentário fixado + tags a
+  partir da legenda do vídeo enviado (ou do roteiro) → `./referencias/publicacao/{video_id}.txt`.
   **📝 Roteiro** em cada aprovada (`scripts/roteiro.py`): 5 títulos + roteiro por seção + checagem das regras de
   retenção → `./referencias/roteiros/{ideia_id}.md`.
   **🎨 Thumb** em cada aprovada (`scripts/thumbs.py`): 3 conceitos pelo Claude olhando thumbs que funcionaram; imagem
