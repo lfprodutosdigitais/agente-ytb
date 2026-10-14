@@ -115,6 +115,8 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
   `aprendizados.md` e os 👍/👎 como exemplos; ela entra no topo marcada ✨ e fica salva em `analises/` com
   `origem: "gerada"`. Precisa de `ANTHROPIC_API_KEY` no `.env` e `pip install anthropic`; sem isso, só a troca.
   Aba "Aprovadas": status ideia → roteiro → gravado → postado + link do vídeo.
+  **🎨 Thumb** em cada aprovada (`scripts/thumbs.py`): 3 conceitos pelo Claude olhando thumbs que funcionaram; imagem
+  pelo Gemini (`GEMINI_API_KEY`) com as fotos de `~/GranaPropria/fotos-leo/`. Saída em `./referencias/thumbs/`.
 - `referencias.csv` (abre no Excel/Numbers) e `ideias.md`, ordenados por score × relevância.
 - Na rodada seguinte o script copia o `avaliacoes*.json` mais novo de `~/Downloads` para
   `./referencias/avaliacoes.json`. Rode o painel sempre no fim da Fase 2.

@@ -37,8 +37,10 @@ main() {
 main "\$@"; exit
 CMD
   chmod +x "$WORK/Abrir painel.command"
+  mkdir -p "$WORK/fotos-leo"  # 3–4 fotos do rosto do Léo para as thumbs geradas
 fi
 [ -f "$DEST/.env" ] || { cp "$SRC/.env.example" "$DEST/.env"; chmod 600 "$DEST/.env"; }
+grep -q "^GEMINI_API_KEY=" "$DEST/.env" || printf "\n# Opcional: imagem da thumb (aistudio.google.com → Get API key)\nGEMINI_API_KEY=\n" >> "$DEST/.env"
 python3 -c "import anthropic" 2>/dev/null || echo "Opcional (ideia nova na hora ao dar 👎): python3 -m pip install --user --break-system-packages anthropic  e ANTHROPIC_API_KEY no .env"
 command -v yt-dlp >/dev/null || echo "Instale o yt-dlp: pip install -U yt-dlp  (ou brew install yt-dlp)"
 echo "Skill instalada em $DEST"

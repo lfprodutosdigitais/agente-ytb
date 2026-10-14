@@ -13,6 +13,7 @@ import json
 import secrets
 import shutil
 import threading
+import urllib.parse
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -71,7 +72,16 @@ def build_data(cfg):
             "avaliacoes": avaliacoes.get("ideias", avaliacoes),
             "fila_processada": read_json(o / "fila-processada.json", []) or [],
             "gerador": gerador_disponivel(),
+            "imagem": thumbs_info(),
             "cortes": {"longo": cfg["corte_longo"], "short": cfg["corte_short"]}}
+
+
+def thumbs_info():
+    import thumbs
+    ok, motivo = thumbs.gemini_disponivel()
+    feitos = sorted(f.stem for f in thumbs.pasta().glob("*.json")) if thumbs.pasta().exists() else []
+    return {"ok": ok, "motivo": motivo, "fotos": len(thumbs.fotos()), "pasta_fotos": str(thumbs.pasta_fotos()),
+            "feitos": feitos}
 
 
 def gerador_disponivel():
@@ -283,6 +293,15 @@ details ul{padding-left:18px}
 .check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
 .status{font-size:13.5px;min-height:20px}
 .job{font-size:13.5px;color:var(--muted)}
+.sheet.wide{width:min(980px,100%);max-height:calc(100vh - 32px);overflow:auto}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px}
+.tcard{border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--glass);border:1px solid var(--stroke-dark)}
+.tcard .ttxt{font:800 20px var(--display);letter-spacing:-.01em}
+.tcard dl{margin:0;font-size:13px;display:grid;grid-template-columns:auto 1fr;gap:4px 8px}
+.tcard dt{color:var(--faint)}
+.tcard dd{margin:0}
+.tcard img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block}
+.tcard .imgs{display:flex;flex-direction:column;gap:8px}
 .status.err{color:var(--down)}
 .status.ok{color:var(--accent)}
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--stroke-dark);border-top-color:var(--accent);display:inline-block;vertical-align:-3px;animation:sp .8s linear infinite}
@@ -402,6 +421,18 @@ details ul{padding-left:18px}
       <button type="submit" class="btn primary" id="enviar">Adicionar</button>
     </div>
   </form>
+</div>
+<div class="scrim" id="tscrim" hidden>
+  <div class="sheet glass wide" role="dialog" aria-modal="true" aria-labelledby="t-tit">
+    <h3 id="t-tit">Thumb</h3>
+    <p id="t-sub"></p>
+    <div class="status" id="t-status" role="status" aria-live="polite"></div>
+    <div class="tgrid" id="t-grid"></div>
+    <div class="row" style="justify-content:flex-end">
+      <button type="button" class="btn" id="t-novos">Outros 3 conceitos</button>
+      <button type="button" class="btn primary" id="t-fechar">Fechar</button>
+    </div>
+  </div>
 </div>
 <div class="toast glass" id="toast" role="status" aria-live="polite"><span id="toast-msg"></span><button class="undo" id="undo" hidden>Desfazer</button></div>
 
@@ -665,6 +696,7 @@ function renderAprov(){
       ${i.a_conferir ? `<div class="conferir">⚠️ ${esc(i.a_conferir)}</div>` : ''}</details>
       <div class="row"><select class="pill status" aria-label="Status">${STATUS.map(s => `<option ${s === st ? 'selected' : ''}>${s}</option>`).join('')}</select>
         <input class="pill url" placeholder="link do vídeo postado" value="${esc(a.url)}" ${st === 'postado' ? '' : 'hidden'} aria-label="Link do vídeo">
+        ${SERVER && D.gerador ? `<button class="btn" data-thumb="1">🎨 Thumb${(D.imagem.feitos || []).includes(i.id) ? ' ✓' : ''}</button>` : ''}
         <button class="btn" data-tirar="1">Tirar</button></div></div>`; }).join('') || '<div class="empty">Nenhuma aprovada ainda. Diga “Sim” nas ideias que quer gravar.</div>';
 }
 function showView(v){
@@ -700,6 +732,7 @@ document.getElementById('feed').addEventListener('click', e => {
   if (v === 'down') gerarNova(id);
 });
 document.getElementById('aprovadas').addEventListener('click', e => {
+  const t = e.target.closest('[data-thumb]'); if (t) return abrirThumb(t.closest('.idea').dataset.id);
   const b = e.target.closest('[data-tirar]'); if (!b) return;
   const id = b.closest('.idea').dataset.id; setAv(id, {voto: null}); renderAll(); toast('Voltou para a fila');
 });
@@ -707,6 +740,48 @@ document.getElementById('aprovadas').addEventListener('change', e => {
   const box = e.target.closest('.idea'); if (!box) return; const id = box.dataset.id;
   if (e.target.classList.contains('status')) { setAv(id, {status: e.target.value}); box.querySelector('.url').hidden = e.target.value !== 'postado'; renderAprov(); }
   else if (e.target.classList.contains('url')) setAv(id, {url: e.target.value.trim()});
+});
+
+// thumbs
+const tscrim = document.getElementById('tscrim'), tStatus = document.getElementById('t-status');
+let TID = null, TDADOS = null;
+function tMsg(html, cls=''){ tStatus.className = 'status ' + cls; tStatus.innerHTML = html; }
+function renderThumb(){
+  const img = D.imagem || {};
+  const aviso = !img.ok ? img.motivo : (!img.fotos ? `Sem fotos do Léo: a pessoa sai genérica. Coloque 3–4 fotos dele (rosto bem visível) em ${img.pasta_fotos}` : '');
+  document.getElementById('t-sub').textContent = aviso || `Imagens com o rosto do Léo a partir de ${img.fotos} foto(s) em ${img.pasta_fotos}.`;
+  document.getElementById('t-grid').innerHTML = (TDADOS?.conceitos || []).map((c, n) => {
+    const ims = (TDADOS.imagens || {})[n] || [];
+    return `<div class="tcard"><span class="rank">Conceito ${n + 1} · ${esc(c.nome)}</span>
+      <div class="ttxt">${c.texto_thumb ? '“' + esc(c.texto_thumb) + '”' : '(sem texto)'}</div>
+      <dl><dt>Rosto</dt><dd>${esc(c.expressao)}</dd><dt>Cena</dt><dd>${esc(c.cena)}</dd><dt>Cores</dt><dd>${esc(c.cores)}</dd><dt>Por quê</dt><dd>${esc(c.por_que)}</dd></dl>
+      <div class="imgs">${ims.slice().reverse().map(f => `<a href="/thumbs/${encodeURIComponent(f)}" download="${esc(f)}" title="Baixar"><img src="/thumbs/${encodeURIComponent(f)}" alt="Thumb gerada do conceito ${n + 1}"></a>`).join('')}</div>
+      <button class="btn ${ims.length ? '' : 'primary'}" data-img="${n}" ${img.ok ? '' : 'disabled'}>${ims.length ? 'Gerar outra imagem' : 'Gerar imagem'}</button></div>`; }).join('');
+}
+async function thumbApi(acao, extra={}){ return (await api('/api/thumb', {id: TID, acao, ...extra})).thumb; }
+async function abrirThumb(id){
+  TID = id; TDADOS = null; tscrim.hidden = false;
+  const idea = allIdeas().find(x => x.i.id === id);
+  document.getElementById('t-tit').textContent = 'Thumb: ' + (idea ? idea.i.titulo : '');
+  renderThumb();
+  try {
+    TDADOS = await thumbApi('ver');
+    if (!TDADOS) { tMsg('<span class="spin"></span> O Claude está estudando as thumbs que funcionaram…'); TDADOS = await thumbApi('conceitos'); }
+    tMsg(''); renderThumb();
+  } catch (err) { tMsg(esc(err.message), 'err'); }
+}
+document.getElementById('t-fechar').addEventListener('click', () => { tscrim.hidden = true; refresh().catch(() => {}); });
+tscrim.addEventListener('click', e => { if (e.target === tscrim) document.getElementById('t-fechar').click(); });
+document.getElementById('t-novos').addEventListener('click', async e => {
+  e.target.disabled = true; tMsg('<span class="spin"></span> Criando outros 3 conceitos…');
+  try { TDADOS = await thumbApi('conceitos'); tMsg(''); renderThumb(); } catch (err) { tMsg(esc(err.message), 'err'); }
+  finally { e.target.disabled = false; }
+});
+document.getElementById('t-grid').addEventListener('click', async e => {
+  const b = e.target.closest('[data-img]'); if (!b) return;
+  b.disabled = true; b.innerHTML = '<span class="spin"></span> Gerando (até 1 min)…';
+  try { TDADOS = await thumbApi('imagem', {n: +b.dataset.img}); tMsg(''); renderThumb(); }
+  catch (err) { tMsg(esc(err.message), 'err'); renderThumb(); }
 });
 
 fillSelects(); showView(VIEW);
@@ -795,6 +870,13 @@ def make_handler(cfg, token, lock, job=None):
         def do_GET(self):
             if self.path in ("/", "/index.html", "/painel.html"):
                 return self._send(200, (o / "painel.html").read_bytes(), "text/html; charset=utf-8")
+            if self.path.startswith("/thumbs/"):
+                import thumbs
+                nome = urllib.parse.unquote(self.path[len("/thumbs/"):])
+                f = thumbs.pasta() / nome
+                if not thumbs.ARQUIVO_OK.match(nome) or not f.is_file():
+                    return self._send(404, {"ok": False, "erro": "não encontrado"})
+                return self._send(200, f.read_bytes(), "image/png" if nome.endswith(".png") else "image/jpeg")
             if self.path == "/api/dados":
                 if not self._authorized():
                     return self._send(403, {"ok": False, "erro": "não autorizado"})
@@ -835,6 +917,31 @@ def make_handler(cfg, token, lock, job=None):
                 except ValueError as e:
                     return self._send(200, {"ok": False, "erro": str(e)})
                 except Exception as e:  # rede, chave inválida, limite da API
+                    return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
+            if self.path == "/api/thumb":
+                import thumbs
+                iid, acao = str(body.get("id") or ""), body.get("acao")
+                if not thumbs.ID_OK.match(iid):
+                    return self._send(400, {"ok": False, "erro": "ideia inválida"})
+                try:
+                    if acao == "ver":
+                        return self._send(200, {"ok": True, "thumb": read_json(thumbs.pasta() / f"{iid}.json", None)})
+                    if acao == "conceitos":
+                        import gerador
+                        ok, motivo = gerador.disponivel()
+                        if not ok:
+                            return self._send(200, {"ok": False, "erro": motivo})
+                        return self._send(200, {"ok": True, "thumb": thumbs.conceitos(iid, cfg=cfg)})
+                    if acao == "imagem":
+                        ok, motivo = thumbs.gemini_disponivel()
+                        if not ok:
+                            return self._send(200, {"ok": False, "erro": motivo})
+                        thumbs.imagem(iid, int(body.get("n") or 0), cfg=cfg)
+                        return self._send(200, {"ok": True, "thumb": read_json(thumbs.pasta() / f"{iid}.json", None)})
+                    return self._send(400, {"ok": False, "erro": "ação inválida"})
+                except ValueError as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except Exception as e:  # rede, chave, limite da API
                     return self._send(200, {"ok": False, "erro": f"{type(e).__name__}: {e}"[:300]})
             if self.path == "/api/adicionar":
                 try:

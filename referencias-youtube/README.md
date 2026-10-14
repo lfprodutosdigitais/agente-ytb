@@ -135,6 +135,18 @@ segunda também roda isso, até `auto_max_por_rodada`, 10).
 Chave em <https://console.anthropic.com/settings/keys>. Custo: alguns centavos de dólar por ideia
 (modelo Claude Opus 5.5; a parte fixa do pedido fica em cache). Sem a chave, o 👎 só troca pela próxima da fila.
 
+## Thumb (opcional)
+
+Na aba **Aprovadas**, botão **🎨 Thumb**: o Claude olha a thumb da referência, outros outliers do mesmo tema e as
+thumbs do Léo que mais deram views, e propõe 3 conceitos (texto de até 4 palavras, expressão, cena, cores).
+Para gerar a imagem (Google Gemini, modelo `modelo_imagem` do config, padrão `gemini-3-pro-image-preview`):
+
+1. Chave em <https://aistudio.google.com/apikey> → `GEMINI_API_KEY=` no `.env` da skill. O modelo de imagem
+   precisa de faturamento ativo no Google AI Studio (alguns centavos de dólar por imagem).
+2. 3–4 fotos do rosto do Léo (de frente, boa luz) em `~/GranaPropria/fotos-leo/`. Sem fotos, a pessoa sai genérica.
+
+As imagens ficam em `./referencias/thumbs/` (PNG + JPG 1280×720 pronto para subir no YouTube). Clique na imagem para baixar.
+
 ## Testes
 
 ```bash

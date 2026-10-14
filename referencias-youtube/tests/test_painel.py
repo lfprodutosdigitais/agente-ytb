@@ -152,6 +152,13 @@ class Painel(unittest.TestCase):
             st, body = call("/api/status")
             self.assertEqual(json.loads(body)["job"]["rodando"], False)
             self.assertEqual(call("/api/status", token="errado")[0], 403)
+            self.assertEqual(call("/api/thumb", {"id": "../x", "acao": "ver"})[0], 400)
+            st, body = call("/api/thumb", {"id": "v0000000000-1", "acao": "ver"})
+            self.assertIsNone(json.loads(body)["thumb"])
+            (Path(self.tmp.name) / "thumbs").mkdir()
+            (Path(self.tmp.name) / "thumbs" / "v0000000000-1-1-1.jpg").write_bytes(b"jpg")
+            self.assertEqual(call("/thumbs/v0000000000-1-1-1.jpg"), (200, b"jpg"))
+            self.assertEqual(call("/thumbs/..%2Fpainel.html")[0], 404)
         finally:
             painel.R.add_reference = orig
             httpd.shutdown()
