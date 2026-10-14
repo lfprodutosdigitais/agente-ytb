@@ -125,7 +125,11 @@ def collect(chans, cfg, g=None, is_short_fn=None):
         from yt_common import Google
         g = Google()
     if is_short_fn is None:
-        from meu_canal import is_short as is_short_fn
+        if cfg["max_shorts"]:
+            from meu_canal import is_short as is_short_fn  # confere /shorts/ só quando Shorts interessam
+        else:
+            def is_short_fn(vid, dur, mx=180):  # Shorts desligados: duração basta, sem abrir páginas
+                return dur <= mx
     p = R.paths()
     cache_f = p["out"] / "cache" / "canais-ids.json"
     cache = read_json(cache_f, {}) or {}
@@ -142,7 +146,7 @@ def collect(chans, cfg, g=None, is_short_fn=None):
             continue
         R.store(recs)
         all_recs += recs
-        log(f"  {len(recs)} vídeos")
+        log(f"  {len(recs)} vídeos ({quota.units} unidades de cota até aqui)")
     write_json(cache_f, cache)
     custos = read_json(p["custos"], []) or []
     custos.append({"data": now().isoformat(), "fonte": "youtube_api", "canais": len(chans) - len(falhas),
