@@ -1,5 +1,60 @@
 {
   "relevancia": 4,
   "tema": "negócio/empreender",
-  "motivo_relevancia": "Monetizar audiência: o Léo fez isso (AdSense, VIP, CPA) e pode mostrar números."
+  "motivo_relevancia": "Monetizar audiência: o Léo fez isso (AdSense, VIP, CPA) e pode mostrar números.",
+  "gancho": "Não faz sentido você vir pro Brasil sem ganhar dinheiro. Quando você vier pro Brasil, tu tem que vender palestra, tem que vender patrocínio, tem que fazer um evento, senão tá errado. Você não ter patrocínio nenhum, só a Honda é uma merda.",
+  "estrutura": [
+    "Cold open com as frases mais fortes da conversa (dinheiro na mesa, 'só a Honda é uma merda', viagem pro Japão com presidente da Pokémon)",
+    "Apresentação do convidado (Yudi, ex-SBT, mora no Japão) + pedido de inscrição",
+    "Contexto: mudança pro Japão, audiência 100% Brasil, só 1 patrocínio (Honda) fechado vendendo um Type R de R$ 460 mil",
+    "Diagnóstico 1: posicionamento — não ensinar empreendedorismo, virar entrevistador/ponte Brasil–Japão",
+    "Ligações ao vivo: sócio operador (China Link → Japan Link) e agência de turismo (fixo + variável)",
+    "Diagnóstico 2: dinheiro na mesa — suplemento, roupa, turismo: R$ 20–40 mil fixo + comissão, 'R$ 100 mil por mês com esforço nenhum'",
+    "Conceito 'fruta baixa compra a escada pra fruta alta' e 'creator que vira empresário x empresário que vira creator'",
+    "Quadro final: flywheel audiência → conteúdo → parcerias → evento → viagem/imersão; virar sócio, não lobista",
+    "Desafio com prazo (falar com o Lincoln até dia 4) + CTA de comentário"
+  ],
+  "por_que_clicaram": "Título de promessa prática e ampla ('Como Monetizar sua Audiência') com o qualificador 'de Forma Inteligente', que sugere que a maioria faz do jeito burro. A força real deve vir da thumbnail com celebridade reconhecível (Yudi, ícone de uma geração) e do formato consultoria/advisor, que promete bastidor de negociação real.",
+  "por_que_assistiram": "Formato de consultoria ao vivo: o público vê um problema real sendo resolvido, com ligações de verdade para empresários (prova social e tensão 'será que fecha?'). Números concretos (R$ 460 mil, R$ 20–40 mil fixo, R$ 100 mil/mês, R$ 600 mil de viagens). Frases-bordão fáceis de lembrar ('fruta baixa', 'sócio, não lobista'). O cold open planta open loops (Pokémon, Japão) que só fecham no meio.",
+  "ideias": [
+    {
+      "id": "g5fGf2VxGmE-1",
+      "titulo": "Quanto PAGA ter 1 MIL, 10 MIL e 100 MIL seguidores (meus números reais)",
+      "gancho": "Com 188 mil inscritos eu fiz R$ 47 mil de AdSense em 2024. Parece muito? Meu grupo VIP fez R$ 76 mil com uma fração dessa audiência. Nesse vídeo eu te mostro quanto dá pra ganhar com mil, 10 mil e 100 mil seguidores, e por que o AdSense é o pior jeito de monetizar.",
+      "topicos": [
+        "Por que audiência sozinha não paga conta: AdSense R$ 47 mil x VIP R$ 76 mil no mesmo ano",
+        "Com 1 mil seguidores: 1% comprando um produto de R$ 19,90 = R$ 199; 1% num produto de R$ 97 = R$ 970. O que já dá pra vender",
+        "Com 10 mil: entra a primeira parceria fixa de marca pequena (R$ 500–2 mil/mês) e o grupo pago",
+        "Com 100 mil: parceria fixo + variável e equipe (editora, tráfego, social media) pagos pela própria audiência",
+        "Objeção: 'Léo, mas eu tenho 300 seguidores e sou CLT' — o que fazer nos primeiros 1 mil, na folga do expediente",
+        "O canal novo do desafio 'do zero aos 100 mil': em que número de seguidores eu vou ativar cada fonte de renda"
+      ]
+    },
+    {
+      "id": "g5fGf2VxGmE-2",
+      "titulo": "PARE de fazer publi: o modelo FIXO + COMISSÃO que paga todo mês",
+      "gancho": "Uma publi paga uma vez. Uma parceria com fixo mais comissão me pagou todo mês, e foi isso que fez a empresa chegar em R$ 1 milhão faturado em 2024. Vou te mostrar como eu monto esse contrato, com valores, mesmo se você tem audiência pequena.",
+      "topicos": [
+        "Publi x parceria: por que a marca cancela depois de 1 post sem retorno e renova quando tem comissão",
+        "Como eu precifico: fixo baixo (ex.: R$ 1 mil/mês) + % sobre o que vender pelo seu link; conta simples na tela",
+        "Onde estão as marcas que já pagam bem pra criador pequeno: curso, ferramenta, suplemento, banco digital",
+        "Como emitir nota e receber: MEI/CNPJ e separar a conta PJ (CNPJ rico, empresário pobre)",
+        "Quando a parceria vira produto próprio: se você vende muito do outro, lança o seu (o que a Amazon faz) — meu grupo VIP de R$ 76 mil nasceu assim",
+        "Modelo de proposta pra mandar pra marca hoje (3 linhas) + aqui entra o pedido de inscrição"
+      ]
+    },
+    {
+      "id": "g5fGf2VxGmE-3",
+      "titulo": "Fruta BAIXA primeiro: como pagar sua equipe SEM sair da CLT",
+      "gancho": "Hoje eu pago editora, gestor de tráfego e social media. Mas no começo era só eu, um celular e R$ 700 por mês de renda extra. O segredo foi pegar a fruta baixa primeiro, e ela que comprou a escada. Vou te mostrar a ordem exata que eu seguiria hoje.",
+      "topicos": [
+        "O erro do criador: querer montar time antes de ter receita (gastar R$ 2 mil/mês com editor tendo R$ 0 de renda)",
+        "Fruta baixa 1: o dinheiro que já está na mesa (afiliado/parceria do que você já usa), meta de R$ 500 no 1º mês",
+        "Fruta baixa 2: produto de entrada de R$ 19,90 pra quem já te pergunta as mesmas coisas",
+        "Regra de reinvestimento: quanto da renda extra eu colocava de volta (e quanto guardava pra reserva de R$ 20 mil)",
+        "Quando contratar a primeira pessoa: a receita tem que pagar 3 meses do salário dela",
+        "Você é creator ou empresário? Decidir onde está sua força antes de abrir CNPJ"
+      ]
+    }
+  ]
 }

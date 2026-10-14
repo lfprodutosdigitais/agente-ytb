@@ -1,5 +1,60 @@
 {
   "relevancia": 4,
   "tema": "investimento",
-  "motivo_relevancia": "2 anos com R$ 300/mês: valor que cabe no salário do CLT, formato de prova real."
+  "motivo_relevancia": "2 anos com R$ 300/mês: valor que cabe no salário do CLT, formato de prova real.",
+  "gancho": "2 years have passed investing 300 reais per month, and this was the result. Was it worth it? This series started on September 4, 2024, and time flies, doesn't it, Renan? To show you that you can reap good rewards by investing even if you start small.",
+  "estrutura": [
+    "Gancho: 2 anos aportando R$ 300/mês — valeu a pena? Regras da série (R$ 1 mil inicial + R$ 300/mês = R$ 10 por dia, dividendos reinvestidos)",
+    "Ações: 8 empresas, uma a uma, com preço médio, variação e retorno com dividendos (BB Seguridade, Taesa, Itaú, Bradesco, Vale…); carteira de ações +52% vs Ibovespa +26%",
+    "CTA no meio: minicurso gratuito 'Semana da Liberdade Financeira'",
+    "Fundos imobiliários: 13,8% da carteira, retornos fundo a fundo e comparação com o IFIX",
+    "Exterior: ETFs SPY, TLT e SHY; 16% dolarizado e por quê",
+    "Renda fixa: CDB Sofisa 105–110% do CDI, Tesouro Prefixado 2032, IPCA+ 2029 e 2050; Bitcoin 10%",
+    "Resultado geral: retorno de 33,51% em 2 anos (~118% do CDI) e comparação com o CDI líquido de IR / caixinha",
+    "Aporte do mês ao vivo: tese de compra do Itaú (inadimplência, ROE, eficiência) e compra de 9 ações",
+    "Fechamento: comentários, inscrição na live e oferta de análise de carteira (12 vagas)"
+  ],
+  "por_que_clicaram": "Valor pequeno e replicável ('300 reais por mês') + tempo concreto ('2 anos') + transparência total ('carteira completa') + curiosidade do resultado ('quanto lucrei'). É formato de série/desafio com prova real, que o espectador acompanha.",
+  "por_que_assistiram": "Open loop do resultado final guardado para o fim; prova ativo por ativo com número na tela; comparação com benchmarks (Ibovespa, IFIX, CDI, caixinha) que dá sensação de vitória; diálogo entre os irmãos quebra a monotonia; aporte do mês ao vivo cria continuidade da série. Ponto fraco: muitos ativos seguidos podem cansar o iniciante.",
+  "ideias": [
+    {
+      "id": "t2TLr_qDAJQ-1",
+      "titulo": "Se eu ganhasse R$ 3 MIL de novo: onde eu colocaria R$ 300 por mês (simulação de 2 anos)",
+      "gancho": "Quando eu era motoboy com salário de R$ 3 mil, eu guardava dinheiro debaixo da gaveta. R$ 300 por mês durante 2 anos são R$ 7.200 — e dependendo de onde você coloca, isso vira perto de R$ 8 mil ou continua R$ 7.200. Olha a conta.",
+      "topicos": [
+        "Por que R$ 300: 10% de um salário de R$ 3 mil, R$ 10 por dia — eu chegava a guardar R$ 600–800",
+        "Gaveta x poupança x CDB 100% do CDI x Tesouro Selic: quanto cada um vira em 24 meses (tabela na tela)",
+        "O desconto do IR: 15% acima de 2 anos e por que a caixinha 'rende menos do que parece'",
+        "Primeiro a reserva: quantos meses de salário antes de ir pra renda variável",
+        "Depois da reserva: a fatia em ETF/ações e quanto do aporte vai pra cada lugar",
+        "Como automatizar: Pix agendado no dia do pagamento (e no 13º, aporte dobrado)"
+      ]
+    },
+    {
+      "id": "t2TLr_qDAJQ-2",
+      "titulo": "CNPJ RICO, empresário POBRE: como eu separo o dinheiro da empresa e onde invisto o meu",
+      "gancho": "Minha empresa teve R$ 570 mil de lucro líquido em 2024. Mas o dinheiro da empresa não é meu salário. Vou te mostrar quanto eu tiro por mês pra minha pessoa física e onde eu invisto essa parte.",
+      "topicos": [
+        "O erro do 'CNPJ rico, empresário pobre': misturar conta PF e PJ — o que acontece no fim do ano",
+        "Pró-labore x distribuição de lucro: como eu defino quanto vai pra PF",
+        "Caixa da empresa: quantos meses de custo deixo no CNPJ (equipe de editora, tráfego e social media)",
+        "Na PF: reserva primeiro, depois renda fixa e longo prazo",
+        "Pro CLT que vai abrir MEI: conta separada desde a 1ª venda e limite de R$ 81 mil/ano",
+        "Planilha de divisão mensal: % pra empresa, % pra mim, % investido"
+      ]
+    },
+    {
+      "id": "t2TLr_qDAJQ-3",
+      "titulo": "Os R$ 35 MIL que me deixaram pedir demissão: quanto guardar antes de sair da CLT",
+      "gancho": "Eu só pedi demissão em 2021 com R$ 35 mil na mão: R$ 20 mil de reserva de emergência e o resto pra trabalhar. Fiz uma conta que dizia que eu aguentava 1 ano sem salário. Vou te mostrar essa conta pra você fazer a sua.",
+      "topicos": [
+        "A conta do custo de vida: quanto eu gastava por mês e por que multipliquei por 12",
+        "De onde veio: R$ 600–800 por mês do salário + renda extra de R$ 700–800",
+        "Onde guardar a reserva: liquidez diária (CDB/Tesouro Selic), nunca na gaveta — quanto eu perdi deixando parado",
+        "FGTS, 13º e rescisão: o que entra (e o que não entra) quando você pede demissão",
+        "Renda extra precisa empatar com quantos % do salário antes de sair",
+        "Plano B: o mês em que eu voltaria pra CLT se a meta não batesse"
+      ]
+    }
+  ]
 }

@@ -1,5 +1,60 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Vendas automáticas sem tráfego pago; promessa forte de renda extra."
+  "motivo_relevancia": "Vendas automáticas sem tráfego pago; promessa forte de renda extra.",
+  "gancho": "Nobody here in Brazil knows about this American strategy for you to sell without using paid traffic, without investing a single cent in ads, and even better, 100%on autopilot. Now it is possible for you to build an army of salespeople working for you while you sleep",
+  "estrutura": [
+    "Gancho: estratégia 'americana' que ninguém usa no Brasil — vender sem tráfego pago, 100% no automático, 'exército de vendedores'",
+    "Promessa de 10 vendas/dia em 3 passos + prova de estilo de vida (viagem às Bahamas) + 'não existe dinheiro fácil'",
+    "Autoridade/plataforma: placas de R$ 10 mil, R$ 100 mil, R$ 500 mil na Cakto; sorteio de R$ 500 em crédito para quem comentar a palavra-chave",
+    "Por que Facebook: algoritmo de grupos e menos anunciantes",
+    "Passo 1: escolher nicho e produto — virar afiliado na vitrine da Cakto (produto do próprio Caio, 60% de comissão)",
+    "Passo 2: prompt no ChatGPT (modo agente) que entra em 10 grupos/dia e posta a cada 2 h com imagem; demonstração ao vivo",
+    "CTA no meio: like, inscrição e aula grátis via WhatsApp",
+    "Passo 3: escalar com vários agentes/produtos/nichos e outras redes (Pinterest, TikTok)",
+    "Fechamento: palavra-chave nos comentários e indicação de outro vídeo"
+  ],
+  "por_que_clicaram": "Número específico e diário ('10 VENDAS POR DIA') + dupla negação de custo/esforço ('SEM TRÁFEGO PAGO', '100% AUTOMÁTICO') + curiosidade tecnológica ('Robô Mesmo') + plataforma nomeada (Cakto) que dá concretude. Promessa de renda passiva bem no desejo de quem não tem tempo nem dinheiro pra anunciar.",
+  "por_que_assistiram": "Segredo/exclusividade repetidos ('ninguém no Brasil'), open loop do 'robô' só mostrado na metade, demonstração de tela ao vivo (o agente entrando nos grupos e postando), passos numerados, sorteio de R$ 500 condicionado a ver até o fim e palavra-chave final. Ponto fraco: a promessa é repetida várias vezes e não há prova de vendas reais da automação.",
+  "ideias": [
+    {
+      "id": "SH6cp0_9ejQ-1",
+      "titulo": "'VENDA 100% AUTOMÁTICA' existe? Os 5 sinais de GOLPE que me custaram dinheiro",
+      "gancho": "Eu já perdi dinheiro com pirâmide e com promessa de grana fácil quando ganhava R$ 3 mil como motoboy. Hoje minha empresa já faturou mais de R$ 3 milhões, e nenhum real veio de robô que vende sozinho. Esses são os 5 sinais que eu olho antes de cair de novo.",
+      "topicos": [
+        "Sinal 1: promessa de resultado diário fixo ('10 vendas por dia') sem mostrar o painel de vendas",
+        "Sinal 2: 'ninguém no Brasil sabe' — se fosse segredo, não estaria de graça no YouTube",
+        "Sinal 3: você precisa comprar o curso pra ganhar dinheiro vendendo o mesmo curso (a pirâmide que eu caí)",
+        "Sinal 4: spam em grupo queima conta — quantos grupos removem post de link no 1º dia",
+        "O que funcionou de verdade comigo: 1 canal só, conteúdo todo dia, 188 mil inscritos em 4 anos",
+        "Checklist de 5 perguntas pra fazer antes de pagar qualquer curso (com print de nota/CNPJ)"
+      ]
+    },
+    {
+      "id": "SH6cp0_9ejQ-2",
+      "titulo": "Como eu vendi R$ 76 MIL SEM TRÁFEGO PAGO (e só depois contratei gestor)",
+      "gancho": "R$ 76 mil em grupo VIP e R$ 47 mil de AdSense em 2024 — tudo começou sem pagar um real de anúncio. Vou te mostrar o tráfego orgânico que eu usei, e o que você, CLT, consegue montar depois do expediente.",
+      "topicos": [
+        "Passo 1 prático já: escolher a rede que seu cliente usa e postar 1 conteúdo hoje (eu escolhi YouTube em 2022)",
+        "Conteúdo que vende sem parecer venda: 1 dúvida do público = 1 vídeo; quantos vídeos até a 1ª venda",
+        "Funil orgânico: vídeo → link na descrição → grupo/WhatsApp → oferta (meu VIP)",
+        "Automatizar o que é chato, não o relacionamento: respostas prontas, agendamento de post",
+        "Quando passei pro tráfego pago: o número de faturamento que me fez contratar gestor",
+        "Meta de 90 dias pro CLT: 1h por dia, 3 conteúdos por semana, primeira venda"
+      ]
+    },
+    {
+      "id": "SH6cp0_9ejQ-3",
+      "titulo": "AFILIADO ou produto PRÓPRIO? A conta que o CLT tem que fazer antes de começar",
+      "gancho": "Comissão de 60% parece muito, até você fazer a conta: num produto de R$ 97, são R$ 58 por venda. Eu ganho como parceiro e com produto próprio, e vou te mostrar na planilha qual dos dois paga mais pra quem tem só 2 horas por dia.",
+      "topicos": [
+        "Afiliado: começa em 1 dia, sem criar nada — quantas vendas pra fazer R$ 1 mil/mês",
+        "Produto próprio: margem perto de 100% e você é dono da lista de clientes",
+        "Minha experiência com parceiros (CPA) x grupo VIP próprio: o que sobrou de cada um",
+        "Risco do afiliado: o dono muda a comissão ou fecha o produto",
+        "Caminho que eu faria hoje: afiliar pra aprender a vender, criar o próprio de R$ 19,90 em 60 dias",
+        "MEI ou CNPJ pra receber comissão: quando abrir e quanto custa"
+      ]
+    }
+  ]
 }

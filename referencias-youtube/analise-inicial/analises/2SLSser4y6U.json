@@ -1,5 +1,61 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "7 side hustles: lista de renda extra; adaptar para o CLT brasileiro."
+  "motivo_relevancia": "7 side hustles: lista de renda extra; adaptar para o CLT brasileiro.",
+  "gancho": "the biggest lie young people are told when they're 18 19 and 20 is go to university and you're guaranteed to get a high-pay job this lie is drilled into you through the school system and then reinforced by parents who are stuck in the past",
+  "estrutura": [
+    "Gancho: a 'maior mentira' (faculdade garante emprego bem pago) + autoridade (side hustles viraram negócios multimilionários)",
+    "Método: 7 ideias com exemplos reais e nota de 1 a 5 em 3 critérios (tempo pra aprender, dinheiro pra começar, dificuldade de fazer US$ 1.000/mês)",
+    "1. Conteúdo curto sem aparecer (Daniel, 16 anos, US$ 500 mil/mês) + dica de gancho e payoff",
+    "2. Investir (US$ 200/mês por 40 anos a 10% = US$ 1,2 milhão; index funds) + patrocínio Trading 212",
+    "3. Montar e gerir servidores de Discord (Chris, 19 anos; 4 clientes x US$ 250 = US$ 1.000)",
+    "4. Coaching online (Jack largou emprego de US$ 70 mil/ano; 40 clientes)",
+    "5. Animação com IA (Mercy, US$ 8–10 mil/mês) + curva de adoção de tecnologia",
+    "6. Revenda de itens de luxo (Ben, £ 7,2 milhões; Dragon's Den)",
+    "7. Escrita online/copywriting (Adam, US$ 10 mil/mês; páginas de US$ 50 mil) + CTA para próximo vídeo"
+  ],
+  "por_que_clicaram": "Número (7) + termo de desejo ('Side Hustles') + resultado extremo ('Making Students Rich') + atualidade ('in 2026'). Identificação direta com um público específico (estudantes) e promessa de algo novo pro ano corrente. A autoridade do Mark Tilbury como milionário reforça.",
+  "por_que_assistiram": "Antagonista claro no gancho ('a maior mentira'), promessa de diferenciação ('odeio vídeos que só repetem a mesma lista'), exemplos com nome, idade e valor real, e um sistema de notas repetido em cada item que dá ritmo e previsibilidade. Cada seção tem número (US$ 1.000/mês, 4 x US$ 250, US$ 1,2 milhão). Histórias pessoais (filho encontrou o Daniel, Chris ajudou de graça) criam proximidade.",
+  "ideias": [
+    {
+      "id": "2SLSser4y6U-1",
+      "titulo": "7 RENDAS EXTRAS pra fazer DEPOIS do expediente CLT (com nota de 0 a 5)",
+      "gancho": "Quando eu era motoboy, ganhando R$ 3 mil, eu fazia R$ 700 a 800 por mês de renda extra depois do expediente. Nesse vídeo eu dou nota pra 7 rendas extras em 3 coisas: quantas horas por semana pede, quanto dinheiro precisa pra começar e quão difícil é bater os primeiros R$ 1.000 por mês.",
+      "topicos": [
+        "Critério do CLT: cabe em 10 horas por semana, sem largar o emprego e sem precisar de mais de R$ 500 pra começar",
+        "1. Cortes e vídeos curtos sem aparecer, nota de dificuldade e o que eu aprendi de gancho com 188 mil inscritos",
+        "2. Gestão de grupo/comunidade no WhatsApp e Telegram pra negócio local (4 clientes x R$ 250 = R$ 1.000) — como meu grupo VIP chegou a R$ 76 mil",
+        "3. Ensinar o que você já faz no trabalho (mentoria/consultoria pelo WhatsApp), com preço de R$ 97 a R$ 197",
+        "4. Edição e arte com IA pra pequeno criador e comércio do bairro (o que eu pago pra minha editora)",
+        "5. Revenda (desapego, brechó, eletrônico usado): nota alta de dinheiro pra começar; comece com R$ 200",
+        "6. Escrever pra quem vende (legenda, roteiro, página): por que paga por resultado, não por hora; 7. Investir o que sobrar no Tesouro/CDB — não é renda extra, mas multiplica as outras"
+      ]
+    },
+    {
+      "id": "2SLSser4y6U-2",
+      "titulo": "R$ 700 por mês viram R$ 1 MILHÃO? Fiz a conta (renda extra + investimento)",
+      "gancho": "R$ 700 por mês, investidos a 10% ao ano, viram cerca de R$ 1,4 milhão em 30 anos. Eu fiz essa conta quando era motoboy e achei longe demais. Então eu mudei uma coisa na equação, e foi isso que me tirou da CLT em 1 ano. Vou te mostrar a planilha.",
+      "topicos": [
+        "A conta na tela: R$ 700/mês a 10% ao ano por 30 anos ≈ R$ 1,4 milhão (valor nominal, sem descontar inflação)",
+        "Onde o CLT investe esses R$ 700 hoje: Tesouro Selic, CDB de liquidez diária e Tesouro IPCA+, sem assessor cobrando comissão",
+        "Objeção: 'Léo, eu não quero esperar 30 anos' — a variável que muda tudo é o aporte, não a taxa",
+        "Minha virada: renda extra de R$ 700–800/mês somada ao salário, aportes de R$ 600–800, e R$ 35 mil em pouco mais de 1 ano",
+        "Regra de bolso: metade da renda extra pra investir, metade pra reinvestir no próprio negócio",
+        "Simulação na tela: R$ 700, R$ 1.500 e R$ 3.000 por mês — em quantos anos cada um chega no primeiro R$ 100 mil (ponte com o desafio do zero aos 100 mil)"
+      ]
+    },
+    {
+      "id": "2SLSser4y6U-3",
+      "titulo": "A MENTIRA que contaram pro CLT: 'carteira assinada é segurança'",
+      "gancho": "Em 2020 eu ganhava R$ 3 mil de carteira assinada e achava que estava seguro. Um aviso prévio de 30 dias e eu teria um mês de salário e um FGTS que não pagava um ano de aluguel. Nesse vídeo eu te mostro, em números, quanto custa depender de uma única renda.",
+      "topicos": [
+        "A conta da 'segurança': quanto você recebe numa demissão sem justa causa com salário de R$ 3 mil e 2 anos de casa",
+        "Por que a escola e a família ensinam 'emprego estável' e o que mudou de lá pra cá",
+        "Não é pra largar a CLT: é pra a CLT bancar sua segunda renda (eu aportava R$ 600–800 do salário)",
+        "Seguro de verdade 1: reserva de emergência — a minha era R$ 20 mil, o equivalente a quase 7 meses de salário",
+        "Seguro de verdade 2: renda extra que não depende do patrão — meus primeiros R$ 700 por mês",
+        "Plano de 90 dias pro CLT: meta de R$ 300, R$ 600 e R$ 1.000 de renda extra; aqui entra o pedido de inscrição e o fechamento de fé"
+      ]
+    }
+  ]
 }

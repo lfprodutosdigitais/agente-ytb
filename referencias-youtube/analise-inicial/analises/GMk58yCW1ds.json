@@ -1,5 +1,61 @@
 {
   "relevancia": 4,
   "tema": "mentalidade",
-  "motivo_relevancia": "\"Leis que me fizeram milionária\": o Léo pode fazer a própria versão a partir da história dele."
+  "motivo_relevancia": "\"Leis que me fizeram milionária\": o Léo pode fazer a própria versão a partir da história dele.",
+  "gancho": "prêmios, palestras, convites para entrevistas. Chegar lá até que é fácil. Agora se manter lá, meu amor, não é para qualquer uma. Esse lugar de sucesso é cheio de tabus e tem muita gente que não compartilha aquela parte difícil do sucesso.",
+  "estrutura": [
+    "Gancho: chegar ao sucesso é fácil, se manter é difícil; promessa das 7 novas leis do sucesso",
+    "Prova de autoridade: prêmio IBCPF 2014, mais de 20 prêmios, 'pessoa mais influente do Brasil' + venda da Me Poupe+",
+    "Contagem regressiva (da 7ª para a 1ª lei, 'a última é a mais importante') + pedido de inscrição/compartilhamento",
+    "7ª lei: busque pessoas que te apoiem (apoio x âncora, exemplo do aumento de 5%)",
+    "6ª lei: saiba o que você quer, com força (o querer maior que a vontade de desistir)",
+    "5ª lei: dê mais valor ao valor do que ao dinheiro (cursos de R$ 8.000 viraram assinatura barata e escalável)",
+    "4ª lei: cobre pelo valor entregue (brigadeiro de R$ 3 vira pirulito de R$ 4 com espeto de 5 centavos)",
+    "3ª lei: demita clientes (e dizer não a patrocínio de bancões; 'cada não colaborou pra cada milhão') + 2ª lei implícita: abrir mão de pequenos prazeres",
+    "1ª lei: permita-se falhar; sucesso não é linha reta + CTA final para curso 'Eu Chefe de Mim'"
+  ],
+  "por_que_clicaram": "Número (7) + palavra forte de regra universal ('LEIS') + autoridade/resultado em 1ª pessoa ('me fizeram MILIONÁRIA'). A promessa é um atalho: regras prontas que alguém que já ficou rica validou. A thumbnail provavelmente mostra a Nathalia com cara de confiança/riqueza, reforçando o contraste 'eu consegui, você também pode'.",
+  "por_que_assistiram": "Contagem regressiva com open loop explícito ('a última lei é a mais importante de todas'), que segura até o fim. Cada lei tem um exemplo curto e concreto do cotidiano (aumento de 5%, brigadeiro x pirulito, dizer não para banco). Fala da 'parte difícil que ninguém conta' (abrir mão de amigos, praia, casamento), o que gera identificação e sensação de bastidor. Ritmo rápido, humor e cortes.",
+  "ideias": [
+    {
+      "id": "GMk58yCW1ds-1",
+      "titulo": "As 7 LEIS do dinheiro que eu aprendi PERDENDO dinheiro",
+      "gancho": "Golpe, pirâmide e dinheiro guardado debaixo da gaveta: eu perdi mais de R$ 5 mil antes de ganhar o primeiro real de verdade. E cada perda me ensinou uma lei. Hoje são mais de R$ 3 milhões faturados, e eu vou te mostrar as 7, da sétima pra primeira, que é a mais importante.",
+      "topicos": [
+        "Lei 7: dinheiro parado não é dinheiro guardado. Os R$ 3 mil de salário de motoboy iam pra gaveta e perdiam pra inflação todo mês",
+        "Lei 6: se o retorno é fácil demais, é golpe. Caí em pirâmide prometendo % ao mês; o sinal que eu ignorei",
+        "Lei 5: decisão no impulso custa caro. Perdi R$ 5 mil numa tacada só (uma frase de contexto) e criei a regra de nunca decidir dinheiro no calor",
+        "Lei 4: comece pequeno e prove antes. Comecei com R$ 100 e aportes de R$ 600–800 do salário, e só aumentei quando os números provaram",
+        "Lei 3: reserva antes de coragem. R$ 20 mil de reserva + R$ 15 mil de capital = 1 ano de fôlego antes de sair da CLT",
+        "Lei 2: CNPJ rico, empresário pobre. Separar PF de PJ; empresa faturou R$ 1 milhão, mas o que é meu é o pró-labore",
+        "Lei 1 (a mais importante): princípios acima do dinheiro. Os 'nãos' que eu dei e por quê; aqui entra o fechamento de fé e o pedido de inscrição"
+      ]
+    },
+    {
+      "id": "GMk58yCW1ds-2",
+      "titulo": "As 5 LEIS que eu segui pra SAIR DA CLT sem quebrar",
+      "gancho": "Eu pedi demissão em 2021 com R$ 35 mil na conta. Nem um real a mais. Não foi coragem, foi conta: eu sabia que aguentava 12 meses sem salário. Nesse vídeo eu te mostro as 5 leis que eu segui antes de largar a carteira assinada.",
+      "topicos": [
+        "Lei 1: não peça demissão por raiva do chefe. A renda extra precisa existir antes: eu já fazia R$ 700–800 por mês ainda como motoboy",
+        "Lei 2: calcule seu número de liberdade. Custo de vida x 12 meses: como cheguei nos R$ 20 mil de reserva (e onde deixar: Tesouro Selic/CDB de liquidez diária)",
+        "Lei 3: a renda extra tem que pagar pelo menos 1 conta fixa por 6 meses seguidos antes de virar plano",
+        "Lei 4: use o que a CLT te dá antes de sair. FGTS, 13º e férias como parte do colchão; o que muda entre pedir demissão e acordo",
+        "Lei 5: defina a data e a meta de saída. A minha: 1 ano pra a renda nova cobrir os R$ 3 mil do salário; o que aconteceu no mês 1, 6 e 12",
+        "Objeção na voz do público: 'Léo, mas eu tenho filho e aluguel' — como adaptar o número pra quem tem mais custo"
+      ]
+    },
+    {
+      "id": "GMk58yCW1ds-3",
+      "titulo": "Ganhar foi FÁCIL. As 6 leis pra NÃO PERDER o que você ganha",
+      "gancho": "R$ 1 milhão faturado e só R$ 570 mil de lucro. Pra onde foram os outros R$ 430 mil? Imposto, equipe, custo. Ganhar é a parte fácil; manter é que ninguém te conta. Aqui estão as 6 leis que eu uso pra dinheiro não escorrer pelos dedos.",
+      "topicos": [
+        "Lei 1: lucro não é faturamento. A diferença entre R$ 1 milhão e R$ 570 mil explicada em 3 linhas",
+        "Lei 2: imposto é custo fixo. R$ 74 mil em imposto em 2024; quanto separar por mês desde o MEI",
+        "Lei 3: CNPJ rico, empresário pobre. Conta PJ separada e pró-labore fixo; o erro de pagar mercado com o cartão da empresa",
+        "Lei 4: padrão de vida sobe por último. O que eu mantive igual da época dos R$ 3 mil de salário",
+        "Lei 5: diga não a dinheiro que custa sua reputação. Propostas que recusei e o que cada não protegeu",
+        "Lei 6: tenha o caixa de 1 ano também na empresa, não só na pessoa física; aqui entra o fechamento de propósito e fé"
+      ]
+    }
+  ]
 }
