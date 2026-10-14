@@ -1,5 +1,60 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "Criar produto low ticket com IA ao vivo: renda extra concreta e replicável."
+  "motivo_relevancia": "Criar produto low ticket com IA ao vivo: renda extra concreta e replicável.",
+  "gancho": "Neste vídeo aqui vamos criar um produto low ticket da Copa do Mundo e buscar ali os R$ 700 a R$ 1.000 por dia. A gente vai aproveitar essa nova onda da Copa do Mundo pra gente faturar nela, né? E neste vídeo aqui vamos criar um produto com o chatpt e vamos vender esse produto por R$ 10.",
+  "estrutura": [
+    "Promessa (R$ 700 a R$ 1.000/dia, produto de R$ 10, lucro no funil) + 'poderia cobrar R$ 500, te entrego de graça, o like é o pagamento' + metodologia em 5 passos",
+    "O que é low ticket (R$ 5 a R$ 67, resolve dor imediata, ex.: e-book de bolo sem fogo) e autoridade (fundador da Cakto, começou aos 15 com celular quebrado, 1º milhão aos 18)",
+    "Passo 1 — oferta escalada: espionar anúncios (Swipe, Biblioteca de Anúncios do Facebook, 480 anúncios ativos = funciona), buscar 'figurinhas da Copa' e modelar o álbum para professores vendido a R$ 10, sem usar marca FIFA/Panini",
+    "Passo 2 — criar o produto no ChatGPT: fundo da figurinha sem logo + foto do aluno com camisa do Brasil; público de 2,3 milhões de professores e 47 milhões de alunos (pitch de curso grátis e mentoria no meio)",
+    "Passo 3 — pack entregável: pasta no Drive com fundo, exemplo e PDF com prompt para o professor, link público",
+    "Passo 4 — página de vendas com IA (Hostinger Horizons) e produto na Cakto: R$ 10, entrega por e-mail, logo e banner com IA, order bumps de R$ 5–7 e upsell kit turma, Pix/cartão, cronômetro de escassez, domínio",
+    "Passo 5 — tráfego direto no Meta Ads: criativo de imagem com IA, campanha de vendas, orçamento = ticket (R$ 10/dia), pixel com evento de compra, Instagram vinculado (+30–40% conversão)",
+    "Fechamento: 'comente #copa se chegou até o fim', like e inscrição"
+  ],
+  "por_que_clicaram": "Junta três gatilhos quentes no título em CAIXA ALTA: onda do momento (Copa do Mundo), ferramenta da moda (ChatGPT) e modelo de renda conhecido (low ticket), mais o 'CRIANDO' no gerúndio que promete tutorial ao vivo. A plataforma do próprio autor (Cakto) dá autoridade. A thumbnail provavelmente mostra o produto/valor por dia, deixando claro que é algo pronto pra copiar.",
+  "por_que_assistiram": "Passo a passo prático e na tela desde o 1º minuto (metodologia anunciada em 5 passos = checklist que o espectador quer completar), números a cada etapa (R$ 10, 480 anúncios, 2,3 milhões de professores, R$ 5–7 de bump, R$ 10/dia), validação ('se tem anúncio ativo é porque funciona') e objeções na voz do público ('Caio, mas eu não sei o que é low ticket'). O produto é concreto e sazonal, então o espectador sente urgência de fazer agora. Pedido de comentário com hashtag no fim prende até o final.",
+  "ideias": [
+    {
+      "id": "dIZ_FJKhAM8-1",
+      "titulo": "Criei um produto de R$ 19,90 com ChatGPT AO VIVO: a PLANILHA pra juntar sua reserva e sair do CLT",
+      "gancho": "R$ 35 mil guardados ganhando R$ 3 mil de motoboy. Hoje eu transformo o método de controle que eu ensino num produto de R$ 19,90 com o ChatGPT, do zero até o link de pagamento, e o passo 1 você faz comigo nos próximos 60 segundos.",
+      "topicos": [
+        "Passo 1 (no 1º minuto): abrir o ChatGPT e listar 3 coisas que você já resolveu na sua vida e que alguém pagaria R$ 19,90 pra resolver mais rápido",
+        "Por que R$ 19,90: dor imediata, compra por impulso e o primeiro degrau da esteira (R$ 19,90 → R$ 97 → R$ 197)",
+        "Montando o produto: a planilha de reserva que eu usava pra guardar R$ 600–800 por mês, organizada com IA em 15 minutos",
+        "Página de vendas e checkout com Pix em menos de 1 hora, mostrando cada tela",
+        "Order bump de R$ 9,90 (guia em PDF) e quanto isso aumenta o ticket médio na conta",
+        "Primeiras vendas sem anúncio: stories, grupo de WhatsApp e o meu canal — com o número real de vendas em 48 h"
+      ],
+      "a_conferir": "Confirmar se o Léo usava planilha (ou outro método) para controlar o dinheiro na época de CLT."
+    },
+    {
+      "id": "dIZ_FJKhAM8-2",
+      "titulo": "O 13º do CLT tá chegando: vou criar e VENDER um produto de R$ 9,90 sobre isso em 7 dias",
+      "gancho": "Em novembro, milhões de CLT recebem o 13º — e quase todo mundo gasta em 2 semanas. Eu vou criar um guia de R$ 9,90 com IA sobre o que fazer com esse dinheiro e mostrar na tela quantas vendas ele faz pegando essa onda.",
+      "topicos": [
+        "Passo 1 já no 1º minuto: pesquisar na Biblioteca de Anúncios quantas ofertas sobre 13º estão rodando agora (se tem anúncio ativo, tem demanda)",
+        "O produto: 'o que eu faria com o meu 13º de motoboy' — reserva, quitar dívida, Tesouro/CDB — montado com ChatGPT",
+        "Preço e esteira: R$ 9,90 de entrada, order bump de R$ 7 com a planilha, upsell de R$ 47",
+        "Página e checkout com Pix no ar em 1 dia",
+        "Divulgação com R$ 20/dia de anúncio x orgânico: os números de cada um lado a lado",
+        "Resultado de 7 dias: vendas, custo de anúncio e lucro líquido — e por que datas como 13º, Black Friday e Copa são a melhor hora de testar"
+      ]
+    },
+    {
+      "id": "dIZ_FJKhAM8-3",
+      "titulo": "Espionei os ANÚNCIOS que mais vendem no Brasil e achei 3 produtos que um CLT pode criar hoje",
+      "gancho": "Esse anúncio aqui tá rodando há meses com mais de 400 variações ativas — ninguém queima dinheiro assim se não tá vendendo. Hoje eu vou te mostrar em 10 minutos como achar ofertas assim e 3 produtos que você consegue criar com o que já sabe do seu trabalho.",
+      "topicos": [
+        "Passo 1 na tela: Biblioteca de Anúncios do Meta, filtro Brasil, e como ler número de anúncios ativos e tempo no ar",
+        "Modelar não é copiar: o que pode (formato, dor, preço) e o que dá processo (marca, logo, conteúdo de outro)",
+        "Produto 1: para quem trabalha em escritório (planilha/modelo pronto de R$ 19,90)",
+        "Produto 2: para quem é da área da saúde/serviço — como eu, que levava sangue pros hospitais (checklist ou guia de R$ 27)",
+        "Produto 3: para quem tem habilidade manual (molde/tutorial em PDF de R$ 14,90)",
+        "Como validar antes de gastar: postar a ideia, medir interesse em 48 h e só depois montar a página — a lição que os R$ 5 mil que eu perdi no impulso me ensinaram"
+      ]
+    }
+  ]
 }

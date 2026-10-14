@@ -1,5 +1,61 @@
 {
   "relevancia": 4,
   "tema": "negócio/empreender",
-  "motivo_relevancia": "Empresa do zero na prática: formato que o Léo pode fazer com o próprio negócio."
+  "motivo_relevancia": "Empresa do zero na prática: formato que o Léo pode fazer com o próprio negócio.",
+  "gancho": "Posso pater? >> Deve. >> Você tá mole conteúdo, [ __ ] >> Sim. >> Você não tá consistente, você não tá com estratégia, você não tá com disciplina. Sabe qual é a realidade hoje? Você tá cheio de seguidor e não tem fã nenhum.",
+  "estrutura": [
+    "Cold open/trailer com os melhores momentos (a bronca 'cheio de seguidor e sem fã', ligações fechando parceria, 'nunca mexa')",
+    "Abertura no almoço e 'primeiro contrato antes de começar o quadro': leva o Ninja numa empresa investida (Lu, assinatura de iPhone, 60 mil aparelhos, 1 milhão de buscas/mês) e já sai com proposta de franquia/embaixador",
+    "Acordo de sócios do casal: 'não é dar certo a empresa, é dar certo a empresa dando certo casamento' — papéis definidos no papel antes do dinheiro chegar",
+    "Diagnóstico: o Ninja como empresa é 'inexistente', única renda é palestra (24–30 por ano), 2 anos sem postar, demanda reprimida e nenhum produto",
+    "Arquitetura de receita no quadro: palestra, eventos próprios (Ninja Experience), influência/patrocínio e YouTube — sem curso estruturado e sem ser host de podcast; monetizar primeiro para depois investir",
+    "Estratégia de conteúdo por identidade (espiritualidade, família, lealdade, disciplina, esporte): 6 posts/dia, 10 stories, YouTube diário, 2 podcasts/mês; meta de 40 palestras antes de subir ticket e R$ 3 mi palestra + R$ 3 mi patrocínio + R$ 3 mi mídia",
+    "Ligações ao vivo fechando parceiros por permuta: marca de camisa, cortes/shorts, produtora com 30% da monetização, agência de eventos, viagem à China, empresário para a carreira",
+    "Fechamento: parceiro x fornecedor, reinvestir 50% do patrocínio em conteúdo, fase 4 = virar sócio de empresas; promessa de novo episódio em 6 meses e like/comentário no fim"
+  ],
+  "por_que_clicaram": "Contraste + curiosidade + personagem conhecido: 'empresa do zero' (promessa de transformação) aplicada a uma figura viral e caricata ('Poderosíssimo Ninja', meme e deputado), num quadro recorrente (Advisor) com autoridade do Alfredo/G4. A thumbnail provavelmente mostra os dois no quadro branco/escritório, puxando o 'como um meme vira empresa?'.",
+  "por_que_assistiram": "Formato de consultoria real com stakes: diagnóstico duro ('você tá mole'), decisões tomadas na hora e ligações ao vivo que fecham parceria em segundos — cada ligação é uma mini-recompensa. O cold open já mostra a bronca e as conquistas, criando expectativa. Números concretos a toda hora (24–30 palestras, 6 posts/dia, 40 palestras, R$ 3 mi x 3, 30%, 50%), humor e emoção do casal/família. A estrutura em fases (produzir → monetizar → reinvestir → virar sócio) dá sensação de plano completo.",
+  "ideias": [
+    {
+      "id": "wc3V6vb9Yoc-1",
+      "titulo": "Montei do ZERO a renda extra de um seguidor CLT em 1 tarde (plano completo)",
+      "gancho": "Ele ganha R$ 2.400 de CLT, tem 2 horas livres por noite e R$ 0 de audiência. Eu tenho uma tarde pra montar com ele um plano que coloque os primeiros R$ 1.000 extras na conta dele em 90 dias — e você vai ver cada número no quadro.",
+      "topicos": [
+        "Diagnóstico na lousa: salário, gastos fixos, horas livres por semana e o que ele já sabe fazer — o mesmo que eu fiz com o meu salário de R$ 3 mil",
+        "Bronca de amigo: 'você não tá sem dinheiro, você tá sem plano' — a meta de R$ 1.000 extras quebrada em semana e dia",
+        "Escolha de 1 canal só e do primeiro produto de R$ 19,90 a partir do que ele já faz no trabalho",
+        "Ligações ao vivo: chamo 2 parceiros da minha equipe (editora e gestor de tráfego) pra dar um empurrão por permuta",
+        "Reserva antes de qualquer coisa: quanto ele precisa guardar por mês (R$ 200–300) pra não depender da renda extra",
+        "Combinado na câmera: metas de 30, 60 e 90 dias — e a promessa de voltar com ele daqui a 3 meses mostrando o resultado"
+      ]
+    },
+    {
+      "id": "wc3V6vb9Yoc-2",
+      "titulo": "Antes de empreender com sua ESPOSA (ou sócio), faça esse ACORDO de 1 página",
+      "gancho": "A maioria dos negócios de casal ou de amigo não quebra por falta de dinheiro — quebra por falta de combinado. Hoje eu vou te mostrar o acordo de 1 página que eu faria antes da primeira venda, e quanto custa não fazer.",
+      "topicos": [
+        "Por que dinheiro muda as pessoas: quando a empresa chegou a ~R$ 1 milhão de faturamento, tudo que não tava combinado virou atrito",
+        "Papel de cada um no papel: quem decide o quê, quem cobra quem e o que acontece se um quiser sair",
+        "'CNPJ rico, empresário pobre': conta PJ separada, pró-labore fixo e nada de pagar mercado com o cartão da empresa",
+        "Como dividir o lucro: % para reinvestir, % para reserva e % para cada sócio — exemplo com os R$ 570 mil de lucro de 2024",
+        "Família e agenda: o que combinar antes de filho, viagem e fim de semana trabalhando",
+        "Modelo do acordo de 1 página pra você copiar hoje, mesmo que ainda fature R$ 0"
+      ],
+      "a_conferir": "Não dizer que o Léo 'aprendeu do jeito difícil' com sócio/cônjuge sem ele confirmar que viveu isso."
+    },
+    {
+      "id": "wc3V6vb9Yoc-3",
+      "titulo": "Monetizar PRIMEIRO, contratar DEPOIS: a conta que eu uso antes de pôr alguém na equipe",
+      "gancho": "Faturamento de R$ 1 milhão em 2024 com editora, gestor de tráfego e social media na equipe. Antes de contratar qualquer um deles, tem uma conta que precisa fechar — e eu vou fazer ela na tela.",
+      "topicos": [
+        "O erro clássico do iniciante: gastar com logo, curso caro e equipamento antes de vender R$ 1",
+        "A regra: só contrata quando o lucro de 3 meses seguidos paga o custo da pessoa — com o exemplo dos meus números",
+        "Ordem certa das contratações: primeiro quem libera seu tempo (edição), depois quem traz venda (tráfego), depois quem amplia (social media)",
+        "Permuta antes de pagar: como trocar divulgação por serviço no começo, quando o caixa é pequeno",
+        "Quanto reinvestir: separar uma % fixa do lucro todo mês, e o resto vai pra reserva e pro seu bolso",
+        "Checklist pra você saber se tá na hora de contratar ou se ainda é hora de fazer sozinho"
+      ],
+      "a_conferir": "Confirmar com o Léo quando e como foi a 1ª contratação antes de contar essa história."
+    }
+  ]
 }

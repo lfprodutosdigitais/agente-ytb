@@ -19,8 +19,8 @@
   "ideias": [
     {
       "id": "rN6TD7NUy3Y-1",
-      "titulo": "Eu ganhava R$ 3 MIL como MOTOBOY: por que NÃO financiei um carro (e o que fiz com o dinheiro)",
-      "gancho": "R$ 2.527 por mês. É a parcela de um T-Cross em 72 vezes. Quando eu era motoboy e ganhava R$ 3 mil, isso era quase o meu salário inteiro. Em vez de financiar, eu juntei R$ 35 mil e comprei minha liberdade. Te mostro a conta.",
+      "titulo": "Eu ganhava R$ 3 MIL como MOTOBOY: a conta que mostra por que o carro financiado PRENDE o CLT",
+      "gancho": "R$ 2.527 por mês. É a parcela de um T-Cross em 72 vezes. Quando eu era motoboy e ganhava R$ 3 mil, isso era quase o meu salário inteiro. O que me tirou do CLT foram R$ 35 mil guardados. Te mostro a conta.",
       "topicos": [
         "A conta na tela em 10 s: parcela de R$ 2.527 x salário de R$ 3 mil = 84% do salário",
         "O que eu tinha: moto de trabalho, dinheiro debaixo da gaveta na comunidade e R$ 600–800 guardados por mês",
@@ -29,7 +29,8 @@
         "Os R$ 35 mil que eu juntei (R$ 20 mil de reserva + o resto pra investir no negócio) = 1 ano para tentar sem salário",
         "Objeção na voz do público: 'Léo, mas eu preciso de carro pra trabalhar' — carro simples à vista de R$ 25–30 mil e a diferença investida",
         "Quando um carro faz sentido: a regra de ter X vezes o valor guardado antes de comprar"
-      ]
+      ],
+      "a_conferir": "Confirmar se o Léo já financiou/teve carro na época de CLT antes de afirmar qualquer coisa sobre isso."
     },
     {
       "id": "rN6TD7NUy3Y-2",
@@ -57,7 +58,8 @@
         "Minha ordem de prioridade: reserva de 12 meses de custo, caixa da empresa, investimento, só depois consumo",
         "Objeção: 'Léo, mas eu mereço depois de tanto ralar' — a regra de só comprar luxo quando o investido for várias vezes o valor",
         "Plano em 3 números para o CLT que está começando a renda extra: % para reinvestir, % para reserva, % para gastar"
-      ]
+      ],
+      "a_conferir": "O tópico de pró-labore x caixa precisa do número real que o Léo tirou de pró-labore em 2024."
     }
   ]
 }

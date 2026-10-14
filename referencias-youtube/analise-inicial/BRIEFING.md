@@ -40,5 +40,7 @@ Leia o JSON atual (tem relevancia, tema, motivo_relevancia), MANTENHA esses camp
     ... 2 ou 3 ideias ...
   ]
 }
+Se uma ideia depender de um fato da vida do Léo que NÃO está nesta página, não afirme: acrescente na ideia
+"a_conferir": "o que o Léo precisa confirmar". Nunca use ferramentas que gastam créditos (ex.: vidIQ) sem autorização.
 Escreva JSON válido (UTF-8, ensure_ascii=False). Valide com: python3 -c "import json;json.load(open('ARQUIVO'))".
 Ideias devem ser diferentes entre si e não repetir os temas já cobertos. Português do Brasil.
