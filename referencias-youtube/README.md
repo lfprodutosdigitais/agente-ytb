@@ -101,6 +101,21 @@ Atualiza o seu canal, coleta as referências (YouTube API, grátis) e baixa as l
 `~/GranaPropria/referencias/agendamento.log`. Descobrir canais novos:
 `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py descobrir`.
 
+## Como usar no dia a dia
+
+- **Rodar de novo:** no Claude Code, dentro de `~/GranaPropria`, digite `/referencias-youtube`. Sem o Claude,
+  só os dados: `bash ~/.claude/skills/referencias-youtube/rodada_semanal.sh` (já roda sozinho toda segunda 7h).
+- **Ver as ideias:** `open ~/GranaPropria/referencias/painel.html` — dê 👍/👎, mude o status, cole a URL quando
+  postar e clique em **Exportar avaliações** (o arquivo vai para Downloads e é lido na rodada seguinte).
+- **Adicionar canal:** uma linha em `~/.claude/skills/referencias-youtube/canais.txt`
+  (`https://www.youtube.com/@canal`, com ` | en` no fim se for em inglês). Para achar canais:
+  `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py descobrir` → `canais-sugeridos.md`.
+- **Mudar os cortes:** `~/.claude/skills/referencias-youtube/config.json` — `corte_longo` (3), `corte_short` (5),
+  `vizinhos` (10), `idade_minima_dias` (7), `em_alta_fator` (3), `max_longos` (50), `max_shorts` (0 = sem Shorts),
+  `termos_descoberta`.
+- **Custo:** coleta pela YouTube Data API é grátis (~100 de 10.000 unidades diárias com 14 canais; a descoberta
+  usa ~800). Apify só se `"fonte": "apify"`: ~US$ 0,004 por vídeo (~US$ 0,20 por canal por rodada).
+
 ## Testes
 
 ```bash

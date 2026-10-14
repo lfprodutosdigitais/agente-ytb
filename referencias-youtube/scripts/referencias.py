@@ -377,10 +377,24 @@ def load_analyses():
     return out
 
 
+def load_weights():
+    """Pesos da Fase 4 (aprendizado.py): {"canal": {nome: {"peso": x}}, "tema": {...}}."""
+    return read_json(paths()["out"] / "pesos.json", {}) or {}
+
+
+def weight(v, analysis, pesos):
+    pc = ((pesos.get("canal") or {}).get(v.get("canal")) or {}).get("peso", 1.0)
+    pt = ((pesos.get("tema") or {}).get(analysis.get("tema")) or {}).get("peso", 1.0)
+    return round(pc * pt, 3)
+
+
 def candidates(videos, analyses, cfg):
     cands = [v for v in videos.values() if (v.get("outlier") or v.get("em_alta"))
              and (cfg["max_shorts"] or v.get("formato") != "short")]
-    cands.sort(key=lambda v: -(v.get("score") or 0))
+    pesos = load_weights()
+    for v in cands:
+        v["peso"] = weight(v, analyses.get(v["video_id"], {}), pesos)
+    cands.sort(key=lambda v: -((v.get("score") or 0) * v["peso"]))
     pend_rel, pend_anal = [], []
     for v in cands:
         a = analyses.get(v["video_id"], {})
@@ -432,7 +446,7 @@ def recalc(cfg, quiet=False):
         "candidatos": [{k: v.get(k) for k in (
             "video_id", "url", "titulo", "canal", "canal_handle", "idioma", "formato", "data", "idade_dias", "views",
             "comentarios", "duracao_s", "thumbnail", "mediana_vizinhos", "outlier_score", "engajamento_x", "score",
-            "outlier", "velocidade", "velocidade_x", "em_alta", "relevancia", "analisado")} for v in cands],
+            "outlier", "velocidade", "velocidade_x", "em_alta", "relevancia", "analisado", "peso")} for v in cands],
     })
     if not quiet:
         n_out = sum(1 for v in cands if v.get("outlier"))

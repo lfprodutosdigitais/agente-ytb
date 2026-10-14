@@ -103,6 +103,24 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
 - Na rodada seguinte o script copia o `avaliacoes*.json` mais novo de `~/Downloads` para
   `./referencias/avaliacoes.json`. Rode o painel sempre no fim da Fase 2.
 
-## Fase 4
+## Fase 4 — Aprendizado (toda rodada)
 
-Ainda não implementada (a construção avança fase a fase, só depois da anterior testada).
+1. `python3 ~/.claude/skills/referencias-youtube/scripts/aprendizado.py`:
+   - importa o `avaliacoes*.json` mais novo de `~/Downloads`;
+   - para ideias com status **postado** + URL, puxa do Analytics as métricas do vídeo do Léo aos 7 e 30 dias e
+     compara com a mediana dos outros vídeos dele na mesma janela e com a retenção no gancho;
+   - grava `pesos.json` (peso por canal de referência e por tema: 👍 e acertos sobem, 👎 e fracassos descem;
+     o peso multiplica a prioridade nos candidatos e no painel) e `aprendizados.md`.
+2. **Você, Claude**, preenche/revisa o bloco `<!-- CLAUDE:analise -->` do `aprendizados.md`: o que funcionou e
+   o que não, por tema, padrão de gancho, padrão de título e canal; regras concretas (repetir/evitar).
+3. **Antes de dar nota de relevância ou gerar qualquer ideia**, leia `aprendizados.md` e `meu-canal.md` e use as
+   ideias com 👍/👎 de `avaliacoes.json` como exemplos (o que foi aprovado = modelo; 👎 + motivo = evitar).
+
+## Rodada completa (/referencias-youtube)
+
+1. `meu_canal.py` → revisar blocos do `meu-canal.md`.
+2. `aprendizado.py` → revisar bloco do `aprendizados.md`.
+3. `referencias.py coletar` (ou `calcular`, se a rodada semanal já coletou) → notas de relevância dos
+   `pendentes_relevancia` → `referencias.py transcrever` → análises/ideias dos `pendentes_analise`
+   (comece pelos de maior score × peso; no máximo ~15 por rodada).
+4. `painel.py` → `open referencias/painel.html`. Diga ao usuário quantas ideias novas há e os destaques.

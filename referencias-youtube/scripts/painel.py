@@ -58,6 +58,7 @@ def build_data(cfg):
             "gancho": a.get("gancho_literal") or a.get("gancho"),
             "estrutura": a.get("estrutura") or [], "clique": a.get("por_que_clicaram"),
             "assistiram": a.get("por_que_assistiram"), "ideias": a.get("ideias") or [],
+            "peso": v.get("peso", 1.0),
         })
     avaliacoes = read_json(import_downloaded_ratings(o), {}) or {}
     return {"gerado_em": now().isoformat(), "temas": temas, "refs": refs,
@@ -65,7 +66,7 @@ def build_data(cfg):
 
 
 def prioridade(r):
-    return (r["score"] or 0) * (r["relevancia"] or 0) * (1.25 if r["tema_validado"] else 1)
+    return (r["score"] or 0) * (r["relevancia"] or 0) * (1.25 if r["tema_validado"] else 1) * (r.get("peso") or 1)
 
 
 def write_csv(data, path):
@@ -80,7 +81,7 @@ def write_csv(data, path):
 
 def write_ideas_md(data, path):
     av = data["avaliacoes"]
-    L = ["# Ideias", "", f"_Gerado em {now():%Y-%m-%d}. Ordem: score × relevância (tema validado vale 25% a mais)._", ""]
+    L = ["# Ideias", "", f"_Gerado em {now():%Y-%m-%d}. Ordem: score × relevância × peso aprendido (tema validado vale 25% a mais)._", ""]
     if data["temas"]:
         L += ["## Temas validados (outlier em 2+ canais nos últimos 90 dias)", ""]
         L += [f"- **{t['tema']}** — {', '.join(t['canais'])}" for t in data["temas"]]
@@ -189,7 +190,7 @@ details summary{cursor:pointer;color:var(--muted)}
   <div class="temas" id="temas"></div>
   <h2>Em alta <small>crescendo 3x mais rápido que vídeos de idade parecida do mesmo canal</small><span class="count" id="n-alta"></span></h2>
   <div class="grid" id="alta"></div>
-  <h2>Referências <small>ordem: score × relevância</small><span class="count" id="n-refs"></span></h2>
+  <h2>Referências <small>ordem: score × relevância × peso aprendido</small><span class="count" id="n-refs"></span></h2>
   <div class="grid" id="refs"></div>
 </main>
 <div class="toast" id="toast"></div>
@@ -208,7 +209,7 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(AV)); } catch (
 function toast(t) { const el = document.getElementById('toast'); el.textContent = t; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 1800); }
 function setAv(id, patch) { AV[id] = {...(AV[id] || {}), ...patch, atualizado: new Date().toISOString()}; save(); }
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const prio = r => (r.score || 0) * (r.relevancia || 0) * (r.tema_validado ? 1.25 : 1);
+const prio = r => (r.score || 0) * (r.relevancia || 0) * (r.tema_validado ? 1.25 : 1) * (r.peso || 1);
 
 function fillSelect(id, values) {
   const s = document.getElementById(id);
