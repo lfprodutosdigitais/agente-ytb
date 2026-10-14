@@ -11,24 +11,20 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import comentarios  # noqa: E402
 from test_gerador import FakeClient  # noqa: E402
-from yt_common import HttpError  # noqa: E402
-
-
-def item(txt, likes=0):
-    return {"snippet": {"totalReplyCount": 0, "topLevelComment": {"snippet": {
-        "textDisplay": txt, "likeCount": likes, "authorDisplayName": "Fulano"}}}}
 
 
 class G:
+    """Simula o yt-dlp (via_ytdlp): conta os vídeos pedidos e devolve comentários."""
     def __init__(self):
         self.vids = []
 
-    def get(self, url, p):
-        self.vids.append(p["videoId"])
-        if p["videoId"] == "fechado":
-            raise HttpError(403, "commentsDisabled", url)
-        return {"items": [item("Léo, com R$ 1.500 de salário dá pra começar?", 30), item("Top demais!", 99),
-                          item("Quanto precisa juntar pra sair do CLT?", 12), item("compra aqui https://golpe.com como?", 50)]}
+    def __call__(self, vid, n=100):
+        self.vids.append(vid)
+        if vid == "fechado":
+            return []
+        return [{"texto": t, "likes": l, "respostas": 0} for t, l in (
+            ("Léo, com R$ 1.500 de salário dá pra começar?", 30), ("Top demais!", 99),
+            ("Quanto precisa juntar pra sair do CLT?", 12), ("compra aqui https://golpe.com como?", 50))]
 
 
 GRUPOS = {"grupos": [
@@ -55,23 +51,26 @@ class Comentarios(unittest.TestCase):
         for vid, rel in (("r1", 5), ("r2", 5), ("r3", 2)):
             (o / "analises" / f"{vid}.json").write_text(json.dumps({"relevancia": rel}))
 
+        self.g = G()
+        self.orig_yt = comentarios.via_ytdlp
+        comentarios.via_ytdlp = self.g
+
     def tearDown(self):
+        comentarios.via_ytdlp = self.orig_yt
         self.tmp.cleanup()
 
     def test_fontes_e_filtro(self):
-        g = G()
-        c = comentarios.coletar(g, comentarios.R.config())
+        g = self.g
+        c = comentarios.coletar(None, comentarios.R.config())
         self.assertEqual(g.vids, ["leo1", "fechado", "r1"])  # sem a referência em inglês e a de relevância baixa
         textos = [x["texto"] for x in c["leo"]]
         self.assertEqual(textos, ["Léo, com R$ 1.500 de salário dá pra começar?", "Quanto precisa juntar pra sair do CLT?"])
-        cache = json.loads((Path(self.tmp.name) / "cache" / "comentarios" / "leo1.json").read_text())
-        self.assertNotIn("Fulano", json.dumps(cache))  # nunca guarda o nome de quem comentou
-        comentarios.coletar(g, comentarios.R.config())
+        comentarios.coletar(None, comentarios.R.config())
         self.assertEqual(g.vids.count("leo1"), 1)  # cache
 
     def test_gera_ideias_sem_repetir(self):
         c = FakeClient(GRUPOS)
-        novos = comentarios.gerar(g=G(), client=c)
+        novos = comentarios.gerar(client=c)
         self.assertEqual(len(novos), 1)  # grupo de 1 pessoa fica de fora
         a = novos[0]
         self.assertEqual((a["origem"], a["relevancia"], a["pessoas"]), ("comentarios", 5, 7))
@@ -79,13 +78,13 @@ class Comentarios(unittest.TestCase):
         self.assertNotIn("a_conferir", a["ideias"][0])
         self.assertIn("(30 curtidas) Léo, com R$ 1.500", c.calls[0]["messages"][0]["content"])
         c2 = FakeClient(GRUPOS)
-        self.assertEqual(comentarios.gerar(g=G(), client=c2), [])  # mesma pergunta não entra de novo
+        self.assertEqual(comentarios.gerar(client=c2), [])  # mesma pergunta não entra de novo
         self.assertIn("Com salário baixo dá pra começar?", c2.calls[0]["messages"][0]["content"].split("NÃO repetir")[1])
         import gerador
         self.assertIsNone(gerador.escolher_referencia(comentarios.R.load_analyses(), {}))  # não vira base do 👎
 
     def test_painel_mostra_como_referencia_do_publico(self):
-        comentarios.gerar(g=G(), client=FakeClient(GRUPOS))
+        comentarios.gerar(client=FakeClient(GRUPOS))
         import painel
         d = painel.build_data(painel.R.config())
         self.assertEqual(len(d["publico"]), 1)

@@ -116,7 +116,7 @@ def comentarios_coleta(ctx):
     ex = (c["leo"] + c["ref"])[:1]
     d = comentarios.DIAG
     return (f"{d['recebidos']} comentários lidos em {d['videos']} vídeos → {len(c['leo'])} perguntas no canal do Léo, "
-            f"{len(c['ref'])} nas referências" + (f" · {d['via_ytdlp']} pelo yt-dlp" if d["via_ytdlp"] else "")
+            f"{len(c['ref'])} nas referências"
             + (f" · erro: {d['erro']}" if d["erro"] else "") + (f" · ex.: “{ex[0]['texto'][:60]}”" if ex else ""))
 
 

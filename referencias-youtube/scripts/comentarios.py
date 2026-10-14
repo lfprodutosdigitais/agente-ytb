@@ -1,7 +1,8 @@
 """Ideias que o próprio público pediu: perguntas que se repetem nos comentários.
 
-1. Puxa (YouTube Data API, 1 unidade por vídeo) os comentários mais relevantes dos vídeos do Léo e dos melhores
-   outliers em português. Guarda só texto e curtidas (nunca o nome de quem comentou), em cache por vídeo.
+1. Puxa pelo yt-dlp (grátis, sem API: a API do YouTube só lê comentários com permissão de escrita, e o sistema usa
+   só leitura) os 100 comentários mais curtidos dos vídeos do Léo e dos melhores outliers em português. Guarda só
+   texto e curtidas (nunca o nome de quem comentou), em cache por vídeo.
 2. Fica com perguntas e pedidos ("como", "quanto", "faz um vídeo"...), sem links, ordenados por curtidas.
 3. O Claude agrupa as dúvidas que se repetem e escreve 1 ideia por grupo, na história e no tom do Léo.
 4. Cada grupo vira ./referencias/analises/publico-*.json (origem "comentarios"): aparece no feed como as outras
@@ -14,11 +15,10 @@ import re
 from pathlib import Path
 from datetime import timedelta
 
-from yt_common import HttpError, log, now, out_dir, parse_date, read_json, write_json
+from yt_common import log, now, out_dir, parse_date, read_json, write_json
 
 import referencias as R
 
-DATA = "https://www.googleapis.com/youtube/v3"
 PERGUNTA = re.compile(r"\?|\b(como|quanto|quantos|qual|quais|vale a pena|d[aá] pra|tem como|faz(er)? um v[ií]deo|"
                       r"ensina|explica|e se|onde|por ?que|preciso|consigo|ganho|recebo|sal[aá]rio|come[cç]ar)\b", re.I)
 LINK = re.compile(r"https?://|www\.|\.com\b", re.I)
@@ -82,35 +82,20 @@ def via_ytdlp(vid, n=100):
 
 
 def baixar(g, vid, tipo):
-    """Comentários (texto + curtidas) de um vídeo, com cache. [] se os comentários estão desativados."""
+    """Comentários (texto + curtidas) de um vídeo, com cache. `g` fica por compatibilidade (não é usado)."""
     f = out_dir() / "cache" / "comentarios" / f"{vid}.json"
     c = read_json(f, None)
     DIAG["videos"] += 1
     if c and c.get("itens") and now() - parse_date(c["em"]) < timedelta(days=VALIDADE[tipo]):
         DIAG["recebidos"] += len(c["itens"])
         return c["itens"]
-    itens = None
     try:
-        r = g.get(f"{DATA}/commentThreads", {"part": "snippet", "videoId": vid, "maxResults": 100,
-                                             "order": "relevance", "textFormat": "plainText"})
+        itens = via_ytdlp(vid)
+    except Exception as e:  # sem rede/yt-dlp: segue sem esse vídeo
+        DIAG["erro"] = f"yt-dlp: {e}"[:160]
         itens = []
-        for it in r.get("items") or []:
-            sn = it["snippet"]["topLevelComment"]["snippet"]
-            itens.append({"texto": (sn.get("textDisplay") or sn.get("textOriginal") or "").strip()[:600],
-                          "likes": sn.get("likeCount", 0), "respostas": it["snippet"].get("totalReplyCount", 0)})
-    except HttpError as e:
-        if "commentsDisabled" in e.body or e.status == 404:  # comentários desativados ou vídeo removido
-            DIAG["desativados"] += 1
-            return []
-        DIAG["erro"] = f"API {e.status}: {e.body[:160]}"
-    if not itens:  # API recusou ou veio vazia: tenta pelo yt-dlp
-        try:
-            itens = via_ytdlp(vid)
-            DIAG["via_ytdlp"] += 1 if itens else 0
-        except Exception as e:
-            DIAG["erro"] = DIAG["erro"] or f"yt-dlp: {e}"[:160]
-            itens = []
     DIAG["recebidos"] += len(itens)
+    DIAG["via_ytdlp"] += 1 if itens else 0
     if itens:
         write_json(f, {"em": now().isoformat(), "itens": itens})
     return itens
@@ -125,18 +110,14 @@ def filtrar(itens):
 def coletar(g, cfg):
     """{'leo': [...], 'ref': [...]} de comentários filtrados (texto, curtidas, vídeo)."""
     DIAG.update(videos=0, recebidos=0, desativados=0, via_ytdlp=0, erro="")
-    out, unidades = {"leo": [], "ref": []}, 0
+    out = {"leo": [], "ref": []}
     for vid, tipo, titulo in fontes(cfg):
         itens = baixar(g, vid, tipo)
-        unidades += 1
         out[tipo] += [{**c, "video": titulo} for c in filtrar(itens)]
     for k in out:
         out[k].sort(key=lambda c: -(c["likes"] + 2 * c["respostas"]))
     log(f"Comentários: {DIAG['recebidos']} lidos em {DIAG['videos']} vídeos → {len(out['leo'])} perguntas no canal "
-        f"do Léo, {len(out['ref'])} nas referências (~{unidades} unidades de cota"
-        + (f"; {DIAG['via_ytdlp']} vídeo(s) pelo yt-dlp" if DIAG["via_ytdlp"] else "")
-        + (f"; {DIAG['desativados']} com comentários desativados" if DIAG["desativados"] else "") + ")"
-        + (f" · último erro: {DIAG['erro']}" if DIAG["erro"] else ""))
+        f"do Léo, {len(out['ref'])} nas referências" + (f" · último erro: {DIAG['erro']}" if DIAG["erro"] else ""))
     return out
 
 
@@ -169,9 +150,6 @@ def gerar(g=None, client=None, cfg=None):
     """Coleta, agrupa e grava as ideias. Devolve a lista de análises novas."""
     import gerador
     cfg = cfg or R.config()
-    if g is None:
-        from yt_common import Google
-        g = Google()
     coments = coletar(g, cfg)
     if len(coments["leo"]) + len(coments["ref"]) < 3:
         raise ValueError("Poucos comentários com perguntas ainda. Tente de novo quando os vídeos tiverem mais comentários.")
