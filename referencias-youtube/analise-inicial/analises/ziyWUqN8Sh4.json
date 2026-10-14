@@ -1,5 +1,63 @@
 {
   "relevancia": 5,
   "tema": "negócio/empreender",
-  "motivo_relevancia": "Negócios com menos de R$ 100: barreira de entrada que cabe no salário do CLT."
+  "motivo_relevancia": "Negócios com menos de R$ 100: barreira de entrada que cabe no salário do CLT.",
+  "gancho": "Você já percebeu que alguns produtos parecem vender sozinhos? Não porque sejam caros ou sofisticados, mas porque fazem parte da rotina das pessoas. Enquanto muita gente procura a grande ideia para ganhar dinheiro, existem pequenos negócios que podem ser iniciados com menos de R$ 100.",
+  "estrutura": [
+    "Gancho: produtos que 'vendem sozinhos' por fazerem parte da rotina; promessa de negócios com menos de R$ 100",
+    "Doces de produção rápida com conta de custo x venda: brigadeiro (R$ 40 = 40 unidades, custo ~R$ 1, venda R$ 5), bolo no pote, geladinho",
+    "Pedido de like/inscrição depois do 3º item",
+    "Comida de rotina e ponto de venda: salada de frutas, café para viagem perto de ponto de ônibus, pipoca gourmet",
+    "Personalizar item barato de atacado: pano de prato (R$ 2–3 → R$ 10–20), ecobag, capinha, chaveiro",
+    "Produtos de recompra e presente: sabonete, aromatizador (cliente volta quando acaba), velas, kits",
+    "Revenda simples por localização: água e refrigerante (R$ 1 → R$ 3–5)",
+    "Recorrência: marmita (custo R$ 6–8, venda R$ 15–25, cliente compra várias vezes por semana)",
+    "Fechamento: começar pequeno, aprender com os primeiros clientes, pedir ideias nos comentários"
+  ],
+  "por_que_clicaram": "Número (20) + teto de dinheiro baixo e concreto ('MENOS de R$ 100' em caixa alta): tira a objeção principal de quem é CLT ('não tenho dinheiro pra começar'). 'Lucrativos' promete retorno; o valor cabe em qualquer salário, então o clique é de baixo risco.",
+  "por_que_assistiram": "Gancho de curiosidade ('produtos que vendem sozinhos') e, em quase todo item, a mesma fórmula numérica: quanto gasta, quantas unidades sai, custo por unidade e preço de venda. O espectador faz a conta de margem de cabeça a cada item e quer ver o próximo. Dicas de onde vender (empresa, academia, grupo de WhatsApp) deixam tudo palpável. O fim muda para recorrência (marmita), que dá a sensação de renda fixa.",
+  "ideias": [
+    {
+      "id": "ziyWUqN8Sh4-1",
+      "titulo": "Levei R$ 100 de DOCE pro TRABALHO: quanto um CLT vende no intervalo em 5 dias",
+      "gancho": "R$ 100 de ingrediente, uma bandeja e 5 dias de intervalo de almoço na firma. Quanto volta? Eu vou mostrar na tela cada venda, o custo de cada brigadeiro e o que sobrou limpo no fim da semana, sem largar o emprego.",
+      "topicos": [
+        "Passo 1: a lista de compras de R$ 100 na tela e quantas unidades rende (custo por unidade)",
+        "Preço de venda e meta do dia: quantos doces precisa vender pra recuperar os R$ 100 até quarta",
+        "Dia a dia do teste: vendas de segunda a sexta, o que acabou primeiro e o que sobrou",
+        "Objeção na voz do público: 'Léo, mas eu tenho vergonha de vender no trabalho' — o que fazer (e o que a empresa pode proibir)",
+        "Pix x fiado: a regra pra não virar cobrador de colega",
+        "Resultado final: lucro da semana x hora trabalhada, e quanto daria em 1 mês e no ano (régua de R$ 3 mil de salário)"
+      ],
+      "a_conferir": "Quem faz o teste (o Léo não é mais CLT — seria um seguidor, alguém da equipe ou o Léo em um ambiente de trabalho real?) e se há autorização do local para filmar."
+    },
+    {
+      "id": "ziyWUqN8Sh4-2",
+      "titulo": "VENDA 1 vez, RECEBA toda semana: os produtos baratos que o cliente COMPRA DE NOVO",
+      "gancho": "Vender 1 marmita de R$ 20 é renda extra. Vender pra 10 pessoas 3 vezes por semana são R$ 2.400 no mês voltando sozinhos. A diferença tá no produto que acaba e precisa ser comprado de novo, e eu vou te mostrar quais são e a conta de cada um.",
+      "topicos": [
+        "A conta na tela: cliente único x cliente que recompra (marmita, café, aromatizador) em 1 mês e em 12 meses",
+        "Por que recorrência mudou meu negócio: o grupo VIP de R$ 76 mil é cliente que paga todo mês, não venda de uma vez",
+        "3 produtos que acabam e voltam: marmita (custo R$ 6–8, venda R$ 15–25), aromatizador de refil, café do ponto de ônibus — margem e frequência de cada um",
+        "Como transformar venda avulsa em assinatura: pacote semanal com Pix adiantado",
+        "Quantos clientes fixos você precisa pra somar R$ 1.000, R$ 2 mil e R$ 3 mil por mês",
+        "O risco: um cliente fixo que some — por que não depender de 2 ou 3 pessoas"
+      ],
+      "a_conferir": "Confirmar que o grupo VIP é assinatura recorrente (mensal) e não pagamento único; os preços de marmita/aromatizador vêm do vídeo de referência e precisam valer para Floripa."
+    },
+    {
+      "id": "ziyWUqN8Sh4-3",
+      "titulo": "De R$ 100 a R$ 1.000 sem colocar MAIS dinheiro do salário: a simulação de reinvestir o lucro (8 semanas)",
+      "gancho": "R$ 100 no primeiro sábado. Se você reinvestir todo o lucro em vez de gastar, quanto tem na semana 8? Montei a planilha aqui na tela, semana a semana, com um produto de R$ 1 de custo vendido a R$ 5, e o número final surpreende — pra cima e pra baixo.",
+      "topicos": [
+        "A planilha na tela: semana 1 com R$ 100 de insumo, margem real (com embalagem e perda de 10%), reinvestimento de 100% do lucro",
+        "Onde a conta trava na vida real: o teto de quantas unidades você consegue fazer e vender sozinho depois do expediente",
+        "A regra que eu usava com o salário: separar o que é capital de giro do que é seu (eu aportava R$ 600–800 por mês, nunca mexia na base)",
+        "Semana 8: quanto virou o capital e quando faz sentido começar a tirar lucro",
+        "O erro que zera tudo: gastar o lucro das primeiras semanas antes de ter caixa",
+        "Próximo nível: com R$ 1.000 de caixa, qual produto da lista você consegue bancar que antes não conseguia"
+      ],
+      "a_conferir": "O 'comecei com R$ 100' do BRIEFING é a banca de apostas — usar no máximo como 1 frase de contexto, sem centrar nisso."
+    }
+  ]
 }

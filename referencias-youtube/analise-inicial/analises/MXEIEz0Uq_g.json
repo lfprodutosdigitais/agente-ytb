@@ -1,5 +1,63 @@
 {
   "relevancia": 4,
   "tema": "negócio/empreender",
-  "motivo_relevancia": "Negócios de quintal/garagem: começa sem sair do CLT."
+  "motivo_relevancia": "Negócios de quintal/garagem: começa sem sair do CLT.",
+  "gancho": "Que tal ganhar um bom dinheiro em casa sem precisar aparecer, assim como nós do canal Renda Extra e Negócios? Se quiser saber como, após assistir o vídeo, clique no primeiro link da descrição logo abaixo. Um pequeno negócio de fundo de quintal acaba sendo uma opção de início para muita gente que deseja empreender, mas tem pouco dinheiro para investir.",
+  "estrutura": [
+    "Abertura com chamada para link de curso ('ganhar dinheiro em casa sem aparecer')",
+    "Definição de negócio de fundo de quintal: espaço pequeno, produção manual, investimento baixo",
+    "Método em 2 passos: escolher segmento e checar demanda antes de produzir",
+    "Ideias de produção com valor de entrada: roupa para cachorro (a partir de R$ 3 mil), chocolate (~R$ 5 mil), lingerie (R$ 3–4 mil)",
+    "Ideias de serviço/locação: aluguel de mesas e cadeiras para festa, lavanderia e passadoria",
+    "Ideias de alimento: temperos, bolos, salgados e alimentos congelados, embutidos, queijo, com alerta de vigilância sanitária",
+    "Ideias de investimento maior: cachaça (alambique ~R$ 15 mil, garrafa até R$ 200), farinha (máquinas até R$ 30 mil), alimentos saudáveis (R$ 20–40 mil)",
+    "Ideias artesanais e personalizadas: bijuteria, cosméticos naturais, papelaria, madeira, produtos de bebê",
+    "Fechamento: pesquisar mercado e público, pedir ideias nos comentários, vídeos sugeridos"
+  ],
+  "por_que_clicaram": "Número grande e específico (27) promete um cardápio de opções, e 'fundo de quintal/garagem' dá contraste: negócio de verdade sem ponto comercial nem aluguel, usando o que a pessoa já tem em casa. Curiosidade do tipo 'qual dessas dá pra mim?'.",
+  "por_que_assistiram": "Formato lista: cada item é um mini-loop novo, então quem não gostou de um espera o próximo. Valores de investimento aparecem em alguns itens (R$ 3 mil, R$ 5 mil, R$ 15 mil) e o espectador vai se comparando. A variedade (alimento, costura, serviço, artesanato) faz quase todo mundo achar algo com que se identifica. Não tem história, prova nem passo a passo: retém pela lista, não pela profundidade.",
+  "ideias": [
+    {
+      "id": "MXEIEz0Uq_g-1",
+      "titulo": "Aluguel de MESA e CADEIRA pra festa: em quantos FINS DE SEMANA o investimento se paga? (fiz a conta)",
+      "gancho": "10 jogos de mesa com cadeira, alugados a cada sábado: em quantos fins de semana esse dinheiro volta pro seu bolso? Eu fiz a conta aqui na tela, com preço de compra, preço de aluguel e o que sobra limpo, pensando em quem é CLT e só tem o sábado livre.",
+      "topicos": [
+        "A conta na tela: custo de 10 jogos de mesa + 4 cadeiras x preço de aluguel por jogo no bairro → número de fins de semana até pagar",
+        "A régua do CLT: com salário de R$ 3 mil e guardando R$ 600–800 por mês como eu guardava, em quantos meses você compra o primeiro lote sem dívida",
+        "O custo que o vídeo de lista não fala: frete (carro/carreto), peça quebrada, lavagem de toalha e o seu sábado inteiro",
+        "Começar pequeno: 1º lote só depois de 3 reservas fechadas no grupo do bairro (testar demanda antes de comprar)",
+        "Reinvestir: cada fim de semana pago vira mais 1 jogo — simulação de 6 meses na planilha",
+        "Quando o lucro deixa de ser 'renda extra' e vira negócio: a meta em reais que eu usaria pra decidir crescer"
+      ],
+      "a_conferir": "Preços reais de compra e de aluguel de mesa/cadeira em Florianópolis para montar a simulação (o vídeo de referência não dá números)."
+    },
+    {
+      "id": "MXEIEz0Uq_g-2",
+      "titulo": "Vai vender COMIDA feita em CASA? O que MEI e vigilância sanitária exigem antes de você levar MULTA",
+      "gancho": "Você faz salgado em casa, vende R$ 500 no mês e acha que tá tudo certo. Só que cozinha de casa vendendo comida tem regra, e eu vou te mostrar quanto custa ficar legal: o boleto do MEI por mês, o que a vigilância pede e o que acontece se você ignorar.",
+      "topicos": [
+        "O número do MEI na tela: quanto é o boleto mensal (DAS) e qual o limite de faturamento por ano",
+        "CLT pode ser MEI? O que muda (e o que NÃO muda) no seu emprego e nos seus direitos",
+        "Vigilância sanitária para comida feita em casa: o que costuma ser exigido (alvará, curso de manipulação, separação da cozinha)",
+        "Quanto custa ficar legal x quanto você fatura: a conta com venda de R$ 500, R$ 1.500 e R$ 3 mil por mês",
+        "Nota fiscal abre porta: vender para empresa, escola e evento só com CNPJ",
+        "Quando eu abri empresa: o que eu queria ter sabido antes sobre imposto (R$ 74 mil pagos em 2024)"
+      ],
+      "a_conferir": "Valor atual do DAS e do limite anual do MEI em 2026; exigências da vigilância sanitária de Florianópolis/SC para cozinha doméstica; se o Léo foi MEI antes de abrir a empresa atual (e o 'R$ 74 mil de impostos' vem da planilha de 2024 do meu-canal.md, não do BRIEFING)."
+    },
+    {
+      "id": "MXEIEz0Uq_g-3",
+      "titulo": "VENDE primeiro, PRODUZ depois: testei um negócio de quintal com R$ 0 de estoque",
+      "gancho": "Zero real em estoque e 10 pedidos pagos antes de produzir a primeira unidade. É assim que eu testaria qualquer negócio de quintal hoje se ainda fosse CLT, e vou fazer na tela: foto, preço, status do WhatsApp e encomenda com Pix adiantado.",
+      "topicos": [
+        "Passo 1 no 1º minuto: escolher 1 produto da lista (ex.: tempero caseiro ou bolo) e fazer 1 unidade-amostra",
+        "Meta do teste: 10 encomendas com 50% no Pix em 7 dias — se não bater, você perdeu só o custo da amostra",
+        "Onde divulgar sem gastar: status do WhatsApp, grupo do condomínio/bairro, colegas do trabalho",
+        "Preço na tela: custo por unidade + embalagem + gás x preço de venda, quanto sobra por pedido",
+        "A lição que eu aprendi perdendo dinheiro: comprar no impulso (os R$ 5 mil que eu perdi) x testar pequeno, como comecei com R$ 100",
+        "Resultado do teste: quantos pedidos vieram e se vale comprar equipamento"
+      ],
+      "a_conferir": "Quem executa o teste na tela (o próprio Léo, alguém da equipe ou um seguidor CLT) e qual produto será usado."
+    }
+  ]
 }

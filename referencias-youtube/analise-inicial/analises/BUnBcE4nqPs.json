@@ -1,5 +1,63 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Revenda: renda extra concreta com pouco capital."
+  "motivo_relevancia": "Revenda: renda extra concreta com pouco capital.",
+  "gancho": "Se você quer ganhar dinheiro como revendedor de produtos, mas ainda não sabe o que vender, este conteúdo vai te ajudar a sair do zero. Aqui você vai conhecer 22 produtos com boa saída e ótimo retorno financeiro. São itens simples de uso cotidiano e com baixo custo inicial.",
+  "estrutura": [
+    "Gancho: 22 produtos de uso cotidiano para revender, baixo custo, de casa",
+    "Itens de alta demanda constante: pet, acessórios de celular, carvão (comprar saco grande e fracionar)",
+    "Chamada para link de curso no meio do vídeo (repetida depois)",
+    "Atacado e vestuário: roupa infantil e moda fitness (Brás, Goiânia), meias (R$ 2–3 → R$ 5)",
+    "Revenda por ponto/sazonal: picolé, água mineral (R$ 1–1,50 → R$ 3–5), cheirinho de carro (galão de 5 L por R$ 70–80, fracionar)",
+    "Casa e cozinha: temperos, pano de prato (kit de 5 por R$ 20, lucro de R$ 10), enxoval (manta R$ 16 → R$ 30–50), panelas (margem até 100%)",
+    "Marca e representação: cosméticos Natura/Avon/Boticário, maquiagem, semijoias",
+    "Brechó, camiseta personalizada sob demanda, cestos artesanais, suculentas",
+    "Fechamento: foco, persistência, divulgação; pedir comentários"
+  ],
+  "por_que_clicaram": "Número alto (22) + CAIXA ALTA + promessa exagerada ('GANHAR MUITO DINHEIRO'). 'Revender' soa mais fácil que 'empreender': não precisa saber fazer nada, só comprar e vender. O 23,7x sugere que o tema revenda tem demanda reprimida no público de renda extra.",
+  "por_que_assistiram": "Lista longa com itens super familiares (meia, pano de prato, carvão, água) — o espectador pensa 'isso eu consigo'. Alguns itens trazem a conta de compra e venda (pano R$ 2 → kit R$ 20, manta R$ 16 → R$ 50) e dicas de onde comprar (Brás, Limeira, carvoaria), o que parece um segredo de fornecedor. Não há história nem prova; a retenção vem da sensação de acessibilidade e da curiosidade pelo próximo produto.",
+  "ideias": [
+    {
+      "id": "BUnBcE4nqPs-1",
+      "titulo": "REVENDER ou FABRICAR? Coloquei 3 produtos lado a lado e a conta me surpreendeu",
+      "gancho": "Pano de prato comprado a R$ 2, aromatizador feito em casa, salgado congelado: qual dos três deixa mais dinheiro por HORA no seu bolso? Eu botei os três na mesma planilha aqui na tela, com custo, preço, tempo e risco de sobrar.",
+      "topicos": [
+        "A planilha na tela: custo, preço de venda e margem de cada produto (ex.: kit de 5 panos a R$ 20 com R$ 10 de lucro)",
+        "O número que ninguém coloca: lucro por hora do seu tempo depois do expediente CLT",
+        "Risco de cada um: produto que estraga (comida) x produto que encalha (estoque) x produto que exige licença",
+        "Revender é mais rápido de começar, fabricar tem margem maior: quando cada um faz sentido",
+        "A pergunta certa antes de escolher: em que você já é bom e quem você já conhece que compraria",
+        "Veredito: qual dos três eu escolheria se ganhasse R$ 3 mil de novo e tivesse só a noite e o sábado"
+      ],
+      "a_conferir": "Preços de atacado e de venda dos 3 produtos (os do vídeo de referência são de SP/genéricos; checar Floripa)."
+    },
+    {
+      "id": "BUnBcE4nqPs-2",
+      "titulo": "Revendedora de NATURA e BOTICÁRIO ganha quanto DE VERDADE? Fiz a conta da comissão",
+      "gancho": "Revista na mão, 30% de comissão: parece fácil. Mas pra tirar R$ 1.000 limpos no mês, quanto você precisa vender? Eu fiz essa conta aqui na tela, tirando desconto que você dá pra cliente, brinde e o que fica parado, e o número é bem maior do que a moça da revista te conta.",
+      "topicos": [
+        "A conta na tela: faturamento necessário para R$ 500, R$ 1.000 e R$ 3 mil de lucro com a comissão de revenda",
+        "Os custos escondidos: pedido mínimo, produto que encalha, fiado, desconto pra amiga, frete",
+        "Desmontando a promessa: 'os produtos vendem sozinhos' — o que de fato faz alguém vender todo mês",
+        "Por que marca famosa ajuda (confiança) e por que ela também limita (margem fixa, você não define o preço)",
+        "Comparação: comissão de revenda x produto próprio que você controla preço (esteira R$ 19,90 → R$ 97 → R$ 197)",
+        "Pra quem vale a pena: CLT com rede de contatos grande no trabalho — e quando partir para algo próprio"
+      ],
+      "a_conferir": "Percentual de comissão/margem atual de revenda Natura, Avon e Boticário em 2026 e pedido mínimo; se o Léo ou alguém próximo já revendeu (história real deixaria o vídeo mais forte)."
+    },
+    {
+      "id": "BUnBcE4nqPs-3",
+      "titulo": "NÃO compre R$ 2 MIL de mercadoria no 1º mês: o erro do ESTOQUE PARADO",
+      "gancho": "Você compra R$ 2 mil de roupa no atacado, vende R$ 600 e o resto fica no guarda-roupa. Eu já perdi dinheiro no impulso, R$ 5 mil de uma vez, e a regra que eu aprendi vale pra revenda: vou te mostrar na tela quanto comprar no primeiro pedido e como saber a hora de comprar mais.",
+      "topicos": [
+        "A conta do encalhe na tela: comprou R$ 2 mil, vendeu 30% — quanto do seu salário ficou preso em estoque",
+        "A lição de perder R$ 5 mil no impulso aplicada à revenda: decisão com emoção x decisão com número",
+        "Primeiro pedido pequeno: no máximo 1 mês do que você consegue guardar do salário (eu guardava R$ 600–800)",
+        "Vender antes de comprar: catálogo/foto no WhatsApp e encomenda com Pix adiantado",
+        "Giro: o indicador simples pra saber o que recomprar (vendeu 80% em 15 dias? compra de novo)",
+        "O que fazer com o que encalhou: kit, combo, liquidação — recuperar o dinheiro antes de lucrar"
+      ],
+      "a_conferir": "Usar a perda de R$ 5 mil apenas como frase de contexto (foi em apostas) sem detalhar; confirmar se o Léo topa citar."
+    }
+  ]
 }
