@@ -190,7 +190,13 @@ def discover(cfg, known_handles, g=None, own_channel_id=None):
     known = {h.lower().lstrip("@") for h in known_handles}
     agg = {}
     for v in vids:
-        cid = v["snippet"]["channelId"]
+        sn = v["snippet"]
+        if sn.get("categoryId") == "20":  # Games
+            continue
+        lang = (sn.get("defaultAudioLanguage") or sn.get("defaultLanguage") or "").lower()
+        if lang and not lang.startswith(("pt", "en")):
+            continue
+        cid = sn["channelId"]
         c = chans.get(cid)
         if not c or cid == own_channel_id:
             continue

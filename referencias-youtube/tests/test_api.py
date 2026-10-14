@@ -105,7 +105,11 @@ class ApiCollect(unittest.TestCase):
                     vid_item("A0000000002", views=5000, channel="UCoutro"),
                     vid_item("A0000000003", views=900000, channel="UCbig"),       # grande demais
                     vid_item("A0000000004", views=900000, channel="UCprimorico"),  # já está na lista
-                    vid_item("A0000000005", views=900000, channel="UCleo")]])      # canal do próprio Léo
+                    vid_item("A0000000005", views=900000, channel="UCleo"),        # canal do próprio Léo
+                    {**vid_item("A0000000006", views=900000, channel="UCes"),
+                     "snippet": {**vid_item("x")["snippet"], "channelId": "UCes", "defaultAudioLanguage": "es"}},
+                    {**vid_item("A0000000007", views=900000, channel="UCgame"),
+                     "snippet": {**vid_item("x")["snippet"], "channelId": "UCgame", "categoryId": "20"}}]])
         cfg = {**CFG, "termos_descoberta": ["sair do CLT"]}
         sugs, units = Y.discover(cfg, ["@ucprimorico"], g=g, own_channel_id="UCleo")
         self.assertEqual([s["canal"] for s in sugs], ["Canal UCnovo", "Canal UCoutro"])
