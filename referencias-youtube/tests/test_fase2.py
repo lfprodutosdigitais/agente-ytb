@@ -113,10 +113,25 @@ class Metrics(unittest.TestCase):
         self.assertGreater(a["score"], b["score"])
         self.assertLessEqual(a["score"], a["outlier_score"] * (1 + CFG["engajamento_bonus_max"]))
 
+    def test_lancamento_normal_nao_e_em_alta(self):
+        # vídeos recentes crescem mais rápido que os antigos; um lançamento no ritmo dos outros recentes não é "em alta"
+        vs = {}
+        for i in range(12):
+            v = vid(i, days_ago=2 + i * 3)
+            vs[v["video_id"]] = v
+        hist = {}
+        for v in vs.values():
+            age = (TODAY - datetime.fromisoformat(v["data"])).days
+            vel = 3000 / (age + 1)  # decai com a idade
+            hist[v["video_id"]] = [{"data": "2026-10-12", "views": 1000}, {"data": "2026-10-13", "views": int(1000 + vel)}]
+        R.compute(vs, hist, CFG, TODAY)
+        self.assertEqual(sum(v["em_alta"] for v in vs.values()), 0)
+
     def test_em_alta(self):
         vs = base()
-        fast = next(iter(vs.values()))
-        fast["data"] = (TODAY - timedelta(days=5)).isoformat()
+        recentes = [vid(100 + i, days_ago=d) for i, d in enumerate((3, 4, 6, 7, 8))]
+        vs.update({v["video_id"]: v for v in recentes})
+        fast = recentes[2]  # 6 dias
         hist = {v["video_id"]: [{"data": "2026-10-06", "views": 900}, {"data": "2026-10-13", "views": 970}] for v in vs.values()}
         hist[fast["video_id"]] = [{"data": "2026-10-06", "views": 100}, {"data": "2026-10-13", "views": 1000}]
         R.compute(vs, hist, CFG, TODAY)

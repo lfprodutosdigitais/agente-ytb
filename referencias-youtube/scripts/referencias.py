@@ -41,6 +41,7 @@ DEFAULTS = {
     "idade_minima_dias": 7,
     "em_alta_fator": 3.0,
     "em_alta_max_dias": 30,
+    "em_alta_min_pares": 3,
     "engajamento_peso": 0.25,
     "engajamento_bonus_max": 0.5,
     "relevancia_minima": 3,
@@ -322,10 +323,18 @@ def compute(videos, hist, cfg, today=None):
             days = (parse_date(b["data"]) - parse_date(a["data"])).days
             if days > 0:
                 v["velocidade"] = round((b["views"] - a["views"]) / days, 1)
-    vel_avg = {}
-    for ch, vs in by_chan.items():
-        vels = [v["velocidade"] for v in vs if v.get("velocidade") is not None]
-        vel_avg[ch] = sum(vels) / len(vels) if vels else None
+    for vs in by_chan.values():
+        for v in vs:
+            v["idade_dias"] = (today - v["_dt"]).days
+
+    def vel_baseline(v, ch):
+        """Mediana da velocidade de vídeos do mesmo canal com idade parecida (vídeo novo sempre cresce mais
+        rápido que vídeo antigo; comparar com qualquer vídeo marcaria todo lançamento como 'em alta')."""
+        age = v["idade_dias"]
+        lo, hi = age / 2 - 1, age * 2 + 1
+        peers = [o["velocidade"] for o in by_chan[ch] if o is not v and o.get("velocidade") is not None
+                 and o["formato"] == v["formato"] and lo <= o["idade_dias"] <= hi]
+        return median(peers) if len(peers) >= cfg["em_alta_min_pares"] else None
 
     k = cfg["vizinhos"]
     for (ch, fmt), vs in by_group.items():
@@ -333,7 +342,6 @@ def compute(videos, hist, cfg, today=None):
         for v in vs:
             peers = sorted((o for o in vs if o is not v), key=lambda o: abs((o["_dt"] - v["_dt"]).total_seconds()))[:k]
             med = median([o["views"] for o in peers])
-            v["idade_dias"] = (today - v["_dt"]).days
             v["mediana_vizinhos"] = med
             v["outlier_score"] = round(v["views"] / med, 2) if med else None
             v["jovem"] = v["idade_dias"] < cfg["idade_minima_dias"]
@@ -349,8 +357,8 @@ def compute(videos, hist, cfg, today=None):
                 bonus = min((v["engajamento_x"] - 1) * cfg["engajamento_peso"], cfg["engajamento_bonus_max"])
             v["score"] = round((v["outlier_score"] or 0) * (1 + bonus), 2)
             # em alta
-            va = vel_avg.get(ch)
-            v["velocidade_x"] = round(v["velocidade"] / va, 2) if va and v.get("velocidade") is not None else None
+            va = vel_baseline(v, ch) if v.get("velocidade") is not None else None
+            v["velocidade_x"] = round(v["velocidade"] / va, 2) if va else None
             v["em_alta"] = bool(v["velocidade_x"] and v["idade_dias"] <= cfg["em_alta_max_dias"]
                                 and v["velocidade_x"] >= cfg["em_alta_fator"])
     for v in videos.values():
