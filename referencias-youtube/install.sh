@@ -18,9 +18,23 @@ PY
 # atalho de dois cliques para abrir o painel com o servidor local (adicionar referência na hora + salvar sozinho)
 WORK="${REFERENCIAS_WORKDIR:-$HOME/GranaPropria}"
 if [ -d "$WORK" ]; then
+  REPO="$(cd "$SRC/.." && pwd)"
   cat > "$WORK/Abrir painel.command" <<CMD
 #!/bin/bash
-cd "$WORK" && "$(command -v python3)" "$DEST/scripts/painel.py" --abrir
+# Busca a versão nova do sistema (se houver internet), reinstala e abre o painel.
+# Tudo dentro de main(): o install.sh reescreve este arquivo durante a atualização.
+main() {
+  if [ -d "$REPO/.git" ]; then
+    echo "Procurando atualizações…"
+    if git -C "$REPO" pull -q --ff-only 2>/dev/null; then
+      bash "$REPO/referencias-youtube/install.sh" >/dev/null 2>&1 && echo "Sistema atualizado."
+    else
+      echo "Sem atualização agora (sem internet ou mudanças locais). Abrindo a versão atual."
+    fi
+  fi
+  cd "$WORK" && exec "$(command -v python3)" "$DEST/scripts/painel.py" --abrir
+}
+main "\$@"; exit
 CMD
   chmod +x "$WORK/Abrir painel.command"
 fi
