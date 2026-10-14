@@ -15,6 +15,15 @@ import json, sys
 new, cur = (json.load(open(f, encoding="utf-8")) for f in sys.argv[1:3])
 json.dump({**new, **cur}, open(sys.argv[2], "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 PY
+# atalho de dois cliques para abrir o painel com o servidor local (adicionar referência na hora + salvar sozinho)
+WORK="${REFERENCIAS_WORKDIR:-$HOME/GranaPropria}"
+if [ -d "$WORK" ]; then
+  cat > "$WORK/Abrir painel.command" <<CMD
+#!/bin/bash
+cd "$WORK" && "$(command -v python3)" "$DEST/scripts/painel.py" --abrir
+CMD
+  chmod +x "$WORK/Abrir painel.command"
+fi
 [ -f "$DEST/.env" ] || { cp "$SRC/.env.example" "$DEST/.env"; chmod 600 "$DEST/.env"; }
 command -v yt-dlp >/dev/null || echo "Instale o yt-dlp: pip install -U yt-dlp  (ou brew install yt-dlp)"
 echo "Skill instalada em $DEST"

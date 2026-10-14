@@ -5,6 +5,8 @@ Cota diária grátis: 10.000 unidades. Custos aproximados:
   - coletar 1 canal (50 longos): ~3–8 unidades (channels 1 + playlistItems 1/50 vídeos + videos 1/50 vídeos)
   - descobrir: 100 unidades por termo de busca + ~1 por 50 vídeos/canais detalhados
 """
+import re
+import urllib.parse
 from datetime import timedelta
 
 from yt_common import HttpError, log, now, out_dir, parse_iso_duration, read_json, write_json
@@ -155,6 +157,63 @@ def collect(chans, cfg, g=None, is_short_fn=None):
     if falhas:
         log(f"Canais com falha nesta rodada: {', '.join(falhas)}")
     return all_recs, quota.units
+
+
+# ---------------------------------------------------------------- referência manual
+
+VIDEO_RE = re.compile(r"(?:v=|youtu\.be/|/shorts/|/live/|/embed/)([\w-]{11})")
+
+
+def parse_entrada(texto):
+    """'@canal', link do canal ou link de vídeo -> ("video", id) | ("canal", {"url", "handle"}).
+
+    Levanta ValueError com mensagem amigável se não entender."""
+    t = (texto or "").strip()
+    if not t:
+        raise ValueError("Cole um @canal, o link do canal ou o link de um vídeo.")
+    m = VIDEO_RE.search(t)
+    if m:
+        return "video", m.group(1)
+    if t.startswith("@"):
+        h = t.split("/")[0].split("?")[0]
+        return "canal", {"url": f"https://www.youtube.com/{h}", "handle": h}
+    if "youtube.com" in t or "youtu.be" in t:
+        path = urllib.parse.urlparse(t if "://" in t else "https://" + t).path
+        parts = [urllib.parse.unquote(x) for x in path.split("/") if x]
+        if parts and parts[0].startswith("@"):
+            return "canal", {"url": f"https://www.youtube.com/{parts[0]}", "handle": parts[0]}
+        if len(parts) >= 2 and parts[0] == "channel":
+            return "canal", {"url": f"https://www.youtube.com/channel/{parts[1]}", "handle": parts[1]}
+        if len(parts) >= 2 and parts[0] in ("c", "user"):
+            return "canal", {"url": f"https://www.youtube.com/@{parts[1]}", "handle": "@" + parts[1]}
+        raise ValueError("Não reconheci esse link. Use o link do canal (youtube.com/@nome) ou de um vídeo.")
+    if re.fullmatch(r"[\w.\-À-ÿ]{3,}", t):
+        return "canal", {"url": f"https://www.youtube.com/@{t}", "handle": "@" + t}
+    raise ValueError("Não reconheci. Exemplos: @primorico, youtube.com/@primorico ou youtu.be/ID_DO_VIDEO")
+
+
+def fetch_manual_video(g, video_id, cfg, is_short_fn=None):
+    """Busca 1 vídeo avulso e devolve o registro marcado como referência manual."""
+    quota = Quota()
+    items = video_details(g, [video_id], quota)
+    if not items:
+        raise ValueError("Vídeo não encontrado (privado, removido ou link errado).")
+    v = items[0]
+    cid = v["snippet"]["channelId"]
+    r = g.get(f"{DATA}/channels", {"part": "snippet,statistics", "id": cid})
+    c = (r.get("items") or [{}])[0]
+    info = {"titulo": c.get("snippet", {}).get("title") or v["snippet"].get("channelTitle"),
+            "inscritos": int(c["statistics"]["subscriberCount"]) if c.get("statistics", {}).get("subscriberCount") else None}
+    handle = (c.get("snippet", {}).get("customUrl") or "").strip()
+    chan = {"handle": handle if handle.startswith("@") else "@" + (handle or cid),
+            "url": f"https://www.youtube.com/{handle if handle.startswith('@') else 'channel/' + cid}", "lang": "pt"}
+    lang = (v["snippet"].get("defaultAudioLanguage") or "").lower()
+    if lang.startswith("en"):
+        chan["lang"] = "en"
+    fn = is_short_fn or (lambda vid, dur, mx=180: dur <= mx)
+    rec = to_record(v, chan, info, cfg, fn)
+    rec["manual"] = True
+    return rec
 
 
 # ---------------------------------------------------------------- descoberta

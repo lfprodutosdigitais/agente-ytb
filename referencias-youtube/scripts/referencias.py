@@ -389,8 +389,8 @@ def weight(v, analysis, pesos):
 
 
 def candidates(videos, analyses, cfg):
-    cands = [v for v in videos.values() if (v.get("outlier") or v.get("em_alta"))
-             and (cfg["max_shorts"] or v.get("formato") != "short")]
+    cands = [v for v in videos.values() if v.get("manual") or ((v.get("outlier") or v.get("em_alta"))
+             and (cfg["max_shorts"] or v.get("formato") != "short"))]
     pesos = load_weights()
     for v in cands:
         v["peso"] = weight(v, analyses.get(v["video_id"], {}), pesos)
@@ -446,7 +446,7 @@ def recalc(cfg, quiet=False):
         "candidatos": [{k: v.get(k) for k in (
             "video_id", "url", "titulo", "canal", "canal_handle", "idioma", "formato", "data", "idade_dias", "views",
             "comentarios", "duracao_s", "thumbnail", "mediana_vizinhos", "outlier_score", "engajamento_x", "score",
-            "outlier", "velocidade", "velocidade_x", "em_alta", "relevancia", "analisado", "peso")} for v in cands],
+            "outlier", "velocidade", "velocidade_x", "em_alta", "relevancia", "analisado", "peso", "manual")} for v in cands],
     })
     if not quiet:
         n_out = sum(1 for v in cands if v.get("outlier"))
@@ -485,6 +485,59 @@ def transcribe(cfg):
 
 # ---------------------------------------------------------------- main
 
+def append_channel(chan, lang="pt", path=None):
+    """Acrescenta o canal ao canais.txt se ainda não estiver lá. Devolve True se acrescentou."""
+    path = path or SKILL_DIR / "canais.txt"
+    atuais = read_channels(path) if path.exists() else []
+    key = chan["handle"].lower().lstrip("@")
+    if any(c["handle"].lower().lstrip("@") == key or c["url"].lower() == chan["url"].lower() for c in atuais):
+        return False
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(("" if not path.exists() or path.read_text(encoding="utf-8").endswith("\n") else "\n")
+                + chan["url"] + (" | en" if lang == "en" else "") + "\n")
+    return True
+
+
+def add_reference(entrada, cfg, lang="pt", g=None, is_short_fn=None):
+    """Adiciona na mão: @canal / link de canal (entra no canais.txt e é coletado agora) ou link de vídeo
+    (entra como referência manual). Devolve um resumo para mostrar ao usuário."""
+    import youtube_publico as Y
+    tipo, val = Y.parse_entrada(entrada)
+    if g is None:
+        from yt_common import Google
+        g = Google()
+    if tipo == "video":
+        rec = Y.fetch_manual_video(g, val, cfg, is_short_fn)
+        store([rec])
+        recalc(cfg, quiet=True)
+        return {"tipo": "video", "id": rec["video_id"], "titulo": rec["titulo"], "canal": rec["canal"],
+                "msg": f"Vídeo adicionado: “{rec['titulo']}” ({rec['canal']}). Ele aparece em “Adicionadas por você”."}
+    chan = {**val, "lang": lang}
+    novo = append_channel(chan, lang)
+    recs, _ = Y.collect([chan], cfg, g=g, is_short_fn=is_short_fn)
+    if not recs:
+        raise ValueError(f"Não achei vídeos longos públicos em {chan['handle']}. Confira o @ ou o link.")
+    cands = recalc(cfg, quiet=True)
+    outs = [c for c in cands if c.get("canal_handle") == chan["handle"] and c.get("outlier")]
+    return {"tipo": "canal", "handle": chan["handle"], "canal": recs[0]["canal"], "videos": len(recs),
+            "outliers": len(outs), "novo": novo,
+            "msg": f"{recs[0]['canal']}: {len(recs)} vídeos coletados, {len(outs)} outliers"
+                   + ("" if novo else " (já estava na lista; dados atualizados)") + "."}
+
+
+def process_queue(cfg, queue, g=None):
+    """Pedidos de 'adicionar' feitos no painel aberto como arquivo (vêm no avaliacoes.json)."""
+    feitos = []
+    for item in queue or []:
+        try:
+            feitos.append(add_reference(item.get("entrada", ""), cfg, item.get("lang", "pt"), g=g)["msg"])
+        except (ValueError, HttpError, OSError, RuntimeError) as e:
+            feitos.append(f"Falhou '{item.get('entrada')}': {e}")
+    for f in feitos:
+        log("  " + f)
+    return feitos
+
+
 def run_collect(chans, cfg):
     """Coleta pela fonte configurada. Devolve (records, texto de custo)."""
     import os
@@ -501,7 +554,8 @@ def run_collect(chans, cfg):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("acao", choices=["teste", "coletar", "calcular", "transcrever", "temas", "descobrir"])
+    ap.add_argument("acao", choices=["teste", "coletar", "calcular", "transcrever", "temas", "descobrir", "adicionar"])
+    ap.add_argument("--en", action="store_true", help="canal em inglês (com 'adicionar')")
     ap.add_argument("canal", nargs="?")
     args = ap.parse_args()
     cfg = config()
@@ -528,6 +582,13 @@ def main():
         recalc(cfg)
     elif args.acao == "transcrever":
         transcribe(cfg)
+    elif args.acao == "adicionar":
+        if not args.canal:
+            raise SystemExit("Uso: referencias.py adicionar @canal | link do canal | link do vídeo [--en]")
+        try:
+            log(add_reference(args.canal, cfg, "en" if args.en else "pt")["msg"])
+        except ValueError as e:
+            raise SystemExit(str(e))
     elif args.acao == "descobrir":
         import youtube_publico
         own = (read_json(paths()["out"] / "meu-canal-dados.json", {}) or {}).get("channel", {}).get("id")

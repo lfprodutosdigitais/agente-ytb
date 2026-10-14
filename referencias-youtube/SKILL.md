@@ -99,6 +99,11 @@ Script: `python3 ~/.claude/skills/referencias-youtube/scripts/referencias.py <a�
   cards com thumbnail, canal, score, relevância, tema, gancho e ideias; filtros por canal, tema, formato,
   score e relevância; por ideia: 👍/👎 com motivo, status (ideia → roteiro → gravado → postado) e URL do
   vídeo do Léo quando postado (salvo no navegador). "Exportar avaliações" baixa `avaliacoes.json`.
+- **Modo servidor (recomendado):** `painel.py --abrir` (ou dois cliques em `~/GranaPropria/Abrir painel.command`)
+  abre em `http://127.0.0.1:8765`: avaliações salvas direto em `./referencias/avaliacoes.json` e
+  **Adicionar referência** (cole @canal, link do canal ou link de vídeo) coleta na hora. Pela linha de comando:
+  `referencias.py adicionar @canal [--en]` ou `referencias.py adicionar <link do vídeo>`.
+  Vídeos colados à mão ficam marcados `manual` e entram em `pendentes_relevancia` para receber nota e ideias.
 - `referencias.csv` (abre no Excel/Numbers) e `ideias.md`, ordenados por score × relevância.
 - Na rodada seguinte o script copia o `avaliacoes*.json` mais novo de `~/Downloads` para
   `./referencias/avaliacoes.json`. Rode o painel sempre no fim da Fase 2.

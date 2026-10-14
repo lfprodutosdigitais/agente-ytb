@@ -1,17 +1,23 @@
 """FASE 3 — Painel: gera ./referencias/painel.html, referencias.csv e ideias.md.
 
-Uso: python3 scripts/painel.py
-- painel.html abre direto no navegador (sem servidor). Avaliações (👍/👎, motivo, status, URL do vídeo postado)
-  ficam no navegador; o botão "Exportar avaliações" baixa avaliacoes.json.
-- Na rodada seguinte, este script (e o aprendizado) pega o avaliacoes.json mais novo de ~/Downloads e copia
-  para ./referencias/avaliacoes.json.
+Uso:
+  python3 scripts/painel.py           # só gera os arquivos (abre como arquivo: avaliações ficam no navegador)
+  python3 scripts/painel.py --abrir   # gera e abre com um servidor local (127.0.0.1): avaliações salvas direto
+                                      # em ./referencias/avaliacoes.json e "Adicionar referência" coleta na hora
+- Aberto como arquivo, "Adicionar referência" entra numa fila que vai junto no "Exportar avaliações" e é
+  processada na próxima rodada (este script lê o avaliacoes.json e coleta os canais/vídeos pedidos).
 """
+import argparse
 import csv
 import json
+import secrets
 import shutil
+import threading
+import webbrowser
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from yt_common import log, now, out_dir, read_json
+from yt_common import log, now, out_dir, read_json, write_json
 
 import referencias as R
 
@@ -58,11 +64,51 @@ def build_data(cfg):
             "gancho": a.get("gancho_literal") or a.get("gancho"),
             "estrutura": a.get("estrutura") or [], "clique": a.get("por_que_clicaram"),
             "assistiram": a.get("por_que_assistiram"), "ideias": a.get("ideias") or [],
-            "peso": v.get("peso", 1.0),
+            "peso": v.get("peso", 1.0), "manual": bool(v.get("manual")),
         })
-    avaliacoes = read_json(import_downloaded_ratings(o), {}) or {}
+    avaliacoes = read_json(o / "avaliacoes.json", {}) or {}
     return {"gerado_em": now().isoformat(), "temas": temas, "refs": refs,
-            "avaliacoes": avaliacoes.get("ideias", avaliacoes), "cortes": {"longo": cfg["corte_longo"], "short": cfg["corte_short"]}}
+            "avaliacoes": avaliacoes.get("ideias", avaliacoes),
+            "fila_processada": read_json(o / "fila-processada.json", []) or [],
+            "cortes": {"longo": cfg["corte_longo"], "short": cfg["corte_short"]}}
+
+
+def merge_ratings(o, incoming):
+    """Junta avaliações vindas do painel com as salvas (vence a mais recente por ideia)."""
+    dest = o / "avaliacoes.json"
+    cur = read_json(dest, {}) or {}
+    ideias = cur.get("ideias", {}) if "ideias" in cur else cur
+    for iid, a in (incoming or {}).items():
+        if not isinstance(a, dict):
+            continue
+        if iid not in ideias or (a.get("atualizado") or "") >= (ideias[iid].get("atualizado") or ""):
+            ideias[iid] = a
+    out = {"exportado_em": now().isoformat(), "ideias": ideias}
+    write_json(dest, out)
+    return out
+
+
+def process_saved_queue(cfg, o):
+    """Pedidos de 'Adicionar referência' feitos com o painel aberto como arquivo (vieram no export)."""
+    dest = o / "avaliacoes.json"
+    av = read_json(dest, {}) or {}
+    fila = av.pop("adicionar", None)
+    if not fila:
+        return []
+    done_f = o / "fila-processada.json"
+    feitas = read_json(done_f, []) or []
+    pend = [x for x in fila if x.get("entrada") and x["entrada"] not in feitas]
+    if pend:
+        log(f"Processando {len(pend)} referência(s) pedida(s) no painel...")
+        try:
+            R.process_queue(cfg, pend)
+        except SystemExit as e:  # sem autorização do Google, por exemplo
+            log(f"  não deu para processar agora: {e}")
+            return []
+        feitas += [x["entrada"] for x in pend]
+        write_json(done_f, feitas[-200:])
+    write_json(dest, av)
+    return pend
 
 
 def prioridade(r):
@@ -111,239 +157,501 @@ HTML = r"""<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Painel de Referências — Grana Própria</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grana Própria — Referências</title>
 <style>
-:root{--bg:#f6f7f4;--card:#ffffff;--fg:#1b211c;--muted:#5d665c;--line:#dde2d8;--accent:#1f7a4a;--accent-soft:#e3f1e7;
---hot:#c2410c;--hot-soft:#fdebe1;--warn:#8a6100;--warn-soft:#fbf1d6;--chip:#eef1ea;--up:#1f7a4a;--down:#b42318}
-@media (prefers-color-scheme:dark){:root{--bg:#111512;--card:#181e19;--fg:#e7ece5;--muted:#9aa597;--line:#2a332b;
---accent:#6fcf97;--accent-soft:#1b2d21;--hot:#fb923c;--hot-soft:#33200f;--warn:#f2c94c;--warn-soft:#2e2711;--chip:#212a22;
---up:#6fcf97;--down:#f87171;color-scheme:dark}}
+/* Visual: vidro (glass) no estilo Apple sobre um fundo com luzes suaves na cor da marca */
+:root{
+  --bg:#eef3ef; --fg:#111813; --muted:rgba(17,24,19,.62); --faint:rgba(17,24,19,.42);
+  --glass:rgba(255,255,255,.58); --glass-strong:rgba(255,255,255,.78); --glass-soft:rgba(255,255,255,.38);
+  --stroke:rgba(255,255,255,.75); --stroke-dark:rgba(17,24,19,.08); --hl:rgba(255,255,255,.9);
+  --shadow:0 10px 40px rgba(22,40,30,.10), 0 1px 2px rgba(22,40,30,.06);
+  --accent:#16a34a; --accent-ink:#ffffff; --accent-soft:rgba(22,163,74,.14);
+  --hot:#f97316; --hot-soft:rgba(249,115,22,.16); --warn:#9a6700; --warn-soft:rgba(234,179,8,.18);
+  --up:#16a34a; --down:#e11d48;
+  --blob1:#4ade80; --blob2:#22d3ee; --blob3:#fbbf24; --blob4:#a78bfa;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --r-xl:26px; --r-lg:20px; --r-md:14px; --blur:saturate(180%) blur(22px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#070b09; --fg:#eef4ef; --muted:rgba(238,244,239,.66); --faint:rgba(238,244,239,.42);
+  --glass:rgba(28,34,30,.52); --glass-strong:rgba(34,42,37,.78); --glass-soft:rgba(255,255,255,.06);
+  --stroke:rgba(255,255,255,.12); --stroke-dark:rgba(255,255,255,.06); --hl:rgba(255,255,255,.14);
+  --shadow:0 12px 44px rgba(0,0,0,.45), 0 1px 2px rgba(0,0,0,.4);
+  --accent:#34d399; --accent-ink:#04140b; --accent-soft:rgba(52,211,153,.16);
+  --hot:#fb923c; --hot-soft:rgba(251,146,60,.18); --warn:#facc15; --warn-soft:rgba(250,204,21,.12);
+  --up:#34d399; --down:#fb7185; --blob1:#15803d; --blob2:#0e7490; --blob3:#a16207; --blob4:#6d28d9; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#070b09; --fg:#eef4ef; --muted:rgba(238,244,239,.66); --faint:rgba(238,244,239,.42);
+  --glass:rgba(28,34,30,.52); --glass-strong:rgba(34,42,37,.78); --glass-soft:rgba(255,255,255,.06);
+  --stroke:rgba(255,255,255,.12); --stroke-dark:rgba(255,255,255,.06); --hl:rgba(255,255,255,.14);
+  --shadow:0 12px 44px rgba(0,0,0,.45), 0 1px 2px rgba(0,0,0,.4);
+  --accent:#34d399; --accent-ink:#04140b; --accent-soft:rgba(52,211,153,.16);
+  --hot:#fb923c; --hot-soft:rgba(251,146,60,.18); --warn:#facc15; --warn-soft:rgba(250,204,21,.12);
+  --up:#34d399; --down:#fb7185; --blob1:#15803d; --blob2:#0e7490; --blob3:#a16207; --blob4:#6d28d9; color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 16px}
-@media (max-width:700px){header{position:static}.filters label{flex:1 1 40%}.filters select,.filters input{width:100%}}
-.wrap{max-width:1180px;margin:0 auto}
-h1{font-size:20px;margin:0 0 8px}
-h2{font-size:17px;margin:28px 0 12px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
-h2 small{color:var(--muted);font-weight:400;font-size:13px}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased;min-height:100vh}
+.sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.sky i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+.sky i:nth-child(1){width:46vw;height:46vw;left:-10vw;top:-12vw;background:var(--blob1)}
+.sky i:nth-child(2){width:40vw;height:40vw;right:-8vw;top:8vh;background:var(--blob2);opacity:.4}
+.sky i:nth-child(3){width:36vw;height:36vw;left:30vw;bottom:-14vw;background:var(--blob3);opacity:.32}
+.sky i:nth-child(4){width:28vw;height:28vw;right:10vw;bottom:10vh;background:var(--blob4);opacity:.22}
+.glass{background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  border:1px solid var(--stroke);box-shadow:var(--shadow), inset 0 1px 0 var(--hl)}
+@media (prefers-reduced-transparency:reduce){.glass{background:var(--glass-strong);-webkit-backdrop-filter:none;backdrop-filter:none}.sky{display:none}}
+.page{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:16px 16px 80px}
+header.bar{position:sticky;top:max(10px, env(safe-area-inset-top, 0px));z-index:10;border-radius:var(--r-xl);padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,var(--accent),#0d9488);color:#fff;font:700 18px var(--display);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+h1{font:650 19px/1.2 var(--display);letter-spacing:-.01em;margin:0}
+.sub{font-size:12.5px;color:var(--muted)}
+.stats{display:flex;flex-wrap:wrap;gap:6px}
+.stat{font-size:12.5px;padding:5px 10px;border-radius:999px;background:var(--glass-soft);border:1px solid var(--stroke-dark);font-variant-numeric:tabular-nums}
+.stat b{font-weight:650}
 .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.filters label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
-select,input,button,textarea{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
-button{cursor:pointer}
-button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-@media (prefers-color-scheme:dark){button.primary{color:#0d1a12}}
-main{padding:0 16px 60px}
-.temas{display:flex;flex-wrap:wrap;gap:8px}
-.tema{background:var(--accent-soft);border-radius:10px;padding:8px 12px}
-.tema b{display:block}
-.tema span{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:14px;align-items:start}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
-.thumb{display:block;aspect-ratio:16/9;background:var(--chip);position:relative}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.72);color:#fff;font-weight:700;border-radius:6px;padding:2px 8px;font-size:13px}
-.badge.hot{left:auto;right:8px;background:var(--hot);color:#fff}
-.body{padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:12px}
-.chip{background:var(--chip);border-radius:999px;padding:2px 8px}
-.chip.val{background:var(--accent-soft);color:var(--accent);font-weight:600}
-.chip.rel{font-weight:600}
-.title{font-weight:600;color:inherit;text-decoration:none}
-.title:hover{text-decoration:underline}
-.hook{font-style:italic;color:var(--muted);border-left:3px solid var(--line);padding-left:8px;font-size:14px}
-details{font-size:14px}
-details summary{cursor:pointer;color:var(--muted)}
-.idea{border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-direction:column;gap:6px}
-.idea h4{margin:0;font-size:15px}
-.idea .id{font-size:11px;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
-.idea ul{margin:0;padding-left:18px;font-size:14px}
-.conferir{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:6px 8px;font-size:13px}
-.actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.vote{min-width:44px}
-.vote.on.up{background:var(--up);color:#fff;border-color:var(--up)}
-.vote.on.down{background:var(--down);color:#fff;border-color:var(--down)}
-.actions input,.actions select{flex:1 1 140px;min-width:0}
-.empty{color:var(--muted);padding:12px 0}
-.count{font-size:12px;color:var(--muted)}
-.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;opacity:0;transition:opacity .2s}
-.toast.show{opacity:1}
+.pill,select.pill,input.pill{appearance:none;-webkit-appearance:none;font:inherit;font-size:13.5px;color:var(--fg);background:var(--glass-soft);
+  border:1px solid var(--stroke-dark);border-radius:999px;padding:7px 14px;min-width:0;outline:none}
+select.pill{padding-right:30px;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.pill:focus-visible,button:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;cursor:pointer;color:inherit}
+.btn{border-radius:999px;padding:8px 16px;font-weight:600;font-size:13.5px;border:1px solid var(--stroke-dark);background:var(--glass-soft)}
+.btn:hover{background:var(--glass)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent;box-shadow:0 6px 18px var(--accent-soft)}
+.btn.primary:hover{filter:brightness(1.05)}
+.spacer{flex:1}
+.flabel{font-size:12px;color:var(--muted);margin-right:-2px}
+h2{font:650 21px/1.2 var(--display);letter-spacing:-.015em;margin:34px 4px 4px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+h2 .n{font:500 13px var(--font);color:var(--faint)}
+.hint{margin:0 4px 14px;color:var(--muted);font-size:13.5px}
+.temas{display:flex;flex-wrap:wrap;gap:10px}
+.tema{border-radius:var(--r-lg);padding:12px 16px;display:flex;flex-direction:column;gap:2px}
+.tema b{font:650 15px var(--display)}
+.tema span{font-size:12.5px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr));gap:16px;align-items:start}
+.card{border-radius:var(--r-xl);padding:10px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.thumb{display:block;position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:var(--glass-soft)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.card:hover .thumb img{transform:scale(1.03)}
+.badges{position:absolute;inset:10px 10px auto 10px;display:flex;justify-content:space-between;gap:6px}
+.badge{font:700 13px var(--display);padding:4px 10px;border-radius:999px;color:#fff;background:rgba(10,14,12,.55);
+  -webkit-backdrop-filter:blur(12px) saturate(160%);backdrop-filter:blur(12px) saturate(160%);border:1px solid rgba(255,255,255,.22);font-variant-numeric:tabular-nums}
+.badge.hot{background:rgba(249,115,22,.82)}
+.badge.man{background:rgba(124,58,237,.78)}
+.body{padding:2px 6px 6px;display:flex;flex-direction:column;gap:9px;min-width:0}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--glass-soft);border:1px solid var(--stroke-dark);white-space:nowrap}
+.chip.val{background:var(--accent-soft);color:var(--accent);border-color:transparent;font-weight:600}
+.chip.rel{font-weight:650}
+.title{font:620 16px/1.32 var(--display);letter-spacing:-.01em;color:inherit;text-decoration:none}
+.title:hover{text-decoration:underline;text-underline-offset:3px}
+.hook{font-size:14px;color:var(--muted);font-style:italic;padding:8px 12px;border-radius:var(--r-md);background:var(--glass-soft);border:1px solid var(--stroke-dark)}
+details>summary{cursor:pointer;color:var(--muted);font-size:13.5px;list-style:none;display:flex;align-items:center;gap:6px}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"›";display:inline-block;transition:transform .2s;font-size:16px;line-height:1}
+details[open]>summary::before{transform:rotate(90deg)}
+details p,details ul{font-size:14px;margin:8px 0 0}
+details ul{padding-left:18px}
+.count{font-size:12.5px;color:var(--faint)}
+.idea{border-radius:var(--r-lg);padding:12px;background:var(--glass-soft);border:1px solid var(--stroke-dark);display:flex;flex-direction:column;gap:8px}
+.idea .id{font:500 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--faint)}
+.idea h4{margin:0;font:620 15px/1.35 var(--display)}
+.conferir{font-size:12.5px;color:var(--warn);background:var(--warn-soft);border-radius:12px;padding:7px 10px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.row input,.row select{flex:1 1 150px}
+.vote{width:40px;height:34px;border-radius:999px;border:1px solid var(--stroke-dark);background:var(--glass)}
+.vote.on.up{background:var(--up);border-color:transparent}
+.vote.on.down{background:var(--down);border-color:transparent}
+.empty{color:var(--muted);padding:6px 4px}
+/* folha de adicionar */
+.scrim{position:fixed;inset:0;z-index:30;background:rgba(5,10,7,.28);display:grid;place-items:center;padding:16px}
+.sheet{width:min(520px,100%);border-radius:var(--r-xl);padding:22px;display:flex;flex-direction:column;gap:14px;background:var(--glass-strong)}
+.sheet h3{margin:0;font:650 19px var(--display)}
+.sheet p{margin:0;color:var(--muted);font-size:13.5px}
+.sheet input[type=text]{width:100%;font-size:15px;padding:12px 16px}
+.check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
+.status{font-size:13.5px;min-height:20px}
+.status.err{color:var(--down)}
+.status.ok{color:var(--accent)}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--stroke-dark);border-top-color:var(--accent);display:inline-block;vertical-align:-3px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:50%;bottom:max(18px, env(safe-area-inset-bottom, 0px));transform:translate(-50%,20px);opacity:0;transition:.25s;z-index:40;border-radius:999px;padding:10px 18px;font-size:14px;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.mode{font-size:12px;color:var(--faint)}
+@media (max-width:720px){header.bar{position:relative;top:0}.filters .pill{flex:1 1 44%}.flabel{display:none}h2{font-size:19px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<header><div class="wrap">
-  <h1>Painel de Referências — Grana Própria</h1>
-  <div class="filters">
-    <label>Canal<select id="f-canal"><option value="">Todos</option></select></label>
-    <label>Tema<select id="f-tema"><option value="">Todos</option></select></label>
-    <label>Formato<select id="f-formato"><option value="">Todos</option><option value="longo">Longo</option><option value="short">Short</option></select></label>
-    <label>Score mínimo<input id="f-score" type="number" min="0" step="0.5" value="0" style="width:90px"></label>
-    <label>Relevância mínima<select id="f-rel"><option value="0">Todas</option><option value="3" selected>3+</option><option value="4">4+</option><option value="5">5</option></select></label>
-    <label>Mostrar<select id="f-ideias"><option value="">Todas as referências</option><option value="com">Só com ideias</option></select></label>
-    <label>&nbsp;<button class="primary" id="exportar">Exportar avaliações</button></label>
-    <label>&nbsp;<button id="importar">Importar…</button></label>
-    <input type="file" id="arquivo" accept=".json" hidden>
-  </div>
-</div></header>
-<main class="wrap">
-  <h2>Temas validados <small>mesmo tema outlier em 2+ canais nos últimos 90 dias</small></h2>
+<div class="sky" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="page">
+  <header class="bar glass">
+    <div class="top">
+      <div class="brand">
+        <div class="logo">G</div>
+        <div><h1>Referências do Grana Própria</h1><div class="sub" id="sub"></div></div>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="row">
+        <button class="btn primary" id="btn-add">＋ Adicionar referência</button>
+        <button class="btn" id="exportar" title="Baixa avaliacoes.json para a pasta Downloads">Exportar avaliações</button>
+        <button class="btn" id="importar">Importar…</button>
+        <input type="file" id="arquivo" accept=".json" hidden>
+      </div>
+    </div>
+    <div class="filters" role="group" aria-label="Filtros">
+      <span class="flabel">Filtrar</span>
+      <select class="pill" id="f-canal" aria-label="Canal"><option value="">Todos os canais</option></select>
+      <select class="pill" id="f-tema" aria-label="Tema"><option value="">Todos os temas</option></select>
+      <select class="pill" id="f-formato" aria-label="Formato"><option value="">Longos e Shorts</option><option value="longo">Só longos</option><option value="short">Só Shorts</option></select>
+      <select class="pill" id="f-rel" aria-label="Relevância"><option value="0">Qualquer relevância</option><option value="3" selected>Relevância 3+</option><option value="4">Relevância 4+</option><option value="5">Relevância 5</option></select>
+      <select class="pill" id="f-ideias" aria-label="Mostrar"><option value="">Todas as referências</option><option value="com">Só com ideias</option><option value="sem">Sem avaliação</option></select>
+      <select class="pill" id="f-score" aria-label="Score mínimo"><option value="0">Qualquer score</option><option value="3">3x ou mais</option><option value="5">5x ou mais</option><option value="10">10x ou mais</option></select>
+      <span class="spacer"></span>
+      <span class="mode" id="mode"></span>
+    </div>
+  </header>
+
+  <section id="sec-manual" hidden>
+    <h2>Adicionadas por você <span class="n" id="n-manual"></span></h2>
+    <p class="hint">Vídeos que você colou à mão. Entram na próxima análise para ganhar nota e ideias.</p>
+    <div class="grid" id="manual"></div>
+  </section>
+
+  <h2>Temas validados</h2>
+  <p class="hint">O mesmo tema virou outlier em 2 ou mais canais nos últimos 90 dias.</p>
   <div class="temas" id="temas"></div>
-  <h2>Em alta <small>crescendo 3x mais rápido que vídeos de idade parecida do mesmo canal</small><span class="count" id="n-alta"></span></h2>
+
+  <h2>Em alta <span class="n" id="n-alta"></span></h2>
+  <p class="hint">Crescendo 3x mais rápido que vídeos de idade parecida do mesmo canal.</p>
   <div class="grid" id="alta"></div>
-  <h2>Referências <small>ordem: score × relevância × peso aprendido</small><span class="count" id="n-refs"></span></h2>
+
+  <h2>Referências <span class="n" id="n-refs"></span></h2>
+  <p class="hint">Ordem: score × relevância × peso aprendido com as suas avaliações.</p>
   <div class="grid" id="refs"></div>
-</main>
-<div class="toast" id="toast"></div>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <form class="sheet glass" id="form-add" autocomplete="off">
+    <h3>Adicionar referência</h3>
+    <p>Cole o <b>@ do canal</b>, o <b>link do canal</b> ou o <b>link de um vídeo</b>. Canal entra na lista e é coletado; vídeo entra como referência avulsa.</p>
+    <input class="pill" type="text" id="entrada" placeholder="@canal, youtube.com/@canal ou youtu.be/…" aria-label="Canal ou vídeo">
+    <label class="check"><input type="checkbox" id="en"> Canal em inglês (adaptar para o Brasil)</label>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+    <div class="row" style="justify-content:flex-end">
+      <button type="button" class="btn" id="cancelar">Fechar</button>
+      <button type="submit" class="btn primary" id="enviar">Adicionar</button>
+    </div>
+  </form>
+</div>
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
+
 <script id="dados" type="application/json">__DATA__</script>
 <script>
-const D = JSON.parse(document.getElementById('dados').textContent);
-const KEY = 'grana-painel-avaliacoes';
+const SERVER = location.protocol.startsWith('http');
+const TOKEN = '__TOKEN__';
+let D = JSON.parse(document.getElementById('dados').textContent);
+const KEY = 'grana-painel-avaliacoes', QKEY = 'grana-painel-fila';
 const STATUS = ['ideia','roteiro','gravado','postado'];
-let AV = {};
-try { AV = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { AV = {}; }
-// avaliações vindas do arquivo entram se forem mais novas que as do navegador
-for (const [id, a] of Object.entries(D.avaliacoes || {})) {
-  if (!AV[id] || (a.atualizado || '') > (AV[id].atualizado || '')) AV[id] = a;
-}
-function save() { try { localStorage.setItem(KEY, JSON.stringify(AV)); } catch (e) {} }
-function toast(t) { const el = document.getElementById('toast'); el.textContent = t; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 1800); }
-function setAv(id, patch) { AV[id] = {...(AV[id] || {}), ...patch, atualizado: new Date().toISOString()}; save(); }
+const ls = {get(k, d){try{return JSON.parse(localStorage.getItem(k)) ?? d}catch(e){return d}}, set(k, v){try{localStorage.setItem(k, JSON.stringify(v))}catch(e){}}};
+let AV = ls.get(KEY, {});
+let FILA = ls.get(QKEY, []);
+function mergeAv(src){ for (const [id, a] of Object.entries(src || {})) if (!AV[id] || (a.atualizado || '') > (AV[id].atualizado || '')) AV[id] = a; }
+mergeAv(D.avaliacoes);
+FILA = FILA.filter(x => !(D.fila_processada || []).includes(x.entrada)); ls.set(QKEY, FILA);
+
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => (n ?? 0).toLocaleString('pt-BR');
 const prio = r => (r.score || 0) * (r.relevancia || 0) * (r.tema_validado ? 1.25 : 1) * (r.peso || 1);
-
-function fillSelect(id, values) {
-  const s = document.getElementById(id);
-  [...new Set(values.filter(Boolean))].sort().forEach(v => s.insertAdjacentHTML('beforeend', `<option>${esc(v)}</option>`));
+function toast(t, ms=2600){ const el = document.getElementById('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), ms); }
+async function api(path, body){
+  const r = await fetch(path, {method: body ? 'POST' : 'GET', headers: {'Content-Type': 'application/json', 'X-Token': TOKEN}, body: body ? JSON.stringify(body) : undefined});
+  const j = await r.json().catch(() => ({ok: false, erro: 'Resposta inválida do servidor'}));
+  if (!r.ok || j.ok === false) throw new Error(j.erro || 'Falhou');
+  return j;
 }
-fillSelect('f-canal', D.refs.map(r => r.canal));
-fillSelect('f-tema', D.refs.map(r => r.tema));
+let saveT;
+function persist(){ ls.set(KEY, AV); if (SERVER){ clearTimeout(saveT); saveT = setTimeout(() => api('/api/avaliacoes', {ideias: AV}).catch(e => toast('Não salvou: ' + e.message)), 500); } }
+function setAv(id, patch){ AV[id] = {...(AV[id] || {}), ...patch, atualizado: new Date().toISOString()}; persist(); stats(); }
 
-function ideaHTML(i) {
-  const a = AV[i.id] || {};
-  const st = a.status || 'ideia';
+function fillSelects(){
+  for (const [id, key] of [['f-canal','canal'],['f-tema','tema']]){
+    const s = document.getElementById(id), keep = s.value;
+    s.querySelectorAll('option:not(:first-child)').forEach(o => o.remove());
+    [...new Set(D.refs.map(r => r[key]).filter(Boolean))].sort().forEach(v => s.insertAdjacentHTML('beforeend', `<option>${esc(v)}</option>`));
+    s.value = keep;
+  }
+}
+function stats(){
+  const ideias = D.refs.flatMap(r => r.ideias);
+  const ups = ideias.filter(i => (AV[i.id] || {}).voto === 'up').length, downs = ideias.filter(i => (AV[i.id] || {}).voto === 'down').length;
+  const post = ideias.filter(i => (AV[i.id] || {}).status === 'postado').length;
+  document.getElementById('stats').innerHTML = `<span class="stat"><b>${D.refs.length}</b> referências</span><span class="stat"><b>${ideias.length}</b> ideias</span>`
+    + `<span class="stat">👍 <b>${ups}</b> · 👎 <b>${downs}</b></span><span class="stat"><b>${post}</b> postadas</span>`;
+  document.getElementById('sub').textContent = 'Atualizado em ' + new Date(D.gerado_em).toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'});
+  document.getElementById('mode').textContent = SERVER ? '● salvando automaticamente' : (FILA.length ? `${FILA.length} pedido(s) na fila · exporte para enviar` : 'aberto como arquivo · use Exportar');
+}
+
+function ideaHTML(i){
+  const a = AV[i.id] || {}, st = a.status || 'ideia';
   return `<div class="idea" data-id="${esc(i.id)}">
     <span class="id">${esc(i.id)}</span>
     <h4>${esc(i.titulo)}</h4>
-    <details><summary>Gancho e tópicos</summary>
-      <div class="hook">${esc(i.gancho)}</div>
-      <ul>${(i.topicos || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-    </details>
+    <details><summary>Gancho e tópicos</summary><div class="hook" style="margin-top:8px">${esc(i.gancho)}</div>
+      <ul>${(i.topicos || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></details>
     ${i.a_conferir ? `<div class="conferir">⚠️ Conferir: ${esc(i.a_conferir)}</div>` : ''}
-    <div class="actions">
-      <button class="vote up ${a.voto === 'up' ? 'on' : ''}" data-v="up" title="Gostei">👍</button>
-      <button class="vote down ${a.voto === 'down' ? 'on' : ''}" data-v="down" title="Não gostei">👎</button>
-      <input class="motivo" placeholder="motivo (opcional)" value="${esc(a.motivo)}">
+    <div class="row">
+      <button class="vote up ${a.voto === 'up' ? 'on' : ''}" data-v="up" aria-label="Gostei">👍</button>
+      <button class="vote down ${a.voto === 'down' ? 'on' : ''}" data-v="down" aria-label="Não gostei">👎</button>
+      <input class="pill motivo" placeholder="motivo (opcional)" value="${esc(a.motivo)}" aria-label="Motivo">
     </div>
-    <div class="actions">
-      <select class="status">${STATUS.map(s => `<option ${s === st ? 'selected' : ''}>${s}</option>`).join('')}</select>
-      <input class="url" placeholder="URL do meu vídeo (quando postado)" value="${esc(a.url)}" ${st === 'postado' ? '' : 'hidden'}>
+    <div class="row">
+      <select class="pill status" aria-label="Status">${STATUS.map(s => `<option ${s === st ? 'selected' : ''}>${s}</option>`).join('')}</select>
+      <input class="pill url" placeholder="link do vídeo postado" value="${esc(a.url)}" ${st === 'postado' ? '' : 'hidden'} aria-label="Link do vídeo">
     </div>
   </div>`;
 }
-
-function cardHTML(r) {
-  return `<article class="card">
+function cardHTML(r){
+  const thumb = r.thumb || `https://i.ytimg.com/vi/${r.id}/hqdefault.jpg`;
+  return `<article class="card glass">
     <a class="thumb" href="${esc(r.url)}" target="_blank" rel="noopener">
-      <img loading="lazy" src="${esc(r.thumb || ('https://i.ytimg.com/vi/' + r.id + '/hqdefault.jpg'))}" alt="" onerror="this.style.visibility='hidden'">
-      <span class="badge">${r.score}x</span>
-      ${r.em_alta ? `<span class="badge hot">em alta ${r.velocidade_x ? r.velocidade_x + 'x' : ''}</span>` : ''}
+      <img loading="lazy" src="${esc(thumb)}" alt="" onerror="this.style.visibility='hidden'">
+      <div class="badges"><span class="badge">${r.manual && !r.score ? 'manual' : r.score + 'x'}</span>
+        ${r.em_alta ? `<span class="badge hot">em alta${r.velocidade_x ? ' ' + r.velocidade_x + 'x' : ''}</span>` : (r.manual ? '<span class="badge man">você</span>' : '')}</div>
     </a>
     <div class="body">
       <div class="meta">
         <span class="chip">${esc(r.canal)}${r.idioma === 'en' ? ' · EN' : ''}</span>
-        <span class="chip rel">relevância ${r.relevancia ?? '—'}/5</span>
+        <span class="chip rel">${r.relevancia ? 'relevância ' + r.relevancia + '/5' : 'sem nota ainda'}</span>
         ${r.tema ? `<span class="chip ${r.tema_validado ? 'val' : ''}">${esc(r.tema)}${r.tema_validado ? ' ✓' : ''}</span>` : ''}
-        <span class="chip">${esc(r.data)} · ${(r.views || 0).toLocaleString('pt-BR')} views</span>
+        <span class="chip">${esc(r.data)} · ${fmt(r.views)} views</span>
       </div>
       <a class="title" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.titulo)}</a>
       ${r.gancho ? `<div class="hook">“${esc(r.gancho)}”</div>` : ''}
-      ${r.clique || r.assistiram || r.estrutura.length ? `<details><summary>Por que funcionou</summary>
+      ${(r.clique || r.assistiram || r.estrutura.length) ? `<details><summary>Por que funcionou</summary>
         ${r.clique ? `<p><b>Por que clicaram:</b> ${esc(r.clique)}</p>` : ''}
         ${r.assistiram ? `<p><b>Por que assistiram:</b> ${esc(r.assistiram)}</p>` : ''}
-        ${r.estrutura.length ? `<p><b>Estrutura:</b></p><ul>${r.estrutura.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
-      </details>` : (r.motivo ? `<div class="count">${esc(r.motivo)}</div>` : '')}
+        ${r.estrutura.length ? `<ul>${r.estrutura.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}</details>`
+        : (r.motivo ? `<div class="count">${esc(r.motivo)}</div>` : '')}
       ${r.ideias.length ? `<div class="count">${r.ideias.length} ideias para o seu canal</div>` : ''}
       ${r.ideias.map(ideaHTML).join('')}
     </div>
   </article>`;
 }
-
-function filtered() {
-  const c = document.getElementById('f-canal').value, t = document.getElementById('f-tema').value,
-        f = document.getElementById('f-formato').value, s = parseFloat(document.getElementById('f-score').value) || 0,
-        rel = parseInt(document.getElementById('f-rel').value), com = document.getElementById('f-ideias').value;
-  return D.refs.filter(r => (!c || r.canal === c) && (!t || r.tema === t) && (!f || r.formato === f)
-    && (r.score || 0) >= s && (rel === 0 || (r.relevancia || 0) >= rel) && (!com || r.ideias.length));
+function filtered(){
+  const v = id => document.getElementById(id).value;
+  const c = v('f-canal'), t = v('f-tema'), f = v('f-formato'), s = parseFloat(v('f-score')) || 0, rel = parseInt(v('f-rel')), m = v('f-ideias');
+  return D.refs.filter(r => (!c || r.canal === c) && (!t || r.tema === t) && (!f || r.formato === f) && (r.manual || (r.score || 0) >= s)
+    && (r.manual || rel === 0 || (r.relevancia || 0) >= rel) && (m !== 'com' || r.ideias.length)
+    && (m !== 'sem' || (r.ideias.length && r.ideias.some(i => !(AV[i.id] || {}).voto))));
 }
-
-function render() {
-  const temas = document.getElementById('temas');
-  temas.innerHTML = D.temas.length ? D.temas.map(t => `<div class="tema"><b>${esc(t.tema)}</b><span>${t.canais.map(esc).join(' · ')} · ${t.videos.length} vídeos</span></div>`).join('')
-    : '<div class="empty">Nenhum ainda: aparecem quando o mesmo tema vira outlier em 2+ canais.</div>';
+function render(){
   const list = filtered();
-  const alta = list.filter(r => r.em_alta).sort((a, b) => (b.velocidade_x || 0) - (a.velocidade_x || 0));
-  const refs = list.filter(r => !r.em_alta).sort((a, b) => prio(b) - prio(a));
+  const man = list.filter(r => r.manual);
+  const alta = list.filter(r => r.em_alta && !r.manual).sort((a, b) => (b.velocidade_x || 0) - (a.velocidade_x || 0));
+  const refs = list.filter(r => !r.em_alta && !r.manual).sort((a, b) => prio(b) - prio(a));
+  document.getElementById('sec-manual').hidden = !man.length;
+  document.getElementById('manual').innerHTML = man.map(cardHTML).join('');
+  document.getElementById('n-manual').textContent = man.length;
+  document.getElementById('temas').innerHTML = D.temas.length ? D.temas.map(t => `<div class="tema glass"><b>${esc(t.tema)}</b><span>${t.canais.map(esc).join(' · ')} · ${t.videos.length} vídeos</span></div>`).join('')
+    : '<div class="empty">Nenhum ainda.</div>';
   document.getElementById('alta').innerHTML = alta.map(cardHTML).join('') || '<div class="empty">Nada em alta com esses filtros.</div>';
   document.getElementById('refs').innerHTML = refs.map(cardHTML).join('') || '<div class="empty">Nada com esses filtros.</div>';
-  document.getElementById('n-alta').textContent = `(${alta.length})`;
-  document.getElementById('n-refs').textContent = `(${refs.length})`;
+  document.getElementById('n-alta').textContent = alta.length;
+  document.getElementById('n-refs').textContent = refs.length;
+  stats();
 }
 
-document.querySelector('.filters').addEventListener('input', e => { if (e.target.id && e.target.id.startsWith('f-')) render(); });
-document.querySelector('main').addEventListener('click', e => {
+document.querySelector('.filters').addEventListener('input', render);
+document.querySelector('.page').addEventListener('click', e => {
   const b = e.target.closest('.vote'); if (!b) return;
   const box = b.closest('.idea'), id = box.dataset.id, v = b.dataset.v;
-  const cur = (AV[id] || {}).voto;
-  setAv(id, {voto: cur === v ? null : v});
+  setAv(id, {voto: (AV[id] || {}).voto === v ? null : v});
   box.querySelectorAll('.vote').forEach(x => x.classList.toggle('on', x.dataset.v === AV[id].voto));
 });
-document.querySelector('main').addEventListener('change', e => {
+document.querySelector('.page').addEventListener('change', e => {
   const box = e.target.closest('.idea'); if (!box) return;
   const id = box.dataset.id;
-  if (e.target.classList.contains('status')) {
-    setAv(id, {status: e.target.value});
-    box.querySelector('.url').hidden = e.target.value !== 'postado';
-  } else if (e.target.classList.contains('motivo')) setAv(id, {motivo: e.target.value});
+  if (e.target.classList.contains('status')) { setAv(id, {status: e.target.value}); box.querySelector('.url').hidden = e.target.value !== 'postado'; if (e.target.value === 'postado') box.querySelector('.url').focus(); }
+  else if (e.target.classList.contains('motivo')) setAv(id, {motivo: e.target.value});
   else if (e.target.classList.contains('url')) setAv(id, {url: e.target.value.trim()});
 });
 
+// adicionar referência
+const scrim = document.getElementById('scrim'), statusEl = document.getElementById('status');
+function openSheet(){ scrim.hidden = false; statusEl.textContent = ''; statusEl.className = 'status'; document.getElementById('entrada').focus(); }
+function closeSheet(){ scrim.hidden = true; }
+document.getElementById('btn-add').addEventListener('click', openSheet);
+document.getElementById('cancelar').addEventListener('click', closeSheet);
+scrim.addEventListener('click', e => { if (e.target === scrim) closeSheet(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !scrim.hidden) closeSheet(); });
+document.getElementById('form-add').addEventListener('submit', async e => {
+  e.preventDefault();
+  const entrada = document.getElementById('entrada').value.trim(), lang = document.getElementById('en').checked ? 'en' : 'pt';
+  if (!entrada) { statusEl.className = 'status err'; statusEl.textContent = 'Cole um @canal, o link do canal ou de um vídeo.'; return; }
+  if (!SERVER) {
+    if (!FILA.some(x => x.entrada === entrada)) FILA.push({entrada, lang, pedido: new Date().toISOString()});
+    ls.set(QKEY, FILA); stats();
+    statusEl.className = 'status ok';
+    statusEl.textContent = 'Anotado. Vai junto no “Exportar avaliações” e é coletado na próxima rodada. Para adicionar na hora, abra o painel pelo atalho “Abrir painel”.';
+    document.getElementById('entrada').value = '';
+    return;
+  }
+  const btn = document.getElementById('enviar'); btn.disabled = true;
+  statusEl.className = 'status'; statusEl.innerHTML = '<span class="spin"></span> Buscando no YouTube…';
+  try {
+    const r = await api('/api/adicionar', {entrada, lang});
+    statusEl.className = 'status ok'; statusEl.textContent = r.msg;
+    D = (await api('/api/dados')).dados; mergeAv(D.avaliacoes); fillSelects(); render();
+    document.getElementById('entrada').value = '';
+  } catch (err) { statusEl.className = 'status err'; statusEl.textContent = err.message; }
+  finally { btn.disabled = false; }
+});
+
+// exportar / importar
 document.getElementById('exportar').addEventListener('click', () => {
   const ideias = {};
   for (const r of D.refs) for (const i of r.ideias) if (AV[i.id]) ideias[i.id] = {...AV[i.id], titulo: i.titulo, referencia: r.id, canal: r.canal, tema: r.tema};
   for (const [id, a] of Object.entries(AV)) if (!ideias[id]) ideias[id] = a;
-  const blob = new Blob([JSON.stringify({exportado_em: new Date().toISOString(), ideias}, null, 2)], {type: 'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'avaliacoes.json';
-  document.body.appendChild(a); a.click(); a.remove();
-  toast(`${Object.keys(ideias).length} avaliações exportadas para Downloads`);
+  const out = {exportado_em: new Date().toISOString(), ideias};
+  if (FILA.length) out.adicionar = FILA;
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], {type: 'application/json'}));
+  a.download = 'avaliacoes.json'; document.body.appendChild(a); a.click(); a.remove();
+  toast(`${Object.keys(ideias).length} avaliações exportadas${FILA.length ? ` + ${FILA.length} referência(s) para adicionar` : ''}`);
 });
 document.getElementById('importar').addEventListener('click', () => document.getElementById('arquivo').click());
 document.getElementById('arquivo').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
-  try {
-    const j = JSON.parse(await f.text());
-    for (const [id, a] of Object.entries(j.ideias || j)) if (!AV[id] || (a.atualizado || '') >= (AV[id].atualizado || '')) AV[id] = a;
-    save(); render(); toast('Avaliações importadas');
-  } catch (err) { toast('Arquivo inválido'); }
+  try { const j = JSON.parse(await f.text()); mergeAv(j.ideias || j); persist(); render(); toast('Avaliações importadas'); }
+  catch (err) { toast('Arquivo inválido'); }
 });
-render();
+fillSelects(); render();
 </script>
 </body>
 </html>
 """
 
 
-def write_html(data, path):
+def write_html(data, path, token=""):
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    path.write_text(HTML.replace("__DATA__", payload), encoding="utf-8")
+    path.write_text(HTML.replace("__DATA__", payload).replace("__TOKEN__", token), encoding="utf-8")
 
 
-def main():
-    cfg = R.config()
+def generate(cfg, token=""):
     o = out_dir()
     data = build_data(cfg)
-    write_html(data, o / "painel.html")
+    write_html(data, o / "painel.html", token)
     write_csv(data, o / "referencias.csv")
     write_ideas_md(data, o / "ideias.md")
+    return data
+
+
+# ---------------------------------------------------------------- servidor local (opcional)
+
+def make_handler(cfg, token, lock):
+    o = out_dir()
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def _send(self, code, body, ctype="application/json; charset=utf-8"):
+            data = body if isinstance(body, bytes) else json.dumps(body, ensure_ascii=False).encode()
+            self.send_response(code)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def _authorized(self):
+            return secrets.compare_digest(self.headers.get("X-Token", ""), token)
+
+        def do_GET(self):
+            if self.path in ("/", "/index.html", "/painel.html"):
+                return self._send(200, (o / "painel.html").read_bytes(), "text/html; charset=utf-8")
+            if self.path == "/api/dados":
+                if not self._authorized():
+                    return self._send(403, {"ok": False, "erro": "não autorizado"})
+                with lock:
+                    data = build_data(cfg)
+                return self._send(200, {"ok": True, "dados": data})
+            return self._send(404, {"ok": False, "erro": "não encontrado"})
+
+        def do_POST(self):
+            if not self._authorized():
+                return self._send(403, {"ok": False, "erro": "não autorizado (recarregue a página)"})
+            try:
+                n = int(self.headers.get("Content-Length") or 0)
+                body = json.loads(self.rfile.read(n) or b"{}")
+            except (ValueError, json.JSONDecodeError):
+                return self._send(400, {"ok": False, "erro": "pedido inválido"})
+            if self.path == "/api/avaliacoes":
+                with lock:
+                    merge_ratings(o, body.get("ideias"))
+                return self._send(200, {"ok": True})
+            if self.path == "/api/adicionar":
+                try:
+                    with lock:
+                        res = R.add_reference(body.get("entrada", ""), cfg, "en" if body.get("lang") == "en" else "pt")
+                        generate(cfg, token)
+                    return self._send(200, {"ok": True, **res})
+                except ValueError as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except SystemExit as e:
+                    return self._send(200, {"ok": False, "erro": str(e)})
+                except Exception as e:  # rede, cota da API etc.
+                    return self._send(200, {"ok": False, "erro": f"Não consegui buscar agora: {e}"})
+            return self._send(404, {"ok": False, "erro": "não encontrado"})
+
+    return Handler
+
+
+def serve(cfg, port=8765, open_browser=True):
+    token = secrets.token_urlsafe(24)
+    generate(cfg, token)
+    lock = threading.Lock()
+    handler = make_handler(cfg, token, lock)
+    for p in range(port, port + 20):
+        try:
+            httpd = ThreadingHTTPServer(("127.0.0.1", p), handler)
+            break
+        except OSError:
+            continue
+    else:
+        raise SystemExit("Nenhuma porta livre entre %d e %d." % (port, port + 19))
+    url = f"http://127.0.0.1:{httpd.server_address[1]}/"
+    log(f"Painel aberto em {url} — deixe esta janela aberta; Ctrl+C para fechar.")
+    if open_browser:
+        threading.Timer(0.5, lambda: webbrowser.open(url)).start()
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        httpd.server_close()
+        generate(cfg)  # painel.html em modo arquivo volta a funcionar sem servidor
+    return url
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--abrir", action="store_true", help="abre com servidor local (salva sozinho e adiciona na hora)")
+    ap.add_argument("--porta", type=int, default=8765)
+    args = ap.parse_args(argv)
+    cfg = R.config()
+    o = out_dir()
+    import_downloaded_ratings(o)
+    process_saved_queue(cfg, o)
+    if args.abrir:
+        serve(cfg, args.porta)
+        return
+    data = generate(cfg)
     n_ideias = sum(len(r["ideias"]) for r in data["refs"])
     log(f"Painel: {o / 'painel.html'} — {len(data['refs'])} referências, {n_ideias} ideias, "
         f"{len(data['temas'])} temas validados")

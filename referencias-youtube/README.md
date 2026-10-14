@@ -105,7 +105,8 @@ Atualiza o seu canal, coleta as referências (YouTube API, grátis) e baixa as l
 
 - **Rodar de novo:** no Claude Code, dentro de `~/GranaPropria`, digite `/referencias-youtube`. Sem o Claude,
   só os dados: `bash ~/.claude/skills/referencias-youtube/rodada_semanal.sh` (já roda sozinho toda segunda 7h).
-- **Ver as ideias:** `open ~/GranaPropria/referencias/painel.html` — dê 👍/👎, mude o status, cole a URL quando
+- **Ver as ideias:** dois cliques em `~/GranaPropria/Abrir painel.command` (salva sozinho e deixa adicionar
+  referência na hora) — ou `open ~/GranaPropria/referencias/painel.html` (modo arquivo) — dê 👍/👎, mude o status, cole a URL quando
   postar e clique em **Exportar avaliações** (o arquivo vai para Downloads e é lido na rodada seguinte).
 - **Adicionar canal:** uma linha em `~/.claude/skills/referencias-youtube/canais.txt`
   (`https://www.youtube.com/@canal`, com ` | en` no fim se for em inglês). Para achar canais:

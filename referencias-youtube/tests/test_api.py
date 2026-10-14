@@ -119,6 +119,43 @@ class ApiCollect(unittest.TestCase):
         self.assertIn("Canal UCnovo", md)
         self.assertNotIn("UCbig", md)
 
+    def test_parse_entrada(self):
+        P = Y.parse_entrada
+        self.assertEqual(P("@primorico"), ("canal", {"url": "https://www.youtube.com/@primorico", "handle": "@primorico"}))
+        self.assertEqual(P("https://www.youtube.com/@GêmeosInvestem/videos")[1]["handle"], "@GêmeosInvestem")
+        self.assertEqual(P("https://youtube.com/%40lonamkt")[1]["handle"], "@lonamkt")
+        self.assertEqual(P("youtu.be/9Tu4LPQ8cAA"), ("video", "9Tu4LPQ8cAA"))
+        self.assertEqual(P("https://www.youtube.com/watch?v=9Tu4LPQ8cAA&t=30s"), ("video", "9Tu4LPQ8cAA"))
+        self.assertEqual(P("primorico")[1]["handle"], "@primorico")
+        for ruim in ("", "https://www.youtube.com/feed/trending", "!!"):
+            with self.assertRaises(ValueError):
+                P(ruim)
+
+    def test_adicionar_canal_e_video(self):
+        canais = Path(self.tmp.name) / "canais.txt"
+        canais.write_text("https://www.youtube.com/@x\n")
+        orig = R.SKILL_DIR
+        import referencias
+        referencias_append = referencias.append_channel
+        referencias.append_channel = lambda chan, lang="pt", path=None: referencias_append(chan, lang, canais)
+        try:
+            g = FakeG([[vid_item(f"L{i:010d}", views=1000 if i else 9000, days=10 + i * 3) for i in range(15)]])
+            res = R.add_reference("https://www.youtube.com/@novo", CFG, "en", g=g, is_short_fn=short_by_dur)
+            self.assertEqual((res["tipo"], res["videos"], res["outliers"], res["novo"]), ("canal", 15, 1, True))
+            self.assertIn("https://www.youtube.com/@novo | en", canais.read_text())
+            res2 = R.add_reference("@novo", CFG, g=g, is_short_fn=short_by_dur)
+            self.assertFalse(res2["novo"])
+            self.assertEqual(canais.read_text().count("@novo"), 1)
+            g2 = FakeG([[vid_item("M0000000001", views=500, channel="UCzz")]])
+            res3 = R.add_reference("youtu.be/M0000000001", CFG, g=g2)
+            self.assertEqual(res3["tipo"], "video")
+            videos = json.loads((Path(self.tmp.name) / "videos.json").read_text())
+            self.assertTrue(videos["M0000000001"]["manual"])
+            cand = json.loads((Path(self.tmp.name) / "candidatos.json").read_text())
+            self.assertIn("M0000000001", cand["pendentes_relevancia"])
+        finally:
+            referencias.append_channel = referencias_append
+
 
 if __name__ == "__main__":
     unittest.main()
