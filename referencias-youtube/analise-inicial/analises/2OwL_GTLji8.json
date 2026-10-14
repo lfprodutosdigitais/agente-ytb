@@ -1,5 +1,62 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Negócios \"invisíveis\" com prova de quem faz."
+  "motivo_relevancia": "Negócios \"invisíveis\" com prova de quem faz.",
+  "gancho": "Que bom que você tá aqui nesse vídeo. Eu quero que você saiba que esses três negócios invisíveis e que dão sim muito dinheiro não são fonte de pesquisas que eu pesquisei na internet para vir trazer para você, não são fontes de outros vídeos",
+  "estrutura": [
+    "Abertura: os 3 negócios não vêm de pesquisa nem de outros criadores, são coisas que ela faz",
+    "História de golpe: passou o dia seguindo/curtindo no Instagram e ganhou 25 centavos — crítica a quem 'brinca com o sonho das pessoas'",
+    "Open loop: 'grave o número dois' — sem rosto, sem gravar, sem afiliado, só e-mail e CNPJ (MEI)",
+    "Negócio 1: blog (Blogger grátis ou Hostinger) + prova de que grandes sites vivem de anúncio + juntar YouTube/TikTok com blog e links de afiliado",
+    "Negócio 2: Contrata+Brasil (gov.br) — MEI vende alimentos/serviços para órgãos públicos; cota em 3 mercados, põe margem, entrega perto de casa, recebe em ~10 dias",
+    "Negócio 3: YouTube + produto digital — vídeos de 82 centavos a R$ 20, RPM de R$ 0,60 a R$ 3,28, R$ 223 com 70 mil views; produto de R$ 14 que sobra R$ 6,52 com 44 vendas",
+    "Fechamento: blog e licitação são os que mais dão certo, afiliado do microfone, e 'coloque Deus à frente'"
+  ],
+  "por_que_clicaram": "Número (3) + curiosidade/segredo ('INVISÍVEIS', que ninguém mostra) + autoridade de quem pratica ('Recomendo porque Faço'). Promete algo fora do óbvio da internet.",
+  "por_que_assistiram": "História de golpe com número (25 centavos) que cria identificação e confiança; open loop forte no negócio 2 ('grave o número dois', com uma lista do que ele NÃO é); provas reais na tela (painel de propostas contratadas, RPM, vendas do produto); e uma novidade de verdade (Contrata+Brasil) que quase ninguém conhece.",
+  "ideias": [
+    {
+      "id": "2OwL_GTLji8-1",
+      "titulo": "Abri MEI e tentei VENDER PARA A PREFEITURA com R$ 1.000: o Contrata+Brasil na prática",
+      "gancho": "R$ 1.000 de mercadoria, um MEI aberto pelo celular e uma proposta mandada pro governo. Essa é a planilha do que eu comprei e por quanto eu ofereci. Pouca gente sabe que dá pra vender pra prefeitura assim, tá?",
+      "topicos": [
+        "O que é o Contrata+Brasil e por que ele é mais simples que a licitação tradicional (entra pelo gov.br)",
+        "Passo 1 no 1º minuto: abrir o MEI e o limite de R$ 81 mil por ano (~R$ 6.750/mês)",
+        "Escolhendo a oportunidade: só os itens que cabem em R$ 1.000, perto de casa para não pagar frete",
+        "A conta da margem na tela: cotação em 3 mercados + X% de margem; quanto sobra depois do DAS e da entrega",
+        "O risco: você paga antes e recebe depois (~10 dias após a entrega) — por que isso precisa sair da reserva, não do aluguel",
+        "Resultado: proposta aceita ou recusada e o que eu mudaria no preço",
+        "CLT pode ter MEI? o que perde e o que não perde"
+      ],
+      "a_conferir": "O Léo teria que fazer o teste de verdade; confirmar se ele já tem MEI/CNPJ que permita essa atividade, as regras atuais do Contrata+Brasil e do limite do MEI, e se CLT dele (ou do público) tem alguma restrição contratual."
+    },
+    {
+      "id": "2OwL_GTLji8-2",
+      "titulo": "Produto de R$ 14 que SOBRA R$ 6,52: a conta das TAXAS que ninguém te mostra",
+      "gancho": "Você vende um produto de R$ 14 e cai R$ 6,52 na sua conta. Mais da metade foi embora em taxa. Eu montei a conta aqui na tela pra você saber, antes de criar o seu, quanto realmente fica.",
+      "topicos": [
+        "Onde vai o dinheiro: taxa da plataforma, taxa fixa por venda, imposto e anúncio — simulação de um produto de R$ 14",
+        "Por que produto barato sofre mais: taxa fixa pesa muito em R$ 9,90–19,90",
+        "A esteira R$ 19,90 → R$ 97 → R$ 197: quanto sobra em cada degrau",
+        "Conta: quantas vendas de cada preço para R$ 3 mil líquidos (o salário que eu tinha)",
+        "Três jeitos de diminuir a mordida: preço, plataforma, pacote/upsell",
+        "O que eu aprendi errando preço: lucro é o que fica, não o que entra"
+      ],
+      "a_conferir": "Taxas reais das plataformas (Hotmart, Kiwify etc.) e as alíquotas de imposto precisam ser checadas; confirmar se o Léo tem exemplo próprio de erro de preço."
+    },
+    {
+      "id": "2OwL_GTLji8-3",
+      "titulo": "Caí em GOLPE de renda extra quando era motoboy: os 4 sinais que eu ignorei",
+      "gancho": "Tem 'renda extra' que te paga 25 centavos depois de um dia inteiro. E tem a que te tira dinheiro. Eu caí nas duas quando ganhava R$ 3 mil de motoboy. Vou te mostrar os sinais pra você não cair.",
+      "topicos": [
+        "Onde eu estava: salário de ~R$ 3 mil, dinheiro debaixo da gaveta, querendo um atalho",
+        "Golpe 1: a pirâmide — o que prometia e quanto eu perdi",
+        "Golpe 2: as tarefas pagas (curtir/seguir) — conta de quanto paga por hora x R$ 13,60 do CLT",
+        "Os 4 sinais: lucro garantido, ganho por indicação, pagar para trabalhar, pressa",
+        "O que eu fiz depois: estudei, comecei pequeno com R$ 100 e aportes de R$ 600–800/mês",
+        "Checklist de 1 minuto antes de entrar em qualquer renda extra"
+      ],
+      "a_conferir": "Quais golpes exatamente o Léo caiu, nomes/tipos e quanto perdeu em cada (o BRIEFING só diz que caiu em golpes e pirâmide); se ele chegou a fazer tarefas pagas de curtir/seguir."
+    }
+  ]
 }

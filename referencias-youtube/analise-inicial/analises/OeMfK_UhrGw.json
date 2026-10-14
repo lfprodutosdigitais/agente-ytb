@@ -1,5 +1,64 @@
 {
   "relevancia": 5,
   "tema": "negócio/empreender",
-  "motivo_relevancia": "Começar negócio do zero com papel e caneta: primeiro passo prático para o CLT."
+  "motivo_relevancia": "Começar negócio do zero com papel e caneta: primeiro passo prático para o CLT.",
+  "gancho": "Paper, pen, a method, some guidance, and nothing else. That is all you need to get your business off the ground today. You don't need a fortune in cash, by the way, don't touch your emergency fund, for heaven's sake, or take out a loan to start your business, okay?",
+  "gancho_traduzido": true,
+  "estrutura": [
+    "Gancho: papel, caneta e método bastam; não use a reserva nem pegue empréstimo",
+    "Autoridade: Nathalia saiu do emprego estável em 2015 só com papel, caneta e ideias",
+    "Passo 1: três colunas — no que sou bom / ideias de renda extra que já tive / no que sou ruim (com a produtora Lu como exemplo ao vivo)",
+    "Lista de habilidades de todo empreendedor (relacionamento, organização, finanças, metas, pedir ajuda, aprender sempre)",
+    "Passo 2: cruzar as listas, eliminar ideias e dar nota de 1 a 5 às fraquezas (área de alavanca: vender)",
+    "Passo 3: meta de retirada — ganhava R$ 13 mil e definiu que o negócio pagaria R$ 2 mil",
+    "Passo 4: escolha UMA ideia só",
+    "Passo 5: teste antes de se endividar (MVP; o exemplo da massoterapeuta que quer alugar sala sem cliente)",
+    "CTA: workshop pago do 'manual do CEO'"
+  ],
+  "por_que_clicaram": "Promessa de barreira zero ('do zero', 'só papel e caneta') em CAIXA ALTA: tira a desculpa de não ter dinheiro. Contraste entre 'abrir negócio' (algo grande) e ferramenta mínima; autoridade da marca Me Poupe.",
+  "por_que_assistiram": "Passo a passo numerado e participativo (pausa para pegar papel), com exemplo ao vivo da produtora montando as colunas — o público se vê nela. Números da própria história (R$ 13 mil → meta de R$ 2 mil) e humor seguram o meio. Cada passo é uma ação que dá para fazer na hora.",
+  "ideias": [
+    {
+      "id": "OeMfK_UhrGw-1",
+      "titulo": "Testei uma ideia de negócio com R$ 0 em 7 DIAS (só papel, caneta e WhatsApp)",
+      "gancho": "Zero reais. Esse é o investimento desse teste. Eu vou pegar uma ideia de negócio, validar em 7 dias só com papel, caneta e o WhatsApp, e te mostrar na tela quantas pessoas responderam, quantas pagaram no Pix e quanto entrou.",
+      "topicos": [
+        "Dia 1: a ideia escolhida e a pergunta que valida (alguém PAGA por isso?)",
+        "Dia 2: a oferta escrita no papel — o quê, pra quem, por quanto (R$ 19,90)",
+        "Dias 3–5: oferecer para 30 contatos / status / grupos e anotar cada resposta",
+        "Dia 6: pré-venda no Pix antes de produzir qualquer coisa",
+        "Dia 7: o placar na tela (mensagens, respostas, vendas, R$) e o que eu faria com esse resultado",
+        "Regra de ouro: não usar reserva nem pegar empréstimo antes de alguém pagar"
+      ],
+      "a_conferir": "Teste ainda não feito: o Léo precisa escolher a ideia e executar os 7 dias de verdade antes de gravar; os números só existem depois."
+    },
+    {
+      "id": "OeMfK_UhrGw-2",
+      "titulo": "Qual SALÁRIO pagar pra você mesmo no começo do negócio (a conta que me salvou)",
+      "gancho": "Eu ganhava R$ 3 mil de motoboy. Quando saí, quanto meu negócio tinha que me pagar por mês pra eu não quebrar? Eu montei a conta aqui na tela: custo de vida, meses de reserva e a meta mínima de faturamento. Começa com esse número.",
+      "topicos": [
+        "O erro: achar que todo Pix que entra é seu",
+        "O número mínimo: seu custo de vida mensal (não o salário antigo) — simulação na tela",
+        "A meta de retirada do 1º ano x a meta de faturamento que ela exige",
+        "Quanto a reserva cobre enquanto o negócio não paga a retirada",
+        "Quando aumentar a retirada: regra com número (ex.: 3 meses seguidos acima da meta)",
+        "Meu caso: quanto eu tirava por mês no 1º ano do canal"
+      ],
+      "a_conferir": "Quanto o Léo se pagava por mês no início (2021–2022) e qual era o custo de vida dele na época. Cuidado para não cair no ângulo 'CNPJ rico, empresário pobre' (já tem 3 ideias): o foco aqui é a meta de retirada e a conta de sobrevivência."
+    },
+    {
+      "id": "OeMfK_UhrGw-3",
+      "titulo": "NÃO pegue empréstimo pra abrir negócio: os erros que me custaram dinheiro antes de dar certo",
+      "gancho": "Golpe, pirâmide e dinheiro perdido no impulso. Eu paguei caro pra aprender antes de ter um negócio que deu certo. Nesse vídeo eu te mostro na tela cada erro, quanto custou, e a regra que eu criei pra nunca mais repetir.",
+      "topicos": [
+        "Erro 1: golpe — quanto perdi e o sinal que eu ignorei",
+        "Erro 2: pirâmide — a promessa de retorno que parecia boa demais",
+        "Erro 3: decisão no impulso (uma frase de contexto, sem focar em apostas)",
+        "A regra: a reserva de R$ 20 mil é intocável e não se investe em negócio sem teste",
+        "Por que comecei pequeno (banca de R$ 100) em vez de começar grande",
+        "O checklist antes de colocar 1 real num negócio: alguém já pagou? quanto posso perder sem afetar a reserva?"
+      ],
+      "a_conferir": "Quais foram os golpes e a pirâmide em que o Léo caiu, quanto perdeu em cada um e o que aprendeu. Manter a perda de R$ 5 mil em apostas como no máximo uma frase."
+    }
+  ]
 }

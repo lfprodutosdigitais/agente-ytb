@@ -1,5 +1,63 @@
 {
   "relevancia": 5,
   "tema": "renda extra",
-  "motivo_relevancia": "R$ 3 mil/mês de renda extra com IA, montado do zero: é o salário do Léo motoboy; tema validado."
+  "motivo_relevancia": "R$ 3 mil/mês de renda extra com IA, montado do zero: é o salário do Léo motoboy; tema validado.",
+  "gancho": "3,000 in extra monthly income, working from home with a service that every business in your neighborhood needs. You don't need to be a professional editor, you don't need a team, and I'll show you everything, how you do it from scratch.",
+  "gancho_traduzido": true,
+  "estrutura": [
+    "Promessa de R$ 3 mil/mês vendendo serviço para negócio do bairro + demonstração na Biblioteca de Anúncios (busca 'pizzaria', comparação de anúncio ruim x anúncio que dá fome)",
+    "Os 3 caminhos para sair do CLT: vender produto (estoque, competir com Shopee/Mercado Livre), investir (R$ 600 mil para viver de R$ 3 mil), vender serviço (começa com zero)",
+    "Vantagens do serviço: recorrência (cliente de R$ 600/mês), margem alta, começar à noite sem pedir demissão; se der errado perde tempo, não dinheiro",
+    "O teto do serviço: com 10–11 clientes falta tempo, contratar é caro, funcionário sai e leva cliente, margem cai de 80% para 30%",
+    "IA como 'equipe': Claude pensa e escreve, mas não gera imagem; com o conector Higgsfield passa a gerar (comparação ao vivo da fachada da pizzaria)",
+    "Tutorial de conexão Higgsfield + Claude (MCP) e link de afiliado",
+    "Caso prático: cliente pizzaria a R$ 600/mês, mensagem real do dono (promoção de terça R$ 9,90, sem logo, Insta parado), plano de campanha gerado pelo Claude",
+    "Entrega: fotos de cardápio, banners da promoção, stories/feed e vídeo; custo em créditos (47 créditos; imagem 0,25; vídeo 12,5; plano a partir de 15/mês)",
+    "CTA: link na descrição, QR code, 'comenta qual negócio do bairro você vai abordar primeiro'"
+  ],
+  "por_que_clicaram": "Número redondo e desejado (R$ 3 MIL POR MÊS) que é exatamente um salário CLT, + 'SEM SAIR DE CASA' (conforto/baixa barreira) + 'DO ZERO' (qualquer um pode) + 'COM IA' (assunto quente). Primeira pessoa ('MONTEI') promete prova vivida, não teoria.",
+  "por_que_assistiram": "Abre já mostrando a tela (biblioteca de anúncios) com um contraste visual fácil (anúncio que não dá fome x anúncio que dá fome). Depois um raciocínio em lista que valida a escolha do espectador (os 3 caminhos, com números: R$ 600 mil investidos x R$ 0 para serviço). Open loop 'quantos clientes você precisa para os R$ 3 mil' e 'fica comigo porque agora vem a parte boa'. Fecha com caso concreto e familiar (pizzaria do bairro, mensagem bagunçada do dono, foto errada) e resultado visual apetitoso, mais custo real em créditos.",
+  "ideias": [
+    {
+      "id": "Qjk2C8r5IEE-1",
+      "titulo": "PRODUTO, INVESTIMENTO OU SERVIÇO? Fiz a conta de qual tira o CLT de R$ 3 MIL mais rápido",
+      "gancho": "Pra ganhar R$ 3 mil por mês só de renda passiva você precisa de uns R$ 600 mil investido. Eu pedi demissão com R$ 35 mil. Olha aqui na tela a conta dos três caminhos, e qual deles você começa hoje com zero real.",
+      "topicos": [
+        "A régua: salário de R$ 3 mil que eu ganhava de motoboy em Floripa em 2020 — é esse número que cada caminho tem que bater",
+        "Caminho 1, investir: quanto precisa no Tesouro/CDB para tirar R$ 3 mil por mês (simulação na tela) x os R$ 600–800/mês que eu conseguia guardar — quantos anos levaria",
+        "Caminho 2, vender produto físico: estoque, capital parado e brigar com Shopee/Mercado Livre — quanto dinheiro trava antes da primeira venda",
+        "Caminho 3, serviço ou produto digital: começa com R$ 0, quantos clientes de R$ 300 / R$ 600 fecham os R$ 3 mil",
+        "Por que eu juntei R$ 35 mil (R$ 20 mil de reserva) antes de largar o CLT: 1 ano de fôlego calculado",
+        "Plano de 12 meses: qual caminho começar à noite mantendo o CLT e quando o investimento entra (aportar todo mês desde o primeiro real)"
+      ]
+    },
+    {
+      "id": "Qjk2C8r5IEE-2",
+      "titulo": "Ofereci um serviço de IA pra 10 COMÉRCIOS do meu bairro em Floripa: quantos pagaram R$ 300/mês?",
+      "gancho": "Dez comércios, uma proposta de R$ 300 por mês e uma foto de celular. Aqui na tela tá o antes e o depois que eu mostrei pra eles, e no fim do vídeo eu te mostro quantos disseram sim.",
+      "topicos": [
+        "Por que serviço local: o dono da padaria/pizzaria não tem tempo nem foto boa — e paga todo mês (recorrência)",
+        "Passo 1 no 1º minuto: abrir a Biblioteca de Anúncios do Meta e ver o que os concorrentes do bairro postam (grátis)",
+        "Montar a amostra grátis com IA a partir de 1 foto de celular do produto — custo real da ferramenta em reais",
+        "A abordagem: o roteiro de mensagem/visita, as objeções na voz do dono ('Léo, mas meu sobrinho faz isso de graça')",
+        "Placar: 10 abordagens → X respostas → X fechamentos; conta de quantos clientes de R$ 300 viram um salário de R$ 3 mil",
+        "Quanto tempo leva por cliente por mês: dá pra fazer à noite depois do CLT?"
+      ],
+      "a_conferir": "Se o Léo topa abordar comércios reais em Florianópolis e gravar o resultado (números do placar só existem depois da gravação); valor do serviço (R$ 300 sugerido) e a ferramenta de IA a usar."
+    },
+    {
+      "id": "Qjk2C8r5IEE-3",
+      "titulo": "Contratei equipe e meu lucro CAIU: o que ninguém te conta sobre crescer sozinho x com funcionário",
+      "gancho": "Minha empresa faturou R$ 1 milhão em 2024, mas o lucro foi R$ 570 mil. Cadê os outros R$ 430 mil? Tá aqui na tela, linha por linha, e boa parte é o custo de ter equipe.",
+      "topicos": [
+        "O teto de quem faz tudo sozinho: o dia tem 24 h — quantos clientes/produtos um CLT aguenta à noite",
+        "Quando eu contratei editora, gestor de tráfego e social media: o que cada um destravou",
+        "A conta da margem: faturamento R$ 1 milhão, custos e impostos, lucro de R$ 570 mil (57%) — e quanto disso foi folha",
+        "Os 3 riscos de contratar cedo: custo fixo, treinar e a pessoa sair, retrabalho",
+        "Onde a IA substitui contratação no começo (roteiro, imagem, legenda) e quanto custa por mês x um freelancer",
+        "Regra prática: só contrate quando a tarefa custar mais do seu tempo do que o salário da pessoa — conta com números"
+      ],
+      "a_conferir": "Quanto da despesa de 2024 foi folha/equipe e em que ano cada pessoa foi contratada; margem antes da equipe; se ele já usa IA no lugar de alguma função."
+    }
+  ]
 }

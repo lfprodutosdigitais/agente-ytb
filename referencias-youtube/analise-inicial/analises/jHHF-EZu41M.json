@@ -1,5 +1,62 @@
 {
   "relevancia": 4,
   "tema": "negócio/empreender",
-  "motivo_relevancia": "Mini fábricas na garagem: negócio físico de entrada."
+  "motivo_relevancia": "Mini fábricas na garagem: negócio físico de entrada.",
+  "gancho": "E se a sua garagem pudesse deixar de ser apenas um espaço para guardar coisas e se transformar em uma pequena fábrica lucrativa? Hoje existem máquinas e equipamentos que permitem produzir alimentos, produtos personalizados e diversos outros itens em um espaço relativamente pequeno.",
+  "estrutura": [
+    "Gancho: e se a sua garagem virasse uma pequena fábrica lucrativa?",
+    "Promessa: 15 mini fábricas que vendem para consumidor e para empresas; 'fique até o final'",
+    "Alimentos de giro rápido: picolé, batata descascada/cortada, legumes cortados a vácuo",
+    "Pedido de like/inscrição após o 3º item",
+    "Alimentos com marca própria: café, bife de hambúrguer, pizza congelada, gelo, batata chips, pão, massas, molhos",
+    "Doces e aromas: brigadeiro, velas aromáticas, aromatizadores",
+    "Brindes 3D com relato pessoal ('na Copa encomendei mini taças para meus clientes')",
+    "Fechamento: qual você teria coragem de montar na garagem? like e compartilhar"
+  ],
+  "por_que_clicaram": "Número (15) + 'mini fábrica' + espaço concreto que todo mundo tem ou imagina ter (garagem). Promessa de negócio 'de verdade' (fábrica, vender para empresas) e não só bico. Performou menos (9,6x) que os outros dois, talvez porque 'garagem' exclui quem mora em apartamento e as fábricas de alimento parecem mais caras e complexas.",
+  "por_que_assistiram": "Lista com itens do dia a dia (pão, pizza, gelo) facilita imaginar o cliente. Quase não há números nem prova; a retenção vem da curiosidade da lista e do argumento de venda recorrente para comércio (B2B). O ponto fraco é o que o vídeo pula: legalização de alimento, investimento e tempo, terreno onde o Léo pode entrar.",
+  "ideias": [
+    {
+      "id": "jHHF-EZu41M-1",
+      "titulo": "Os R$ 35 mil que me deixaram sair do CLT: quanto VOCÊ precisa antes de largar o emprego pela mini fábrica",
+      "gancho": "Eu só pedi demissão quando tinha R$ 35 mil: R$ 20 mil de reserva e o resto pra trabalhar. Isso me dava 1 ano. Tá aqui a conta na tela. Agora vou fazer a mesma conta pra quem quer largar o CLT por uma fábrica na garagem.",
+      "topicos": [
+        "Minha conta de 2021: R$ 35 mil = reserva de R$ 20 mil + capital; aguentava 1 ano",
+        "A conta da mini fábrica: custo de vida × 12 + investimento em máquina + capital de giro (insumo)",
+        "Regra de saída: só largar quando a renda extra já cobre X% do salário por 3–6 meses seguidos",
+        "Simulação na tela: CLT de R$ 3 mil, fábrica de picolé/gelo, quanto precisa guardar e em quantos meses (R$ 700/mês)",
+        "Os 3 sinais de que ainda NÃO é hora de pedir demissão",
+        "Plano de ação com meta mensal para chegar no número"
+      ],
+      "a_conferir": "Quanto tempo a renda extra do Léo levou para justificar a demissão (há quantos meses fazia R$ 700–800 antes de sair)."
+    },
+    {
+      "id": "jHHF-EZu41M-2",
+      "titulo": "Fábrica de comida na GARAGEM é legal? O que precisa (MEI, vigilância sanitária) ANTES de vender",
+      "gancho": "Uma fábrica de picolé na garagem pode tomar multa antes da primeira venda. Na tela tá a lista do que precisa: MEI, alvará e vigilância sanitária, e quanto custa cada um. Eu aprendi perdendo dinheiro que o barato sai caro; bora fazer a conta certa.",
+      "topicos": [
+        "Passo 1: abrir MEI, custo mensal do DAS e quais atividades de alimento o MEI aceita",
+        "Alvará e vigilância sanitária: o que a prefeitura costuma exigir para cozinha em casa",
+        "Rótulo, validade e etiqueta: o que muda quando você vende para mercado ou lanchonete",
+        "Custo total de legalizar na tela x lucro mensal esperado = meses para cobrir",
+        "Alternativas que começam mais leves: produto não perecível (vela, aroma) ou serviço",
+        "Checklist final para o CLT não arriscar o emprego nem tomar multa"
+      ],
+      "a_conferir": "Regras e custos atuais de MEI, alvará e vigilância sanitária em Florianópolis; confirmar com contador. O Léo não é especialista, então apresentar como pesquisa/consulta."
+    },
+    {
+      "id": "jHHF-EZu41M-3",
+      "titulo": "1 cliente FIXO vale mais que 100 vendas: a conta de vender para o comércio do bairro",
+      "gancho": "Um bar que compra 50 sacos de gelo por semana vale mais que 100 clientes avulsos. Olha a conta na tela: quanto isso dá no mês. A maioria tenta vender pra desconhecido no Instagram, mas o dinheiro recorrente tá no comércio da sua rua.",
+      "topicos": [
+        "Avulso x recorrente: simulação de faturamento mensal com 1, 3 e 5 clientes fixos",
+        "Quem comprar: bar, lanchonete, hamburgueria, padaria (gelo, pão, molho, bife de hambúrguer)",
+        "Como abordar: amostra grátis + preço por volume + entrega no dia combinado",
+        "Quanto de desconto dar para o comércio sem matar a margem (conta na tela)",
+        "Risco: depender de 1 cliente só e atraso no pagamento; como se proteger",
+        "Horas por semana: entrega caber antes/depois do expediente do CLT"
+      ],
+      "a_conferir": "Preços de referência de saco de gelo/pão no atacado em Florianópolis para a simulação."
+    }
+  ]
 }

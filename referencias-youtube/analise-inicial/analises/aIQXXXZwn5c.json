@@ -1,5 +1,63 @@
 {
   "relevancia": 4,
   "tema": "negócio/empreender",
-  "motivo_relevancia": "Mini fábricas em casa: primeiro negócio físico que o CLT começa pequeno."
+  "motivo_relevancia": "Mini fábricas em casa: primeiro negócio físico que o CLT começa pequeno.",
+  "gancho": "Existem pessoas ganhando dinheiro com máquinas que cabem em cima de uma mesa e você provavelmente nem sabia que elas existiam. Não são máquinas industriais. Você não precisa de um ponto comercial, não precisa de experiência. Basta uma mesa, uma tomada e vontade de começar.",
+  "estrutura": [
+    "Gancho: máquinas que cabem numa mesa e você não sabia que existiam; sem ponto, sem experiência, só mesa e tomada",
+    "Promessa: custam menos que um celular e vou explicar o que fazer com cada uma",
+    "Impressora de unhas (com números: nail art de R$ 50–100, 30 s por unha, insumo de centavos) e pistola de tufting (conteúdo do processo vira vitrine)",
+    "Gravadora a laser (garrafa de R$ 5 vendida por R$ 20, tábua de R$ 8 por R$ 35) + pedido de like/inscrição no meio",
+    "Impressora 3D de resina, bordadeira computadorizada, plotter de vinil: vender kits e pacotes para empresas",
+    "Serigrafia cilíndrica, prensa de boné e de caneca: pedidos em grande quantidade, datas comemorativas",
+    "Polidora de pedras e tricô circular: valor percebido de artesanal",
+    "Encadernadora + laminadora: combinar as duas e virar 'centro de serviços gráficos' em casa",
+    "Fechamento: você não precisa de fábrica nem de milhares de reais; comente qual chamou atenção"
+  ],
+  "por_que_clicaram": "Número (14) + contraste 'mini fábrica' x 'em casa' + 'muito lucrativas'. A ideia de fábrica dentro de casa é uma curiosidade forte e dá sensação de dono de negócio sem sair do emprego. Thumb provavelmente mostra máquinas compactas em cima de uma mesa.",
+  "por_que_assistiram": "Cada item abre com uma pergunta ou cena ('Você sabe quanto uma cliente paga…?', 'Você já pegou uma figura colecionável…?') e traz número concreto de preço x custo, o que dá prova. Transições com open loop ('Mas calma, porque essa foi apenas a primeira'), 'segredo' ('quem mais ganha vende kits') e um final com combinação de máquinas que recompensa quem ficou. Mais vivo e mais numérico que o vídeo das 15 da Shopee.",
+  "ideias": [
+    {
+      "id": "aIQXXXZwn5c-1",
+      "titulo": "Como TESTAR uma mini fábrica com R$ 100 ANTES de comprar a máquina",
+      "gancho": "Antes de gastar R$ 2 mil numa máquina, eu gastaria R$ 100 pra descobrir se alguém compra. Tá aqui na tela o plano de 7 dias. Passo 1 você faz hoje à noite: pega 3 produtos personalizados e manda o preço pra 20 pessoas.",
+      "topicos": [
+        "Passo 1 (1º minuto): lista de 20 contatos + 3 produtos (caneca, garrafa gravada, encadernação) e preço na mensagem",
+        "Passo 2: pré-venda, só compra a máquina com X pedidos pagos no Pix",
+        "Passo 3: terceirizar as primeiras peças numa gráfica/gravação local e revender (margem menor, risco zero de máquina)",
+        "Passo 4: R$ 20 de anúncio local para medir quantos pedem orçamento",
+        "Régua de decisão na tela: se 5 de 20 compram, a máquina se paga em N semanas; se 0, você economizou R$ 2 mil",
+        "Lição de quem perdeu R$ 5 mil no impulso: nunca compre antes de validar"
+      ],
+      "a_conferir": "Se o Léo vai executar o teste na tela (ou só explicar o método); preços de terceirização em Florianópolis."
+    },
+    {
+      "id": "aIQXXXZwn5c-2",
+      "titulo": "Se eu fosse CLT de novo com R$ 3 mil: qual MINI FÁBRICA eu montaria (e em quantos meses)",
+      "gancho": "Se eu voltasse a ganhar R$ 3 mil como motoboy, eu montaria uma mini fábrica em 3 meses sem fazer dívida. A conta tá na tela: R$ 700 por mês guardados, máquina de R$ 2 mil. Vou te mostrar qual eu escolheria e por quê.",
+      "topicos": [
+        "O orçamento real: salário de R$ 3 mil, quanto sobrava (R$ 600–800/mês) e por que não parcelar no cartão",
+        "Critério 1: máquina que trabalha sozinha (laser, 3D, polidora) enquanto você tá no emprego",
+        "Critério 2: cliente perto de casa, não depender de marketplace",
+        "Critério 3: cabe nas horas livres de um CLT (noites + sábado = ~10 h/semana)",
+        "As 3 finalistas comparadas na tela: investimento, lucro por peça, peças por semana, meses até se pagar",
+        "Minha escolha final e a meta: renda extra de R$ 700–800/mês, igual eu fazia lá atrás"
+      ],
+      "a_conferir": "Faixa de preço das máquinas citadas (laser, impressora 3D, prensa de caneca) para a simulação."
+    },
+    {
+      "id": "aIQXXXZwn5c-3",
+      "titulo": "Mini fábrica ou produto DIGITAL: o que paga mais por HORA para quem é CLT?",
+      "gancho": "Uma caneca personalizada me daria uns R$ 15 de lucro por hora. Um produto digital de R$ 19,90 pode dar mais, ou zero. Coloquei os dois lado a lado na tela: investimento, horas e risco. Vou te mostrar qual eu começaria hoje.",
+      "topicos": [
+        "Lado A (físico): prensa de caneca, investimento, insumo, tempo por peça, lucro por hora",
+        "Lado B (digital): produto de R$ 19,90 feito com IA, investimento perto de zero, mas precisa de tráfego",
+        "Risco: máquina parada x produto que ninguém compra (quanto você perde em cada caso)",
+        "Escala: o físico trava nas suas horas; o digital vende dormindo, mas demora para pegar",
+        "O caminho híbrido: começar físico para ter caixa e testar R$ 20 de anúncio no digital",
+        "Minha régua de 2020: com R$ 100 e R$ 600–800/mês, qual eu escolheria"
+      ],
+      "a_conferir": "Se o Léo tem algum produto digital de R$ 19,90 com números próprios para mostrar (não citar apostas)."
+    }
+  ]
 }

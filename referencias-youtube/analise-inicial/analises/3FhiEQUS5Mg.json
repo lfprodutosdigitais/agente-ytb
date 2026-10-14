@@ -1,5 +1,63 @@
 {
   "relevancia": 5,
   "tema": "sair do CLT",
-  "motivo_relevancia": "Como bancou sair de um emprego de US$ 240 mil: é o tema central do Léo, adaptar com os R$ 35 mil."
+  "motivo_relevancia": "Como bancou sair de um emprego de US$ 240 mil: é o tema central do Léo, adaptar com os R$ 35 mil.",
+  "gancho": "Why is everyone on the internet quitting their job? Is this like a new collective hypnosis? Hi, I'm Hi. I quit my 240k tech job 3 months ago and I'm here to demystify the most important logistics, money.",
+  "estrutura": [
+    "Gancho: 'por que todo mundo está pedindo demissão?' + autoridade (largou emprego de US$ 240 mil há 3 meses) + promessa de falar do dinheiro",
+    "Contraste: o vídeo viral mostra o momento de sair; ninguém mostra os anos de preparação",
+    "Contexto: é um 'ano sabático' de teste até junho/2027, sem herança nem 'sugar daddy'",
+    "Regra 1: economize de boa, mas ganhe com força (economizar tem teto, renda não)",
+    "Regra 2: escolha a escada certa (mudou de design gráfico para UX; trocou de empresa a cada 1–2 anos; de US$ 58 mil a US$ 240 mil)",
+    "Regra 3: dê ao dinheiro um número dolorosamente específico (2º US$ 100 mil em 6 meses em vez de 1 ano)",
+    "Regra 4: investir para não perder para a inflação (US$ 8 mil em 2019 → +160%; ETF/S&P 500)",
+    "Regra 5: fique longe de quem zomba dos seus sonhos (escassez x abundância)",
+    "Fecho com a conta: US$ 110 mil líquidos = 2 anos de custo (US$ 3,5 mil/mês = 84 mil) + 26 mil de folga; diferença entre dinheiro líquido e preso em contas de aposentadoria"
+  ],
+  "por_que_clicaram": "Número alto e concreto (US$ 240 mil) + verbo de ruptura ('quit') + curiosidade sobre o 'como' ('how I afford'): o espectador quer saber o valor exato que dá segurança para sair. Contraste entre salário dos sonhos e largar tudo; autoridade de quem já saiu.",
+  "por_que_assistiram": "Abre com uma pergunta que o público faz ('todo mundo está saindo?') e promete o lado chato que ninguém mostra (dinheiro). Lista numerada de 5 regras, cada uma com número pessoal (58k, 240k, 100k em 6 meses, +160%). O open loop principal ('quanto precisei pra sair?') só fecha no final, com a conta detalhada do custo mensal.",
+  "ideias": [
+    {
+      "id": "3FhiEQUS5Mg-1",
+      "titulo": "Por que ECONOMIZAR não vai te tirar do CLT (a conta com salário de R$ 3 mil)",
+      "gancho": "Ganhando R$ 3 mil, se você cortar o cafezinho, o delivery e a assinatura, quanto sobra no fim do ano? Eu fiz a conta aqui na tela. E aí comparei com os R$ 700, R$ 800 por mês que eu fazia de renda extra quando era motoboy. Olha a diferença.",
+      "topicos": [
+        "A conta do 'corte tudo': simulação na tela de quanto um CLT de R$ 3 mil economiza por mês cortando gastos pequenos (e o teto disso)",
+        "A conta do 'ganhe mais': R$ 700–800/mês de renda extra = R$ 8.400–9.600 por ano, mantendo o CLT",
+        "Economia tem teto, renda não: o mesmo tempo de 2 h gasto caçando cupom x 2 h construindo renda extra",
+        "Como eu dividia: R$ 600–800 do salário aportados por mês + renda extra reinvestida",
+        "Onde a economia AINDA importa: montar a reserva de R$ 20 mil (o piso, não o plano)",
+        "Seu exercício: anote quanto você economizaria cortando tudo x quanto renderia 1 renda extra de R$ 500/mês"
+      ],
+      "a_conferir": "Os gastos pequenos que o Léo cortava (ou não) na época de motoboy, se quiser usar exemplos pessoais na simulação."
+    },
+    {
+      "id": "3FhiEQUS5Mg-2",
+      "titulo": "Seu dinheiro DEBAIXO DA GAVETA está ficando mais pobre todo mês (eu fazia isso)",
+      "gancho": "Eu guardava dinheiro debaixo da gaveta em 2020. Olha na tela quanto R$ 20 mil parados perdem em 1 ano só com a inflação, e quanto esses mesmos R$ 20 mil teriam virado no Tesouro Selic ou num CDB de liquidez diária.",
+      "topicos": [
+        "A gaveta da comunidade: por que eu não confiava em banco (e caí em golpe e pirâmide)",
+        "A conta na tela: R$ 20 mil parados x inflação de 1 ano x Tesouro Selic x CDB 100% do CDI x poupança",
+        "Reserva de emergência não é investimento de risco: onde deixar os R$ 20 mil com liquidez diária",
+        "Dinheiro 'líquido' x dinheiro 'preso': por que o FGTS e a previdência não contam como reserva para sair do CLT",
+        "Aporte que cresce com a renda: cada aumento de renda extra = aumento do aporte",
+        "Os 3 sinais de golpe que eu ignorei (promessa de retorno fixo alto, pressa, indicação)"
+      ],
+      "a_conferir": "Taxas atuais (inflação 12 meses, Selic/CDI) para a simulação; onde o Léo de fato deixou a reserva de R$ 20 mil depois que tirou da gaveta; detalhes dos golpes/pirâmide em que caiu e quanto perdeu."
+    },
+    {
+      "id": "3FhiEQUS5Mg-3",
+      "titulo": "Pedi demissão: o que você RECEBE e o que NÃO recebe (a conta que quase ninguém faz)",
+      "gancho": "Quem pede demissão não saca o FGTS, não tem multa de 40% e não pega seguro-desemprego. Eu fiz a conta na tela de um CLT de R$ 3 mil: quanto cai na rescisão e quantos meses isso segura de verdade.",
+      "topicos": [
+        "Pedido de demissão x demissão sem justa causa x acordo: o que muda no bolso (tabela na tela)",
+        "A rescisão de um salário de R$ 3 mil: saldo de salário, férias proporcionais + 1/3, 13º proporcional",
+        "O que fica preso: FGTS parado e sem seguro-desemprego",
+        "A pista real: (reserva + rescisão) ÷ custo mensal = meses que você aguenta",
+        "O plano de transição em 3 marcos: reserva montada, renda extra provada, data marcada no calendário",
+        "Meu caso: como eu calculei que aguentava 1 ano"
+      ],
+      "a_conferir": "Como foi a saída do Léo em 2021 (pediu demissão ou fez acordo), quanto recebeu de rescisão e se o FGTS ficou parado."
+    }
+  ]
 }

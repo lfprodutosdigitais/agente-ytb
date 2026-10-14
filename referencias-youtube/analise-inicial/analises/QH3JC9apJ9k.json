@@ -1,5 +1,61 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Low ticket de R$ 10 vendido com influencer de IA, sem gastar."
+  "motivo_relevancia": "Low ticket de R$ 10 vendido com influencer de IA, sem gastar.",
+  "gancho": "The owner of this product here is making a lot of money with AI characters. And in this video, we have a challenge. We're going to create a 10-real low-ticket product and sell it with an AI character using Higsfield.",
+  "gancho_traduzido": true,
+  "estrutura": [
+    "Prova social de terceiro (perfil de personagem de IA que vende low ticket) + desafio: criar produto de R$ 10 e vender com influencer de IA, promessa de R$ 250/dia, sem aparecer e sem anúncio",
+    "Sorteio de plano Higgsfield (comentário com hashtag) e link de parceiro",
+    "Passo 1: escolher no Google um personagem de desenho com roupa chamativa e recriá-lo no Higgsfield (características: cabelo, corpo, óculos...)",
+    "Passo 2: Motion Transfer — baixar vídeo viral (dança no TikTok) e trocar a pessoa pelo personagem com prompt gerado no ChatGPT",
+    "Passo 3: criar foto de perfil e conta no Instagram/TikTok do influencer e postar os Reels",
+    "Passo 4: o produto — e-book de R$ 10 ensinando a criar personagem de IA (o mesmo que está sendo feito), gerado no ChatGPT como MVP, checkout na Kiwify, link na bio",
+    "Meta: 5 Reels por dia (9h, 12h, 15h, 18h, 21h) por 30 dias + CTA para assinar a ferramenta"
+  ],
+  "por_que_clicaram": "Preço baixíssimo e concreto (R$ 10) + novidade (INFLUENCER DE IA) + remoção de barreiras ('SEM GASTAR', implicitamente sem aparecer) + 1ª pessoa no passado ('CRIEI... E VENDI') que promete resultado já obtido. Curiosidade: como um personagem falso vende?",
+  "por_que_assistiram": "Formato 'desafio' com passo a passo copiável ('copia e cola essa estrutura'), tela o tempo todo, e um open loop ('vou mostrar qual produto e como fazer os reels, calma'). O visual do personagem sendo gerado e do vídeo real x vídeo trocado segura. Porém a prova de venda nunca aparece: o título promete 'vendi', e o vídeo não mostra nenhuma venda nem o faturamento.",
+  "ideias": [
+    {
+      "id": "QH3JC9apJ9k-1",
+      "titulo": "'VENDA SEM APARECER E SEM GASTAR NADA' — desmontei essa promessa com a calculadora",
+      "gancho": "R$ 250 por dia vendendo produto de R$ 10 sem aparecer e sem gastar. Isso dá 750 vendas por mês. Coloquei na tela quantas pessoas precisam ver seu vídeo pra isso acontecer, e o número assusta.",
+      "topicos": [
+        "A promessa traduzida em número: R$ 250/dia ÷ R$ 10 = 25 vendas/dia (menos a taxa da plataforma)",
+        "O funil na tela: views → visita no perfil → clique no link → compra; quantas views/dia precisa com conversão de 1% e de 0,5%",
+        "'Sem gastar' de verdade? Custo da ferramenta de IA por mês + seu tempo: 5 vídeos/dia × 30 dias = 150 vídeos",
+        "O que o vídeo de guru não mostrou: nenhuma venda na tela — como identificar promessa sem prova",
+        "Minha régua de CLT: R$ 600–800/mês de renda extra no começo já mudou minha vida — meta realista para o 1º mês",
+        "O que funciona de verdade: produto bom + 1 canal + esteira (R$ 19,90 → R$ 97 → R$ 197)"
+      ]
+    },
+    {
+      "id": "QH3JC9apJ9k-2",
+      "titulo": "Eu na câmera x um AVATAR DE IA: testei os dois por 7 dias vendendo o MESMO produto",
+      "gancho": "Mesmo produto, mesmo preço, 7 dias: um perfil comigo aparecendo e outro só com personagem de IA. Aqui na tela tá o placar de views e vendas dos dois. E o resultado mudou o que eu penso sobre 'não precisa mostrar o rosto'.",
+      "topicos": [
+        "Por que esse teste: o CLT tem medo de gravar e o guru vende 'sem aparecer' como solução",
+        "Montagem dos dois perfis no dia 1: quanto custou e quanto tempo levou cada um (ferramenta de IA x celular)",
+        "Regras do teste: mesmo número de posts por dia, mesmo produto, mesmo link — para comparar justo",
+        "Placar diário: views, seguidores, cliques no link e vendas de cada perfil",
+        "O que a confiança vale: por que pessoas compram de pessoas (o que aprendi com 188 mil inscritos aparecendo)",
+        "Veredito com números: quando o avatar faz sentido e quando atrapalha"
+      ],
+      "a_conferir": "Se o Léo topa criar e rodar os dois perfis por 7 dias com um produto real (resultados só existem após o teste); qual produto usar sem repetir a ideia aprovada de 'criar produto de R$ 19,90 com IA ao vivo'."
+    },
+    {
+      "id": "QH3JC9apJ9k-3",
+      "titulo": "O produto que ensina a vender o próprio produto: já caí nessa e perdi dinheiro",
+      "gancho": "E-book de R$ 10 que ensina a criar um perfil que vende o e-book de R$ 10. Eu já caí nessa roda quando era motoboy CLT e perdi dinheiro. Na tela, os 4 sinais de que o 'negócio' é só vender o curso de como vender o curso.",
+      "topicos": [
+        "A roda: o produto ensina exatamente o que está sendo feito para vendê-lo — quem é o cliente final?",
+        "Minha história: golpes e pirâmide quando eu ganhava R$ 3 mil e guardava dinheiro na gaveta",
+        "Sinal 1: não existe cliente fora do nicho de 'ganhar dinheiro'",
+        "Sinal 2: o dinheiro de verdade está no link de afiliado da ferramenta, não no produto",
+        "Sinal 3: promessa de faturamento sem nenhuma venda mostrada; Sinal 4: 'quem assistir até o fim ganha'",
+        "Como criar um produto de R$ 10–19,90 que resolve um problema real de alguém fora da internet (exemplos para o CLT a partir da profissão dele)"
+      ],
+      "a_conferir": "Quanto o Léo perdeu em golpes/pirâmide (o BRIEFING só cita o valor das apostas, que não deve ser usado) e se algum desses golpes era do tipo 'curso que ensina a vender o curso'."
+    }
+  ]
 }

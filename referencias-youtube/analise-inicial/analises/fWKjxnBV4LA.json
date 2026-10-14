@@ -1,5 +1,63 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Máquinas para produzir em casa: renda extra com produto físico, começa ao lado do CLT."
+  "motivo_relevancia": "Máquinas para produzir em casa: renda extra com produto físico, começa ao lado do CLT.",
+  "gancho": "Você já percebeu que muita gente sonha em ganhar uma renda extra, mas acaba desistindo porque acredita que precisa investir uma fortuna para começar. Enquanto isso, existem pessoas montando pequenos negócios com máquinas simples encontradas até mesmo no Shopee",
+  "estrutura": [
+    "Gancho: muita gente desiste da renda extra achando que precisa de fortuna; outros começam com máquinas simples da Shopee",
+    "Promessa: máquinas que custam menos que um celular, ocupam pouco espaço e funcionam em casa; 15 opções, algumas que você nunca viu",
+    "Pedido de like/inscrição e 'fique até o final' logo após a promessa",
+    "Bloco produto personalizado: velas, cortador de tecido, etiquetas térmicas, impressora UV, gravação em metal, mini torno",
+    "Bloco alimentos: seladora a vácuo, macarrão, sorvete expresso, descascador de alho, batata espiral, gelo, raspadinha",
+    "Bloco nicho/serviço: triturador de galhos (serviço em condomínio), lacres e pulseiras para eventos",
+    "Cada máquina segue o mesmo molde: o que faz, para quem vender, onde vender, frase de 'boa margem'",
+    "Fechamento: 'qual você teria coragem de comprar?' nos comentários + like/inscrição"
+  ],
+  "por_que_clicaram": "Número grande (15) + marca que todo mundo conhece e associa a preço baixo (Shopee) + promessa dupla de comodidade e ganho ('trabalhar em casa e lucrar muito'). A thumb provavelmente mostra várias máquinas pequenas: curiosidade de 'que máquina é essa?' e sensação de que dá pra comprar hoje no app. Baixa barreira de entrada percebida ('custa menos que um celular').",
+  "por_que_assistiram": "Formato lista com itens independentes: cada máquina é um mini open loop ('qual será a próxima?') e a promessa de que 'algumas você nunca viu' segura até o fim. O visual da máquina funcionando é satisfatório. Não há números de investimento nem de retorno: o espectador fica pela curiosidade e pela fantasia, e é exatamente aí que o Léo pode entrar com a conta que falta.",
+  "ideias": [
+    {
+      "id": "fWKjxnBV4LA-1",
+      "titulo": "Fiz a CONTA de 5 máquinas da Shopee: quantas vendas para PAGAR cada uma (ganhando R$ 3 mil no CLT)",
+      "gancho": "Essa máquina de [R$ X] da Shopee só se paga depois de [N] vendas. Tá aqui na tela a conta. Eu peguei 5 máquinas daqueles vídeos de 'lucre muito em casa' e fiz o que ninguém faz: preço, insumo, taxa, quantas horas por semana. Bora ver qual vale pro CLT.",
+      "topicos": [
+        "A régua: eu ganhava R$ 3 mil como motoboy e guardava R$ 600–800/mês; qualquer máquina tem que caber nisso sem parcelar no cartão",
+        "Planilha na tela: preço da máquina + insumo por peça + taxa da Shopee/frete = lucro real por unidade",
+        "Payback: preço da máquina ÷ lucro por peça = quantas vendas até empatar (ex.: máquina de R$ 1.500 com R$ 10 de lucro = 150 vendas)",
+        "Horas por semana: CLT tem ~10 h livres; quantas peças cabem nisso e em quantas semanas a máquina se paga",
+        "Ranking final das 5: a que se paga mais rápido x a que vira enfeite na garagem",
+        "Quanto ganha por hora no fim: comparar com hora extra do CLT (R$ 3 mil ÷ 220 h ≈ R$ 13,60/h)"
+      ],
+      "a_conferir": "Preços reais das máquinas e insumos na Shopee no dia da gravação; taxa atual de vendedor da Shopee."
+    },
+    {
+      "id": "fWKjxnBV4LA-2",
+      "titulo": "Comprei uma máquina da SHOPEE e tentei vender em 7 DIAS só no horário de CLT",
+      "gancho": "Eu gastei [R$ X] numa máquina da Shopee e me dei 7 dias, só à noite, das 19h às 22h, como se eu ainda fosse CLT. Na tela tá o placar: quanto entrou até agora. Vou te mostrar o dia a dia e se ela se pagou ou não.",
+      "topicos": [
+        "Dia 0: por que escolhi essa máquina (a mais barata e com venda local), recibo na tela",
+        "Dia 1–2: primeiras peças, custo de insumo por unidade e quanto tempo leva cada uma",
+        "Dia 3–4: onde tentei vender (vizinhança, WhatsApp, grupo do bairro, Marketplace) e quantas mensagens viraram venda",
+        "Dia 5: teste de R$ 20 de anúncio local e quantos contatos trouxe",
+        "Dia 7: placar final na tela, faturamento x custo x horas gastas",
+        "Veredito para o CLT: faria de novo? quantas semanas faltam para pagar a máquina"
+      ],
+      "a_conferir": "O Léo precisa topar comprar a máquina e documentar 7 dias de verdade; definir qual máquina e o orçamento."
+    },
+    {
+      "id": "fWKjxnBV4LA-3",
+      "titulo": "'Máquina que se paga em 1 MÊS'? Os 6 custos que esses vídeos NÃO mostram",
+      "gancho": "Vídeo de máquina da Shopee nunca mostra esse número: o lucro real depois de taxa, frete, insumo, energia e imposto. Olha a diferença na tela: o que prometem e o que sobra. Eu já perdi dinheiro com promessa fácil, então vou te mostrar onde tá a pegadinha.",
+      "topicos": [
+        "Promessa x realidade: margem 'bruta' que o vídeo sugere x margem líquida simulada na tela",
+        "Custo 1–2: taxa do marketplace e frete/embalagem por pedido",
+        "Custo 3: insumo e perda (peça que sai errada no começo)",
+        "Custo 4: energia elétrica da máquina ligada (conta simples kWh × horas)",
+        "Custo 5: MEI/DAS mensal se quiser vender direito",
+        "Custo 6: seu tempo, a hora do CLT cansado vale quanto?",
+        "Lição de quem caiu em golpe e pirâmide: se ninguém mostra a conta, desconfie"
+      ],
+      "a_conferir": "Valores atuais do DAS-MEI e da tarifa de energia em SC para a simulação."
+    }
+  ]
 }

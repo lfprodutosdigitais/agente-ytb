@@ -1,5 +1,63 @@
 {
   "relevancia": 5,
   "tema": "sair do CLT",
-  "motivo_relevancia": "\"Saí do emprego dos sonhos aos 29\": história de saída, exatamente o arco do Léo."
+  "motivo_relevancia": "\"Saí do emprego dos sonhos aos 29\": história de saída, exatamente o arco do Léo.",
+  "gancho": "What if you cross an ocean, built a new life you dreamed of, and realized you want more than that? Is it greedy, insatiable, or being grounded in who you are? This is the week of quitting my 240k tech job as a UX designer.",
+  "estrutura": [
+    "Gancho emocional: atravessou um oceano, conquistou o sonho e quer mais — ambição ou ganância?",
+    "Plano A: pedir 3 meses de licença não remunerada antes de decidir sair",
+    "Virada: a empresa nega (nunca aprovaram licença não remunerada); sobra licença médica ou pedir demissão",
+    "Dilema ético: não quer licença médica fazendo conteúdo nem viver com medo de ser descoberta",
+    "Decisão em 24 h e a ligação do pedido de demissão (aviso de 2 semanas)",
+    "Ficha caindo: perde plano dentário, férias pagas; metáfora de pular da 'rodovia' da carreira",
+    "Contexto do sonho de imigrante e a prova: a renda do conteúdo no ano igualou o salário do emprego",
+    "Plano: 1 ano trabalhando para si, escrever o livro e depois decidir se volta",
+    "3 dias depois: nenhum arrependimento, 'é só um emprego'"
+  ],
+  "por_que_clicaram": "Contraste forte: 'emprego dos sonhos' + 'larguei' + número (US$ 240 mil) + idade (29) que gera comparação. É o momento da ruptura que todo CLT fantasia, com autoridade de quem tinha muito a perder.",
+  "por_que_assistiram": "Formato vlog/documentário com tensão real: plano A negado ao vivo, a ligação do pedido de demissão gravada, dúvida genuína ('será que estou pronta?'). Open loop 'ela vai sair ou não?' resolvido no meio; depois vem a prova (renda paralela = salário) e o pós-decisão (arrependimento ou não).",
+  "ideias": [
+    {
+      "id": "rgGzoDwnRtM-1",
+      "titulo": "Quanto você PRECISA faturar por conta própria pra empatar com um CLT de R$ 3 mil",
+      "gancho": "Um CLT de R$ 3 mil não vale R$ 3 mil. Somando 13º, férias com 1/3, FGTS e vale, eu fiz a conta aqui na tela: pra empatar por conta própria você precisa faturar bem mais que isso por mês. Olha o número.",
+      "topicos": [
+        "O salário escondido: 13º + férias + 1/3 + FGTS de 8% + VR/VA + plano de saúde, mês a mês, num salário de R$ 3 mil",
+        "O outro lado: MEI (DAS mensal), INSS, sem férias pagas, sem 13º — o que sai do seu bolso",
+        "O número de empate: quanto faturar por mês para ter o mesmo padrão de um CLT de R$ 3 mil",
+        "Traduzindo em vendas: quantas vendas de R$ 19,90 / R$ 97 por mês chegam nesse número",
+        "O que eu perdi quando saí em 2021 (e o que eu não senti falta)",
+        "Seu exercício: pegue o holerite e calcule o SEU número de empate"
+      ],
+      "a_conferir": "Quais benefícios o Léo tinha como motoboy CLT (VR/VA, plano de saúde, vale-transporte) e quais fizeram falta depois que saiu; valor atual do DAS do MEI."
+    },
+    {
+      "id": "rgGzoDwnRtM-2",
+      "titulo": "A renda extra precisa EMPATAR com o salário antes de pedir demissão? (eu não esperei)",
+      "gancho": "Eu pedi demissão fazendo R$ 700, R$ 800 por mês de renda extra, com um salário de R$ 3 mil. Não empatava nem de perto. Nesse vídeo eu te mostro a conta que me deixou sair mesmo assim, e quando eu acho que você NÃO deve fazer isso.",
+      "topicos": [
+        "Os 2 caminhos: esperar a renda extra igualar o salário x sair com reserva e renda extra provada",
+        "Meu caso: R$ 700–800 de renda extra + reserva calculada para 1 ano",
+        "A conta da 'distância': quanto falta (R$ 3 mil − R$ 800) e quantos meses de reserva cobrem essa diferença",
+        "Quando NÃO sair: renda extra que nunca passou de zero, dívida, família dependendo só de você",
+        "Plano de transição: 3 marcos com número (reserva X, renda extra Y por 3 meses seguidos, data)",
+        "Plano B com data: se em N meses não bater a meta, eu volto a procurar emprego (sem vergonha)"
+      ],
+      "a_conferir": "Quanto o Léo fazia de renda extra exatamente no mês em que pediu demissão; se ele tinha um plano B (voltar a trabalhar) e com qual prazo; se tinha dependentes na época."
+    },
+    {
+      "id": "rgGzoDwnRtM-3",
+      "titulo": "O 1º MÊS sem salário: o que ninguém te conta depois que você pede demissão",
+      "gancho": "Dia 5 chegou e não caiu salário nenhum. Foi o primeiro mês em anos sem os R$ 3 mil na conta. Eu vou te contar o que eu fiz com o dinheiro, com a rotina e com a cabeça nesses primeiros 30 dias, e o que deu errado.",
+      "topicos": [
+        "O dia do pedido de demissão: como foi a conversa e quanto tempo levei para decidir",
+        "O choque do dia do pagamento: a conta da reserva baixando mês a mês (simulação na tela)",
+        "Rotina sem chefe: quantas horas eu trabalhava e o que eu fiz para não perder o dia",
+        "O que deu errado no 1º mês",
+        "O julgamento da família e dos amigos ('você é louco de largar a carteira assinada')",
+        "O que eu faria diferente: 3 coisas para o seu 1º mês"
+      ],
+      "a_conferir": "Praticamente tudo deste roteiro é memória do Léo: como foi a conversa de demissão, o que ele fez no 1º mês, rotina, o que deu errado, reação da família. Só gravar se ele lembrar com detalhes e números."
+    }
+  ]
 }

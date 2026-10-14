@@ -1,5 +1,50 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Renda extra no horário que o CLT tem livre (madrugada/noite), com prova de quem faz."
+  "motivo_relevancia": "Renda extra no horário que o CLT tem livre (madrugada/noite), com prova de quem faz.",
+  "gancho": "Hi. Starting with this video, you will learn how to make money online. I want you to tell me if you are willing to spend one to two hours every night, so you can start making real money. I don't know how you got to this video, if you're having financial problems, or if you're looking to change your life and have an extra income.",
+  "gancho_traduzido": true,
+  "estrutura": [
+    "Promessa: 1 a 2 horas por noite para ganhar dinheiro de verdade + bênção/profecia logo na abertura",
+    "Prova: painel do Google AdSense com saques, dias de US$ 2 a US$ 11,33 (~R$ 50–60/dia) e ganho estimado de US$ 2.461; blog parado 6 meses e retomado em junho",
+    "Dois caminhos: Hostinger (~R$ 100/ano, se pagou 7x no 1º saque) ou Blogger grátis",
+    "Passo a passo Hostinger: plano de 12 meses, cupom de desconto (R$ 129), WordPress, tema gratuito News Blogger, páginas obrigatórias",
+    "Conteúdo: monetizou com 15 artigos (hoje 62, meta 100); ChatGPT escreve artigo de 1.500 palavras e você revisa e coloca experiência própria e imagens",
+    "Divulgação: grupos de Facebook, página no Facebook, Instagram e Flipboard",
+    "Como dobrar os ganhos: público dos EUA/Europa paga 3–4x mais (5 visitas BR = 50 centavos); blog em inglês e francês",
+    "Blogger passo a passo: nicho, visível para buscadores, páginas obrigatórias via ChatGPT, rotina de 1 post por noite, links de afiliado Shopee/Amazon no texto",
+    "Fechamento: pedir aprovação no AdSense com 15 textos (até 4 semanas); outro site de vendas já passou de R$ 4 mil/mês"
+  ],
+  "por_que_clicaram": "Curiosidade + horário específico ('de MADRUGADA') que conversa com quem trabalha de dia, valor escondido ('NEM IMAGINA quanto') e prova de autoridade na voz dela ('Recomendo pq faço'). Thumbnail provavelmente mostra o painel de ganhos/valor em dólar.",
+  "por_que_assistiram": "Prova logo no começo (prints de saque e gráfico subindo), esforço pequeno e definido (1 hora por noite, 30 dias), custo zero ou R$ 100, tutorial de tela clicável que a pessoa segue junto, e open loop do 'segredo para dobrar os ganhos' que só fecha no meio. IA (ChatGPT) tira a objeção 'não sei escrever'.",
+  "ideias": [
+    {
+      "id": "10cWae-s0Hs-1",
+      "titulo": "Testei 1 HORA POR NOITE depois do trabalho por 30 dias: quanto um CLT ganha?",
+      "gancho": "30 dias, 1 hora por noite, depois do expediente. É isso aqui que deu, ó, tá na tela. Quando eu era motoboy e ganhava R$ 3 mil, essa 1 hora valia uns R$ 13,60 do meu salário. Bora ver se a internet paga mais que isso.",
+      "topicos": [
+        "A régua: R$ 3 mil ÷ 220 h = ~R$ 13,60 por hora de CLT; 30 h no mês precisam render mais de R$ 408 para valer a pena",
+        "Regras do teste: 1 h por noite, R$ 0 a R$ 100 de investimento, tudo gravado na tela, planilha diária de horas x reais",
+        "Semana 1: montar a renda extra escolhida (ex.: blog com IA com meta de 15 textos) — quantas horas foram só configurando",
+        "Semanas 2–3: primeiros resultados reais, mesmo que sejam centavos; o que deu errado e quanto custou",
+        "Semana 4: valor por hora do teste x R$ 13,60 do CLT — vale manter ou não",
+        "Lição dos meus R$ 600–800/mês de renda extra em 2020: consistência pequena antes de resultado grande"
+      ],
+      "a_conferir": "O teste precisa ser gravado de verdade pelo Léo (30 dias); escolher qual renda extra testar e confirmar se ele quer usar o canal novo do desafio dos 100 mil."
+    },
+    {
+      "id": "10cWae-s0Hs-2",
+      "titulo": "'Ganhe dinheiro DORMINDO com blog': fiz a CONTA e mostro quanto paga de verdade",
+      "gancho": "Pra um blog pagar R$ 3 mil por mês, o mesmo salário que eu ganhava de motoboy, você precisaria de quantas visitas? Eu fiz a conta aqui na tela e o número assusta. Vou te mostrar onde o guru esconde a parte difícil.",
+      "topicos": [
+        "A promessa do guru: 'R$ 50 a 60 por dia com 1 horinha por noite' — o que ela não mostra (dias de US$ 2, meses parado)",
+        "Conta 1: quanto paga 1.000 visitas brasileiras x gringas (BR rende 3–4x menos) — simulação na planilha",
+        "Conta 2: visitas por mês necessárias para R$ 500, R$ 1.000 e R$ 3 mil",
+        "Conta 3: quantos artigos e quantos meses até chegar nisso (monetização com 15 textos não é renda com 15 textos)",
+        "O que eu aprendi com AdSense no YouTube: RPM varia e dinheiro de anúncio não paga boleto no começo",
+        "Veredito para o CLT: blog como complemento + produto próprio de R$ 19,90 que paga mais por visita"
+      ],
+      "a_conferir": "Valores de RPM/CPM de blog no Brasil e no exterior usados na simulação precisam vir de fonte confiável ou de dado real; confirmar se o Léo quer citar números do próprio AdSense."
+    }
+  ]
 }

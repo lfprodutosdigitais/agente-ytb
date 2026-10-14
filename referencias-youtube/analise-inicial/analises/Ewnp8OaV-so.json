@@ -1,5 +1,47 @@
 {
   "relevancia": 4,
   "tema": "renda extra",
-  "motivo_relevancia": "Shopee com prova diária de ganho."
+  "motivo_relevancia": "Shopee com prova diária de ganho.",
+  "gancho": "Dá para ganhar dinheiro na Shopee como afiliado, sem ter nenhum produto, mas dinheiro de verdade, renda extra, faturar de dentro de casa, dá, mas você precisa ter uma estratégia. E eu vou mostrar nesse vídeo para você rapidamente o que é que você precisa fazer",
+  "estrutura": [
+    "Promessa: ganhar como afiliado Shopee sem produto, com estratégia; 3 segredinhos e teste de 98 centavos x R$ 15 de comissão",
+    "Pedido de curtida logo no início",
+    "Segredo 1: escolher produto pela taxa de comissão (3% x 10% x 16%); saque mínimo de R$ 30",
+    "Prova: 2 vendas no 1º dia — moletom (R$ 10,30) e calça wide leg (R$ 15 com 16 cliques)",
+    "Segredo 2: divulgação com Shorts em canal novo (3 inscritos, 1.000 views, 89 curtidas, 2 vendas)",
+    "Segredo 3: vídeo de unboxing abrindo o pacote e provando a peça",
+    "Fechamento: curtir, salvar, compartilhar, comentar"
+  ],
+  "por_que_clicaram": "Marca conhecida entre parênteses (SHOPEE) + prova em 1ª pessoa ('MOSTREI COMO EU GANHO') + frequência desejada ('TODOS OS DIAS'). Promessa simples para quem está no celular.",
+  "por_que_assistiram": "Vídeo curto e direto, contraste numérico no início (98 centavos x R$ 15) que vira open loop, passo a passo no próprio app da Shopee e prova do mesmo dia com canal novo de 3 inscritos (sensação de 'eu consigo').",
+  "ideias": [
+    {
+      "id": "Ewnp8OaV-so-1",
+      "titulo": "Testei AFILIADO DA SHOPEE por 7 dias com canal ZERADO: quanto caiu na conta?",
+      "gancho": "Canal com 0 inscrito, 7 dias e R$ 0 de investimento. O saque mínimo da Shopee é R$ 30, e esse aqui é o painel no último dia. Vou te mostrar se dá pra bater pelo menos isso sem aparecer muito.",
+      "topicos": [
+        "Passo 1 no 1º minuto: entrar em Criadores e Afiliados e filtrar só produtos com comissão de 10% ou mais",
+        "Regra do teste: 1 vídeo curto por dia, só no horário depois do trabalho",
+        "Dia 1–3: views, cliques e vendas na planilha",
+        "Dia 4–7: o que mudou quando troquei de produto/formato (ex.: unboxing)",
+        "Resultado: comissão total x horas gastas = quanto paga por hora comparado aos R$ 13,60 do CLT de R$ 3 mil",
+        "Vale continuar? o que eu faria no mês 2"
+      ],
+      "a_conferir": "O teste precisa ser feito pelo Léo; confirmar se ele quer usar o canal novo do desafio 'do zero aos 100 mil' ou um perfil separado, e o mínimo de saque/regras atuais da Shopee."
+    },
+    {
+      "id": "Ewnp8OaV-so-2",
+      "titulo": "Quantas vendas na SHOPEE pagam um SALÁRIO de R$ 3 mil? (fiz a conta)",
+      "gancho": "Produto de R$ 60 com 3% de comissão: você ganha R$ 1,80. Pra tirar R$ 3 mil, o salário que eu ganhava de motoboy, são 1.667 vendas. Agora olha o que acontece quando a comissão é 16%.",
+      "topicos": [
+        "Conta 1: R$ 60 a 3% = R$ 1,80 → 1.667 vendas por mês para R$ 3 mil",
+        "Conta 2: R$ 60 a 16% = R$ 9,60 → ~313 vendas (mais de 5x menos esforço)",
+        "Conta 3: quantos cliques e views isso exige (ex.: 1 venda a cada ~16 cliques do vídeo de referência)",
+        "Comparação: afiliado x produto próprio de R$ 19,90 — quantas vendas para o mesmo R$ 3 mil",
+        "Onde o afiliado faz sentido para o CLT: começar sem estoque e aprender a vender",
+        "Meta realista para os primeiros 90 dias com 1 h por noite"
+      ],
+      "a_conferir": "Taxas de conversão e comissões usadas na simulação devem ser checadas no painel atual da Shopee."
+    }
+  ]
 }
