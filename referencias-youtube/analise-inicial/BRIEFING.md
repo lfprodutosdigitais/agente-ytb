@@ -25,6 +25,18 @@ Temas JÁ cobertos nos últimos 3 meses (NÃO repetir): (a) a história dele do 
 
 Canal em inglês: adaptar para o Brasil (R$, CLT, MEI, CNPJ, Pix, Tesouro, CDB, FGTS, 13º), nunca traduzir literal.
 
+## O que o Léo aprovou e reprovou (38 avaliações: 31 👍 · 7 👎) — SIGA ISSO
+REPETIR (aprovado):
+- Conta/simulação feita na tela com os números do Léo (15 de 15 aprovadas): "quantas vendas de R$ 10 para substituir o salário", "quanto investir para ganhar R$ 3 mil sem trabalhar".
+- A história dele como régua do CLT: "se eu ganhasse R$ 3 mil de novo", "os R$ 35 mil que me deixaram pedir demissão".
+- Renda extra FEITA NA TELA: criar produto de R$ 9,90–19,90 com IA e tentar vender em 24 h / 7 dias; testar R$ 20 de anúncio.
+- Lições aprendidas perdendo dinheiro; desmontar promessa de guru ("venda 100% automática existe?").
+EVITAR (reprovado):
+- Monetização de audiência/influenciador (quanto paga ter seguidores, publi, fixo + comissão): 3 de 3 👎.
+- Qualquer gancho ligado às bets/apostas.
+- Dropshipping ou modelos que dependem de importação ("drop não funciona no Brasil").
+- Repetir o mesmo ângulo entre ideias (ex.: "CNPJ rico, empresário pobre" já tem 3 ideias — NÃO usar de novo).
+
 ## Saída: para CADA vídeo, atualize o arquivo existente
 /home/user/agente-ytb/referencias-youtube/analise-inicial/analises/{video_id}.json
 Leia o JSON atual (tem relevancia, tema, motivo_relevancia), MANTENHA esses campos e acrescente:
@@ -41,6 +53,8 @@ Leia o JSON atual (tem relevancia, tema, motivo_relevancia), MANTENHA esses camp
   ]
 }
 Se uma ideia depender de um fato da vida do Léo que NÃO está nesta página, não afirme: acrescente na ideia
-"a_conferir": "o que o Léo precisa confirmar". Nunca use ferramentas que gastam créditos (ex.: vidIQ) sem autorização.
+"a_conferir": "o que o Léo precisa confirmar". NUNCA use vidIQ nem qualquer ferramenta que gaste créditos. Se a transcrição vier traduzida para o inglês
+(vídeo brasileiro), use-a para entender o vídeo, copie o gancho como veio e acrescente "gancho_traduzido": true —
+o gancho original em português é preenchido depois no Mac pela legenda.
 Escreva JSON válido (UTF-8, ensure_ascii=False). Valide com: python3 -c "import json;json.load(open('ARQUIVO'))".
 Ideias devem ser diferentes entre si e não repetir os temas já cobertos. Português do Brasil.
