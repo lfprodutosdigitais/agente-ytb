@@ -122,7 +122,7 @@ Atualiza o seu canal, coleta as referências (YouTube API, grátis) e baixa as l
 Quando o Léo dá 👎 no painel (aberto pelo atalho `Abrir painel`), o Claude cria uma ideia nova no lugar:
 
 ```bash
-python3 -m pip install --user anthropic
+python3 -m pip install --user --break-system-packages anthropic   # Python do Homebrew exige essa flag
 open -e ~/.claude/skills/referencias-youtube/.env   # preencher ANTHROPIC_API_KEY=sk-ant-...
 ```
 

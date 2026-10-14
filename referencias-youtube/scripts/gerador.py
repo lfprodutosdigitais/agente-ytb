@@ -36,7 +36,7 @@ def disponivel():
     try:
         import anthropic  # noqa: F401
     except ImportError:
-        return False, "Falta o pacote da Anthropic: rode  python3 -m pip install --user anthropic"
+        return False, "Falta o pacote da Anthropic: rode  python3 -m pip install --user --break-system-packages anthropic"
     if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
         return False, "Falta a chave ANTHROPIC_API_KEY no .env da skill (console.anthropic.com → API Keys)."
     return True, ""
